@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 /**
  *
@@ -25,10 +26,11 @@ import javax.persistence.OneToMany;
  * @since Jun 23, 2017 11:43:57 PM
  */
 @Entity
-public class User implements Serializable {
+@SequenceGenerator(initialValue = 1, name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+public class UserPrincipal implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     private Long id;
     private String email;
     private String password;
@@ -38,7 +40,7 @@ public class User implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
     private List<Ride> rides;
 
-    public User() {
+    public UserPrincipal() {
         this.rides = new ArrayList<>();
     }
 
@@ -126,7 +128,7 @@ public class User implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final User other = (User) obj;
+        final UserPrincipal other = (UserPrincipal) obj;
         return Objects.equals(this.email, other.email);
     }
 

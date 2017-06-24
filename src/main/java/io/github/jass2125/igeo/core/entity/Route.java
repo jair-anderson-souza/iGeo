@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 /**
  *
@@ -17,10 +18,11 @@ import javax.persistence.Id;
  * @since Jun 23, 2017 11:44:26 PM
  */
 @Entity
+@SequenceGenerator(initialValue = 1, name = "route_seq", sequenceName = "route_seq", allocationSize = 1)
 public class Route implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "route_seq")
     private Long id;
     private String distance;
     private String arrivalTime;
