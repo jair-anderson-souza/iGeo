@@ -6,6 +6,7 @@
 package io.github.jass2125.igeo.core.entity;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
  * @author <a href="mailto:jair_anderson_bs@hotmail.com">Anderson Souza</a>
  * @since Jun 23, 2017 11:44:26 PM
  */
+@Entity
 public class Route implements Serializable {
 
     @Id

@@ -5,8 +5,10 @@
  */
 package io.github.jass2125.igeo.core.entity;
 
+import io.github.jass2125.igeo.core.exceptions.EntityException;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -37,6 +39,7 @@ public class User implements Serializable {
     private List<Ride> rides;
 
     public User() {
+        this.rides = new ArrayList<>();
     }
 
     public Long getId() {
@@ -87,11 +90,21 @@ public class User implements Serializable {
         this.birthday = birthday;
     }
 
-    public void addRide(Ride ride) {
+    public boolean containsEntity(Ride ride) {
+        return rides.contains(ride);
+    }
+
+    public void addRide(Ride ride) throws EntityException {
+        if (containsEntity(ride)) {
+            throw new EntityException("Duplicated Entity");
+        }
         this.rides.add(ride);
     }
 
-    public void removeRide(Ride ride) {
+    public void removeRide(Ride ride) throws EntityException {
+        if (!containsEntity(ride)) {
+            throw new EntityException("Entity not exists");
+        }
         this.rides.remove(ride);
     }
 
