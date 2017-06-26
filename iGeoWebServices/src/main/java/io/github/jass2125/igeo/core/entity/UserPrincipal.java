@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 /**
@@ -32,16 +33,17 @@ public class UserPrincipal implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     private Long id;
-    private String email;
-    private String password;
     private String phone;
     private String name;
     private LocalDate birthday;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, orphanRemoval = true)
+    private Count count;
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
     private List<Ride> rides;
 
     public UserPrincipal() {
         this.rides = new ArrayList<>();
+        this.count = new Count();
     }
 
     public Long getId() {
@@ -50,22 +52,6 @@ public class UserPrincipal implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPhone() {
@@ -112,8 +98,8 @@ public class UserPrincipal implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 79 * hash + Objects.hashCode(this.email);
+        int hash = 7;
+        hash = 17 * hash + Objects.hashCode(this.count);
         return hash;
     }
 
@@ -129,7 +115,7 @@ public class UserPrincipal implements Serializable {
             return false;
         }
         final UserPrincipal other = (UserPrincipal) obj;
-        return Objects.equals(this.email, other.email);
+        return Objects.equals(this.count, other.count);
     }
 
 }

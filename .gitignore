@@ -1,6 +1,11 @@
 # Compiled class file
 *.class
 /nb-configuration.xml
+/iGeoWebServices/nb-configuration.xml
+/iGeoWebServices/target
+/iGeoClient/node_modules/
+/iGeoClient/app/assets/
+/iGeoClient/nbproject/
 
 # Log file
 *.log
@@ -22,3 +27,6 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 /target/
+/iGeoWeb/target/
+/iGeoWebServices/target/
+/iGeoClient/nbproject/private/

@@ -1,0 +1,21 @@
+{
+  "name": "igeoclient",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Anderson Souza <jair_anderson_bs@hotmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/jass2125/iGeo",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/assets/lib/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.4"
+  }
+}
