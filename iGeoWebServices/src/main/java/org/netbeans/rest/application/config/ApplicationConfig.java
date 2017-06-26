@@ -5,7 +5,6 @@
  */
 package org.netbeans.rest.application.config;
 
-import io.github.jass2125.igeo.webservices.LogWebService;
 import java.util.Set;
 import javax.ws.rs.core.Application;
 
@@ -30,7 +29,8 @@ public class ApplicationConfig extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(io.github.jass2125.igeo.webservices.LogWebService.class);
+        resources.add(io.github.jass2125.igeo.core.filter.CorsFilter.class);
+        resources.add(io.github.jass2125.igeo.webservices.LoginWebService.class);
     }
 
 }

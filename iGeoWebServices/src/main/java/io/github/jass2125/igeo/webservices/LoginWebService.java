@@ -6,10 +6,12 @@
 package io.github.jass2125.igeo.webservices;
 
 import io.github.jass2125.igeo.core.entity.Count;
-import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import javax.ejb.EJB;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -18,7 +20,9 @@ import javax.ws.rs.core.Response;
  * @since Jun 24, 2017 2:16:56 PM
  */
 @Path("login")
-public class LogWebService {
+@Consumes(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+public class LoginWebService {
 
     @EJB
     private UserPrincipalService userService;
