@@ -6,6 +6,7 @@
 package io.github.jass2125.igeo.webservices;
 
 import io.github.jass2125.igeo.core.entity.Count;
+import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

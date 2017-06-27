@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.github.jass2125.igeo.webservices;
+package io.github.jass2125.igeo.core.services;
 
 import io.github.jass2125.igeo.core.entity.Count;
+import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
