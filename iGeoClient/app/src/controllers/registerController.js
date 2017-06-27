@@ -1,7 +1,7 @@
 var app = angular.module("app");
-app.controller("registerController", function($scope, $http, apiConfig){
+app.controller("registerController", function($scope, userServiceAPI){
 	$scope.register = function(newUser){
-		$http.post(apiConfig.api + "/register", newUser).then(function (response) {
+		userServiceAPI.register(newUser).then(function (response) {
             console.log("Deu certo");
         }), function (response) {
             console.log("Não deu certo");
