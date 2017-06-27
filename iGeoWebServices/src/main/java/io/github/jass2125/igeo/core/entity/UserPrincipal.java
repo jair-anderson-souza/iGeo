@@ -118,4 +118,9 @@ public class UserPrincipal implements Serializable {
         return Objects.equals(this.count, other.count);
     }
 
+    @Override
+    public String toString() {
+        return "UserPrincipal{" + "id=" + id + ", phone=" + phone + ", name=" + name + ", birthday=" + birthday + ", count=" + count + ", rides=" + rides + '}';
+    }
+
 }
