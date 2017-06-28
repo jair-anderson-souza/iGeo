@@ -42,7 +42,7 @@ public class UserPrincipalDao {
         this.root = query.from(UserPrincipal.class);
     }
 
-    public UserPrincipal login(String email, String password) {
+    public UserPrincipal login(String email, String password) throws Exception {
         try {
 //            Join<UserPrincipal, Ride> join = root.join(UserPrincipal_.rides, JoinType.LEFT);
 //            join.on(criteriaBuilder.
@@ -57,9 +57,8 @@ public class UserPrincipalDao {
                     .setParameter("password", password)
                     .getSingleResult();
         } catch (NoResultException e) {
-            e.printStackTrace();
             //mudar pra exceção filha de Exception
-            throw new NoResultException("Os dados esão inválidos!");
+            throw new Exception("Os dados esão inválidos!");
 
         }
     }

@@ -48,12 +48,11 @@ public class LoginWebService {
             String encodeResponse = jsonWebToken.encodeResponse(user.getName(), new Gson().toJson(user));
             sessionRedis.createKey(jsonWebToken.getToken(), user.getId().toString());
             return Response.
-                    ok(encodeResponse, MediaType.APPLICATION_JSON).
+                    ok(encodeResponse, MediaType.TEXT_PLAIN).
                     header("User", getNameClass(user.getClass().getTypeName())).
                     header("SigningKey", jsonWebToken.getToken())
                     .build();
         } catch (Exception ex) {
-            ex.printStackTrace();
             return Response.
                     status(Status.NOT_FOUND).
                     build();
