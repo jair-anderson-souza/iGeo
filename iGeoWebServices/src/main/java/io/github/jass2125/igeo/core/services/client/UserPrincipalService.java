@@ -6,7 +6,7 @@
 package io.github.jass2125.igeo.core.services.client;
 
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
-import io.github.jass2125.igeo.webservices.LoginVO;
+import io.github.jass2125.igeo.core.vo.LoginVO;
 
 /**
  *

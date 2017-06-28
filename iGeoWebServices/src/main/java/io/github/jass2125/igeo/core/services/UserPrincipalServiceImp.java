@@ -8,7 +8,7 @@ package io.github.jass2125.igeo.core.services;
 import io.github.jass2125.igeo.core.dao.UserPrincipalDao;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
-import io.github.jass2125.igeo.webservices.LoginVO;
+import io.github.jass2125.igeo.core.vo.LoginVO;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;

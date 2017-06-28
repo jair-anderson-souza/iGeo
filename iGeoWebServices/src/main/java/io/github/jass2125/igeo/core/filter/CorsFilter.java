@@ -5,7 +5,11 @@
  */
 package io.github.jass2125.igeo.core.filter;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.crypto.MacProvider;
 import java.io.IOException;
+import javax.crypto.SecretKey;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
@@ -26,6 +30,14 @@ public class CorsFilter implements ContainerResponseFilter {
         responseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
         responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
         responseContext.getHeaders().add("Access-Control-Allow-Headers", "origin, accept, content-type");
+        
+        SecretKey key = MacProvider.generateKey();
+        String compactJws = Jwts.builder()
+                .setSubject("Joe")
+                .signWith(SignatureAlgorithm.HS512, key)
+                .compact();
+        boolean equals = Jwts.parser().setSigningKey(key).parseClaimsJws(compactJws).getBody().getSubject().equals("Joe");
+        System.out.println(equals);
     }
 
 }

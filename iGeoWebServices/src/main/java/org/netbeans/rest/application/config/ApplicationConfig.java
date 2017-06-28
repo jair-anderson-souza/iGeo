@@ -5,8 +5,6 @@
  */
 package org.netbeans.rest.application.config;
 
-import io.github.jass2125.igeo.core.converters.LocalDateDeserializer;
-import io.github.jass2125.igeo.core.converters.LocalDateSerializer;
 import java.util.Set;
 import javax.ws.rs.core.Application;
 

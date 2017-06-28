@@ -5,9 +5,12 @@
  */
 package io.github.jass2125.igeo.webservices;
 
-import io.github.jass2125.igeo.core.entity.Count;
+import com.google.gson.Gson;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
+import io.github.jass2125.igeo.core.services.JsonWebToken;
+import io.github.jass2125.igeo.core.services.SessionRedis;
 import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
+import io.github.jass2125.igeo.core.vo.LoginVO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -17,6 +20,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 /**
  *
@@ -28,18 +32,37 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 public class LoginWebService {
 
+    private JsonWebToken jsonWebToken;
+    private SessionRedis sessionRedis;
     @EJB
     private UserPrincipalService userService;
+
+    public LoginWebService() {
+        this.sessionRedis = new SessionRedis();
+    }
 
     @POST
     public Response login(LoginVO loginVo) {
         UserPrincipal user = null;
         try {
             user = userService.login(loginVo);
+            jsonWebToken = new JsonWebToken(user.getEmail());
+            String encodeResponse = jsonWebToken.encodeResponse(user.getName(), new Gson().toJson(user));
+            sessionRedis.createKey(jsonWebToken.getToken(), user.getId().toString());
+            return Response.
+                    ok(encodeResponse, MediaType.TEXT_PLAIN).
+                    header("User", getNameClass(user.getClass().getTypeName())).
+                    header("SigningKey", jsonWebToken.getToken())
+                    .build();
         } catch (Exception ex) {
-            Logger.getLogger(LoginWebService.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.
+                    status(Status.NOT_FOUND).
+                    build();
         }
-        return Response.ok(user).build();
     }
 
+    public String getNameClass(String path) {
+        String[] aux = path.split("\\.");
+        return aux[aux.length - 1].toLowerCase();
+    }
 }
