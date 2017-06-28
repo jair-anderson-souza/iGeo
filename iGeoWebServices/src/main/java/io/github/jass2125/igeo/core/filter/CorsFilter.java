@@ -30,14 +30,6 @@ public class CorsFilter implements ContainerResponseFilter {
         responseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
         responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
         responseContext.getHeaders().add("Access-Control-Allow-Headers", "origin, accept, content-type");
-        
-        SecretKey key = MacProvider.generateKey();
-        String compactJws = Jwts.builder()
-                .setSubject("Joe")
-                .signWith(SignatureAlgorithm.HS512, key)
-                .compact();
-        boolean equals = Jwts.parser().setSigningKey(key).parseClaimsJws(compactJws).getBody().getSubject().equals("Joe");
-        System.out.println(equals);
     }
 
 }

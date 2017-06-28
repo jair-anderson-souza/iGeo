@@ -44,11 +44,14 @@ public class UserPrincipalDao {
 
     public UserPrincipal login(String email, String password) {
         try {
-//            query.
-//                    select(root).
-//                    where(criteriaBuilder.
-//                            and(criteriaBuilder.equal(root.get(UserPrincipal_.email), email),
-//                                    criteriaBuilder.equal(root.get(UserPrincipal_.password), password)));
+//            Join<UserPrincipal, Ride> join = root.join(UserPrincipal_.rides, JoinType.LEFT);
+//            join.on(criteriaBuilder.
+//                    and(criteriaBuilder.equal(root.get(UserPrincipal_.email), email),
+//                            criteriaBuilder.equal(root.get(UserPrincipal_.password), password)));
+//            query.select(root);
+//            return em.createQuery(query).getSingleResult();
+//            CriteriaQuery<UserPrincipal> query = query.
+//                    select(root);
             return (UserPrincipal) em.createQuery("SELECT U FROM UserPrincipal U LEFT JOIN FETCH U.rides WHERE U.email = :email AND U.password = :password")
                     .setParameter("email", email)
                     .setParameter("password", password)
