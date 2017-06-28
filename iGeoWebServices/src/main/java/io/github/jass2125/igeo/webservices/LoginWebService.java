@@ -11,8 +11,6 @@ import io.github.jass2125.igeo.core.services.JsonWebToken;
 import io.github.jass2125.igeo.core.services.SessionRedis;
 import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
 import io.github.jass2125.igeo.core.vo.LoginVO;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

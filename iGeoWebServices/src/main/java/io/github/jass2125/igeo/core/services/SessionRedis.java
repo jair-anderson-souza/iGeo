@@ -34,7 +34,7 @@ public class SessionRedis {
         jedis.expire(key, 1800);
     }
 
-    public String geyKey(String key) {
+    public String getKey(String key) {
         if (key != null) {
             String keyTemp = jedis.get(key);
             if (keyTemp != null) {
