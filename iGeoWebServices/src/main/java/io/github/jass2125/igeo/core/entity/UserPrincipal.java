@@ -7,6 +7,7 @@ package io.github.jass2125.igeo.core.entity;
 
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -41,6 +42,7 @@ public class UserPrincipal implements Serializable {
     private List<Ride> rides;
 
     public UserPrincipal() {
+        this.rides = new ArrayList<>();
     }
 
     public Long getId() {

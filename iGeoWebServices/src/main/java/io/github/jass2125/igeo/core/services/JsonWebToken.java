@@ -31,7 +31,7 @@ public class JsonWebToken {
     private JwtBuilder jwtBuilder;
 
     public JsonWebToken(String email) {
-        this.key += System.currentTimeMillis();
+        this.key = email + System.currentTimeMillis();
         this.signatureAlgorithm = SignatureAlgorithm.HS512;
         this.nowMillis = System.currentTimeMillis();
         this.now = new Date(nowMillis);

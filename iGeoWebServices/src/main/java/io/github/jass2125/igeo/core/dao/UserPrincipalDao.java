@@ -5,6 +5,7 @@
  */
 package io.github.jass2125.igeo.core.dao;
 
+import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.entity.UserPrincipal_;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
@@ -15,6 +16,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Root;
 
 /**
@@ -39,10 +43,16 @@ public class UserPrincipalDao {
     }
 
     public UserPrincipal login(String email, String password) {
-//        Join<UserPrincipal, Count> join = root.join(UserPrincipal_.count);
         try {
-            query.select(root).where(criteriaBuilder.and(criteriaBuilder.equal(root.get(UserPrincipal_.email), email), criteriaBuilder.equal(root.get(UserPrincipal_.password), password)));
-            return em.createQuery(query).getSingleResult();
+//            query.
+//                    select(root).
+//                    where(criteriaBuilder.
+//                            and(criteriaBuilder.equal(root.get(UserPrincipal_.email), email),
+//                                    criteriaBuilder.equal(root.get(UserPrincipal_.password), password)));
+            return (UserPrincipal) em.createQuery("SELECT U FROM UserPrincipal U LEFT JOIN FETCH U.rides WHERE U.email = :email AND U.password = :password")
+                    .setParameter("email", email)
+                    .setParameter("password", password)
+                    .getSingleResult();
         } catch (NoResultException e) {
             e.printStackTrace();
             //mudar pra exceção filha de Exception
