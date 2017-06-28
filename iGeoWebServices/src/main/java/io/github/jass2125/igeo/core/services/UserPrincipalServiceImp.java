@@ -5,8 +5,11 @@
  */
 package io.github.jass2125.igeo.core.services;
 
-import io.github.jass2125.igeo.core.entity.Count;
+import io.github.jass2125.igeo.core.dao.UserPrincipalDao;
+import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
+import io.github.jass2125.igeo.webservices.LoginVO;
+import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
@@ -19,8 +22,25 @@ import javax.ejb.Stateless;
 @Remote(UserPrincipalService.class)
 public class UserPrincipalServiceImp implements UserPrincipalService {
 
+    @EJB
+    private UserPrincipalDao dao;
+
     @Override
-    public Count login(Count count) {
-        return count;
+    public UserPrincipal login(LoginVO loginVO) throws Exception {
+        try {
+            return dao.login(loginVO.getEmail(), loginVO.getPassword());
+        } catch (Exception e) {
+            throw new Exception("Ocorreu um erro");
+        }
     }
+
+    @Override
+    public UserPrincipal register(UserPrincipal userPrincipal) {
+        try {
+            return dao.save(userPrincipal);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

@@ -6,6 +6,10 @@
 package io.github.jass2125.igeo.webservices;
 
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
+import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -23,10 +27,18 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 public class RegisterUserPrincipal {
 
+    @EJB
+    private UserPrincipalService userPrincipalService;
+
     @POST
     public Response createNewUserPrincipal(UserPrincipal userPrincipal) {
-        System.out.println(userPrincipal);
-        return null;
+        UserPrincipal user = null;
+        try {
+            user = userPrincipalService.register(userPrincipal);
+        } catch (Exception ex) {
+            Logger.getLogger(LoginWebService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Response.ok(user).build();
     }
 
 }

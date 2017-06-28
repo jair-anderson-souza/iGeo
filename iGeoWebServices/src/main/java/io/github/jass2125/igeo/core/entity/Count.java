@@ -7,35 +7,22 @@ package io.github.jass2125.igeo.core.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 
 /**
  *
  * @author <a href="mailto:jair_anderson_bs@hotmail.com">Anderson Souza</a>
  * @since Jun 24, 2017 2:31:05 PM
  */
-//@Entity
+@Deprecated
+@Embeddable
 public class Count implements Serializable {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
     private String email;
     private String password;
 
     public Count() {
     }
-
-//    public Long getId() {
-//        return id;
-//    }
-
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
 
     public String getEmail() {
         return email;

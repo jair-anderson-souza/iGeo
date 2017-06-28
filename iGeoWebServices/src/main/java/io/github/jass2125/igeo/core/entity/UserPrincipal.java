@@ -7,8 +7,6 @@ package io.github.jass2125.igeo.core.entity;
 
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -18,7 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 /**
@@ -35,15 +32,15 @@ public class UserPrincipal implements Serializable {
     private Long id;
     private String phone;
     private String name;
-    private LocalDate birthday;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, orphanRemoval = true)
-    private Count count;
+//    @JsonSerialize(using = LocalDateSerializer.class)
+//    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private String birthday;
+    private String email;
+    private String password;
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
     private List<Ride> rides;
 
     public UserPrincipal() {
-        this.rides = new ArrayList<>();
-        this.count = new Count();
     }
 
     public Long getId() {
@@ -70,16 +67,16 @@ public class UserPrincipal implements Serializable {
         this.name = name;
     }
 
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
     public boolean containsEntity(Ride ride) {
         return rides.contains(ride);
+    }
+
+    public String getBirthday() {
+        return birthday;
     }
 
     public void addRide(Ride ride) throws EntityException {
@@ -96,10 +93,26 @@ public class UserPrincipal implements Serializable {
         this.rides.remove(ride);
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + Objects.hashCode(this.count);
+        hash = 17 * hash + Objects.hashCode(this.email);
         return hash;
     }
 
@@ -115,12 +128,12 @@ public class UserPrincipal implements Serializable {
             return false;
         }
         final UserPrincipal other = (UserPrincipal) obj;
-        return Objects.equals(this.count, other.count);
+        return Objects.equals(this.email, other.email);
     }
 
     @Override
     public String toString() {
-        return "UserPrincipal{" + "id=" + id + ", phone=" + phone + ", name=" + name + ", birthday=" + birthday + ", count=" + count + ", rides=" + rides + '}';
+        return "UserPrincipal{" + "id=" + id + ", phone=" + phone + ", name=" + name + ", birthday=" + birthday + ", email=" + email + ", password=" + password + ", rides=" + rides + '}';
     }
 
 }

@@ -6,7 +6,10 @@
 package io.github.jass2125.igeo.webservices;
 
 import io.github.jass2125.igeo.core.entity.Count;
+import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -29,8 +32,13 @@ public class LoginWebService {
     private UserPrincipalService userService;
 
     @POST
-    public Response login(Count count) {
-        Count user = userService.login(count);
+    public Response login(LoginVO loginVo) {
+        UserPrincipal user = null;
+        try {
+            user = userService.login(loginVo);
+        } catch (Exception ex) {
+            Logger.getLogger(LoginWebService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return Response.ok(user).build();
     }
 
