@@ -1,3 +1,4 @@
+/*
 var app = angular.module("app");
 
 app.factory('testInterceptor', testInterceptor).config(function ($httpProvider) {
@@ -34,13 +35,12 @@ function testInterceptor($location) {
     console.log("ResponseError:" + res.data);
       var token = res.headers["SigningKey"];
       if(token == 200){
-        $location.path("/index.html");
+        $location.path("index.html");
       }
       return res;
     }
   }
 };
-/*
 app.factory('AuthService', AuthService);
 
 function AuthService ($http, $q) {
