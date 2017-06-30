@@ -2,20 +2,33 @@
 <html ng-app="app">
     <head>
         <title>Página Inicial</title>
+        <meta name="viewport" content="initial-scale=1.0">
         <base href="/">
         <script src="assets/lib/angular/angular.min.js"></script>
         <script src="assets/lib/angular-route/angular-route.min.js"></script>
-        <script src="src/app.js"></script>
-        <script src="src/controllers/loginController.js"></script>
-        <script src="src/controllers/registerController.js"></script>
-        <script src="src/config/apiConfig.js"></script>
-        <script src="src/services/userService.js"></script>
-        <script src="src/services/myInterceptor.js"></script>
+        <script src="app.js"></script>
+        <script src="routes/app-route.js"></script>
+
+        <script src="services/userService.js"></script>
+        
+        <script src="controllers/loginController.js"></script>
+        <script src="controllers/registerController.js"></script>
+        <script src="controllers/caronaController.js"></script>
+        <script src="config/apiConfig.js"></script>
+        <!--
+        <script src="services/myInterceptor.js"></script>
+-->
+        <style type="text/css">
+      #map{
+        height: 100%;
+      }
+
+</style>
     </head>
     <body>
-
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
+        <a href="#!/index">Index</a>
+        <a href="#!/login">Login</a>
+        <a href="#!/register">Register</a>
         <div ng-view=""></div>
 
     </body>

@@ -19,6 +19,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import static javax.ws.rs.core.Response.status;
 
 /**
  *
@@ -54,7 +55,7 @@ public class LoginWebService {
                     .build();
         } catch (Exception ex) {
             return Response.
-                    status(Status.NOT_FOUND).
+                    status(Response.Status.NOT_FOUND).
                     build();
         }
     }
