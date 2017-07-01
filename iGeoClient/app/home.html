@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
     <head>
         <title>Welcome</title>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <script src="assets/lib/angular/angular.min.js"></script>
+        <link rel="stylesheet" href="assets/lib/bootstrap/dist/css/bootstrap.min.css">
+        <script src="assets/lib/jquery/dist/jquery.min.js"></script>
+        <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
         <meta charset="utf-8">
         <style>
             body, html{
@@ -13,71 +16,102 @@
             }
             #map{
                 height: 100%;
-            }
+            }   
         </style>
-        <script>
+        <script type="text/javascript">
             var app = angular.module("app", []);
             app.controller("init", function ($scope) {
-                $scope.openMap = function () {
-                    var map = new google.maps.Map(document.getElementById("map"), {
-                        center: {lat: -34.397, lng: 150.644},
-                        zoom: 14
+                //dados da inicialização do mapa
+                var options = {
+                    zoom: 15,
+                    center: {lat: 41.85, lng: -87.65}
+                };
+                $scope.map = new google.maps.Map(document.getElementById("map"), options);
+                var marker = {};
+                var marker2 = {};
+                var directionService = new google.maps.DirectionsService;
+                var directionDisplay = new google.maps.DirectionsRenderer;
+                //Pegando a geolocalização
+                var infoWindow = new google.maps.InfoWindow({map: $scope.map});
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        var pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        infoWindow.setPosition(pos);
+                        $scope.map.setCenter(pos);
+                        marker = new google.maps.Marker({
+                            position: pos,
+                            animation: google.maps.Animation.DROP,
+                            draggable: true,
+                            title: "Local de Saída",
+                            map: $scope.map
+                        })
                     });
-
-                    var infoWindow = new google.maps.InfoWindow({map: map});
-
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(function (position) {
-                            var pos = {
-                                lat: position.coords.latitude,
-                                lng: position.coords.longitude
-                            };
-                            infoWindow.setPosition(pos);
-                            infoWindow.setContent("Localização encontrada!");
-                            map.setCenter(pos);
-                            console.log(map.position;
-
-                        }, function () {
-                            handleLocationError(true, infoWindow, map.getCenter());
-                        });
-                    } else {
-                        handleLocationError(false, infoWindow, map.getCenter());
-                    }
                 }
-                function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-                    infoWindow.setPosition(pos);
-                    infoWindow.setContent(browserHasGeolocation ? "Error: The Geolocation has failed" : "Error: Your browser doesn't support geolocation.");
+//                };
+//                };
+                directionDisplay.setMap($scope.map);
+                var call = function () {
+                    directionService.route({
+                        origin: $scope.start,
+                        destination: document.getElementById("end").value,
+                        travelMode: "DRIVING"
+                    }, function (response, status) {
+                        if (status === "OK") {
+                            directionDisplay.setDirections(response);
+                            console.log(directionsDisplay);
+                        } else {
+                            alert("Ocorreu um erro");
+                        }
+                    })
                 }
-            });
+                document.getElementById("start").addEventListener("change", call);
+                document.getElementById("end").addEventListener("change", call);
+            }
+            );
         </script>
     </head>
     <body ng-controller="init">
-        <div>
-            <form>
-                <label>Origem</label>
-                <button ng-click="openMap()">Abrir Mapa</button>
-                <br/>
+        <div class="container col-sm-4">
+            <div class="page-header">
 
-                <label>Destino</label>
-                <button ng-click="openMap()">Abrir Mapa</button>
-                <br/>
+                <form>
+                    <div class="form-group">
+                        <label>De onde você vai sair?</label>
+                        <input class="form-control" type="text" ng-model="start" id="start">
+                    </div>
+                    <br/>
 
-                <label>Data de Viagem</label>
-                <input type="text" name="origem">
-                <br/>
-
-                <label>Hora de Saída</label>
-                <input type="text" name="origem">
-                <br/>
-
-                <label>Ajuda de Custo</label>
-                <input type="text" name="origem">
-                <br/>
-                <button>Confirmar</button>
-            </form>
+                    <div class="form-group">
+                        <label>Para onde você vai?</label>
+                        <input class="form-control" type="text" id="end" ng-model="end">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Data de Viagem</label>
+                        <input class="form-control" type="text" name="origem">
+                    </div>
+                    <br/>
+                    
+                    <div class="form-group">
+                        <label>Hora de Saída</label>
+                        <input class="form-control" type="text" name="origem">
+                    </div>
+                    <br/>
+                    <div class="form-group">
+                        <label>Ajuda de Custo</label>
+                        <input class="form-control" type="text" name="origem">
+                    </div>
+                    <br/>
+                    <button class="btn btn-success">Confirmar</button>
+                </form>
+            </div>
         </div>
-        <div id="map"></div>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFQnphaheCtrkO0LZGvozgTmLEajc7NJg&language=pt&region=BR"></script>   
+        <div class="col-sm-2"></div>
+        <div id="map" class="col-sm-4"></div>
     </body>
-
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFQnphaheCtrkO0LZGvozgTmLEajc7NJg&callback=initMap&language=pt&region=BR"></script>
+</body>
 </html>
