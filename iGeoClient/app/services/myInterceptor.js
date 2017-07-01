@@ -17,12 +17,14 @@ function testInterceptor($rootScope, $location, $q, $timeout) {
     },
 
     requestError: function(config) {
-      if(res.status !== 200){
+      /*if(res.status !== 200){
         $location.path("/index");
       };
       return $q.reject(config);
+      
     },
-
+  */  return config;
+},
     response: function(res) {
       /*
       if(res.status == 200 && !res.data){

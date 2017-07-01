@@ -1,9 +1,7 @@
 var app = angular.module("app");
 
 app.config(function ($routeProvider) {
-    $routeProvider.when("/", {
-        templateUrl : "index.html"
-    }).when("/login", {
+    $routeProvider.when("/login", {
         templateUrl: "login.html",
         controller: "loginController"
     }).when("/register", {
@@ -12,6 +10,6 @@ app.config(function ($routeProvider) {
     }).when("/home", {
         templateUrl : "/home.html"
     }).otherwise({
-        redirectTo: "/index"
+        redirectTo: "/index.html"
     });
 });

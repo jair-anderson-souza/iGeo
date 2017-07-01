@@ -1,7 +1,24 @@
-<form name="formLogin" method="post">
-    <label>Email</label>
-    <input type="text" name="email" ng-model="loginVO.email">
-    <label>Senha</label>
-    <input type="password" name="password" ng-model="loginVO.password">
-    <button type="submit" ng-click="login(loginVO);" name="login">Login</button>
-</form>
+<div class="container">
+    <div class="page-header">
+    <h1>Login</h1>
+    <br/>
+    <br/>
+        <form name="formLogin" method="post">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input type="text" name="email" class="form-control" ng-model="loginVO.email" placeholder="Email">
+            </div>
+            <br/>
+            <div class="input-group">
+            	
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <input type="password" class="form-control" name="password" ng-model="loginVO.password" placeholder="Password">
+            </div>
+            
+            <br/>
+            <br/>
+
+            <button class="btn btn-success" type="submit" ng-click="login(loginVO);" name="login">Login</button>
+        </form>
+    </div>
+</div>

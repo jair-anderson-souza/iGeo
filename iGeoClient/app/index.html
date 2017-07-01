@@ -2,33 +2,55 @@
 <html ng-app="app">
     <head>
         <title>Página Inicial</title>
-        <meta name="viewport" content="initial-scale=1.0">
         <base href="/">
+        <meta name="viewport" content="initial-scale=1.0">
         <script src="assets/lib/angular/angular.min.js"></script>
         <script src="assets/lib/angular-route/angular-route.min.js"></script>
+        <!-- Main App -->
         <script src="app.js"></script>
+        
+        <!-- Routes -->
         <script src="routes/app-route.js"></script>
 
         <script src="services/userService.js"></script>
-        
+
         <script src="controllers/loginController.js"></script>
         <script src="controllers/registerController.js"></script>
         <script src="controllers/caronaController.js"></script>
         <script src="config/apiConfig.js"></script>
+        <link rel="stylesheet" href="assets/lib/bootstrap/dist/css/bootstrap.min.css">
+        <script src="assets/lib/jquery/dist/jquery.min.js"></script>
+        <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
         <!--
         <script src="services/myInterceptor.js"></script>
--->
+        -->
         <style type="text/css">
-      #map{
-        height: 100%;
-      }
+            .nav{
+                background: #2d2d30;
+                opacity : 0.9;
+                font-family: Montserrat;
+            }
+            .navbar-nav li a{
+                color: red;
+            }
+            #map{
+                height: 100%;
+            }
 
-</style>
+        </style>
     </head>
     <body>
-        <a href="#!/index">Index</a>
-        <a href="#!/login">Login</a>
-        <a href="#!/register">Register</a>
+        <nav class="nav navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="#!index" class="navbar-brand">iGeo</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="#!/login">Login</a></li>
+                    <li><a href="#!/register">Cadastre-se</a></li>
+                </ul>
+            </div>
+        </nav>
         <div ng-view=""></div>
 
     </body>
