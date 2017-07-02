@@ -6,9 +6,11 @@
 package io.github.jass2125.igeo.webservices;
 
 import io.github.jass2125.igeo.core.entity.Ride;
+import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.services.client.RideService;
 import javax.ejb.EJB;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
@@ -27,6 +29,12 @@ public class RideWebService {
     public Response registerRide(Ride ride) {
         System.out.println(ride);
         service.register(ride);
+        return Response.ok().build();
+    }
+
+    @PUT
+    public Response updateRide(UserPrincipal userPrincipal) {
+        System.out.println(userPrincipal);
         return Response.ok().build();
     }
 }

@@ -25,6 +25,8 @@
         <script type="text/javascript">
             var app = angular.module("app", []);
             app.controller("caronaController", function ($scope, $http) {
+
+
                 //dados da inicialização do mapa
                 var initalizeMap = {
                     zoom: 15,
@@ -33,7 +35,6 @@
                 $scope.map = new google.maps.Map(document.getElementById("map"), initalizeMap);
                 var marker = {};
                 var infoWindow = new google.maps.InfoWindow({map: $scope.map});
-                
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(function (position) {
                         var pos = {
@@ -57,52 +58,49 @@
                     console.log(marker);
                     $scope.ride.latitudeOrigin = pos.lat;
                     $scope.ride.longitudeOrigin = pos.lng;
-                };
-
-                 var directionService = new google.maps.DirectionsService;
-                 var directionDisplay = new google.maps.DirectionsRenderer;
-                 directionDisplay.setMap($scope.map);
-                
-                    
-                
-                 var createDirection = function () {
+                }
+                ;
+                var directionService = new google.maps.DirectionsService;
+                var directionDisplay = new google.maps.DirectionsRenderer;
+                directionDisplay.setMap($scope.map);
+                var createDirection = function () {
                     directionService.route({
                         origin: document.getElementById("start").value,
                         destination: document.getElementById("end").value,
                         travelMode: "DRIVING",
                     }, function (response, status) {
-                            if (status === "OK") {
-                                console.log(response);
-                                directionDisplay.setDirections(response);
-                                console.log(directionsDisplay);
-                            } else {
-                                alert("Rota não encontrada");
-                            }
+                        if (status === "OK") {
+                            console.log(response);
+                            directionDisplay.setDirections(response);
+                            console.log(directionsDisplay);
+                        } else {
+                            map.setCenter(initalizeMap);
                         }
-                    )};
-                 document.getElementById("find").addEventListener("click", createDirection);
-                 
-
-                 $scope.salvar = function () {
-                 console.log($scope.ride.origin);
-                 console.log($scope.ride.destiny);
-                 $http.post("http://localhost:8080/iGeoWebServices/webresources/ride", $scope.ride).then(function (response) {
-                 delete $scope.ride;
-                 
-                 console.log("Deu certo");
-                 }), function (response) {
-                 console.log("Não deu certo");
-                 };
-                 }
-                /*
-                 var marker2 = {};
-                 
-                 //Pegando a geolocalização
-                 //                };
-                 //                };
-                 */
-            }
-            );
+                    }
+                    );
+                };
+                document.getElementById("start").addEventListener("change", createDirection);
+                document.getElementById("end").addEventListener("change", createDirection);
+                $scope.userprincipal = {};
+                $scope.userprincipal.rides = $scope.ride;
+                $scope.salvar = function () {
+                    console.log($scope.ride.origin);
+                    console.log($scope.ride.destiny);
+                    $http.put("http://localhost:8080/iGeoWebServices/webresources/ride", $scope.userprincipal).
+                            then(function (response) {
+                                delete $scope.ride;
+                                console.log("Deu certo");
+                            }), function (response) {
+                        console.log("Não deu certo");
+                    };
+                };
+//            /*
+//             var marker2 = {};
+//             
+//             //Pegando a geolocalização
+//             */
+//            };
+            });
         </script>
     </head>
     <body ng-controller="caronaController">
