@@ -18,8 +18,8 @@ import javax.ws.rs.ext.Provider;
  * @author <a href="mailto:jair_anderson_bs@hotmail.com">Anderson Souza</a>
  * @since Jun 28, 2017 2:51:18 PM
  */
-@PreMatching
-@Provider
+//@PreMatching
+//@Provider
 public class RequestSessionFilter implements ContainerRequestFilter {
 
     private SessionRedis redis;

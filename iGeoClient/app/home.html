@@ -7,6 +7,10 @@
         <link rel="stylesheet" href="assets/lib/bootstrap/dist/css/bootstrap.min.css">
         <script src="assets/lib/jquery/dist/jquery.min.js"></script>
         <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="assets/lib/angular-route/angular-route.min.js"></script>
+        <script src="assets/lib/angular-locale-pt-br/angular-locale_pt-br.js"></script>
+        <!--<script src="routes/app-route.js"></script>-->
+
         <meta charset="utf-8">
         <style>
             body, html{
@@ -20,19 +24,16 @@
         </style>
         <script type="text/javascript">
             var app = angular.module("app", []);
-            app.controller("init", function ($scope) {
+            app.controller("caronaController", function ($scope, $http) {
                 //dados da inicialização do mapa
-                var options = {
+                var initalizeMap = {
                     zoom: 15,
                     center: {lat: 41.85, lng: -87.65}
                 };
-                $scope.map = new google.maps.Map(document.getElementById("map"), options);
+                $scope.map = new google.maps.Map(document.getElementById("map"), initalizeMap);
                 var marker = {};
-                var marker2 = {};
-                var directionService = new google.maps.DirectionsService;
-                var directionDisplay = new google.maps.DirectionsRenderer;
-                //Pegando a geolocalização
                 var infoWindow = new google.maps.InfoWindow({map: $scope.map});
+                
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(function (position) {
                         var pos = {
@@ -41,77 +42,108 @@
                         };
                         infoWindow.setPosition(pos);
                         $scope.map.setCenter(pos);
-                        marker = new google.maps.Marker({
-                            position: pos,
-                            animation: google.maps.Animation.DROP,
-                            draggable: true,
-                            title: "Local de Saída",
-                            map: $scope.map
-                        })
+                        createMarker(pos);
                     });
                 }
-//                };
-//                };
-                directionDisplay.setMap($scope.map);
-                var call = function () {
+
+
+                function createMarker(pos) {
+                    marker = new google.maps.Marker({
+                        position: pos,
+                        animation: google.maps.Animation.DROP,
+                        draggable: true,
+                        map: $scope.map
+                    });
+                    console.log(marker);
+                    $scope.ride.latitudeOrigin = pos.lat;
+                    $scope.ride.longitudeOrigin = pos.lng;
+                };
+
+                 var directionService = new google.maps.DirectionsService;
+                 var directionDisplay = new google.maps.DirectionsRenderer;
+                 directionDisplay.setMap($scope.map);
+                
+                    
+                
+                 var createDirection = function () {
                     directionService.route({
-                        origin: $scope.start,
+                        origin: document.getElementById("start").value,
                         destination: document.getElementById("end").value,
-                        travelMode: "DRIVING"
+                        travelMode: "DRIVING",
                     }, function (response, status) {
-                        if (status === "OK") {
-                            directionDisplay.setDirections(response);
-                            console.log(directionsDisplay);
-                        } else {
-                            alert("Ocorreu um erro");
+                            if (status === "OK") {
+                                console.log(response);
+                                directionDisplay.setDirections(response);
+                                console.log(directionsDisplay);
+                            } else {
+                                alert("Rota não encontrada");
+                            }
                         }
-                    })
-                }
-                document.getElementById("start").addEventListener("change", call);
-                document.getElementById("end").addEventListener("change", call);
+                    )};
+                 document.getElementById("find").addEventListener("click", createDirection);
+                 
+
+                 $scope.salvar = function () {
+                 console.log($scope.ride.origin);
+                 console.log($scope.ride.destiny);
+                 $http.post("http://localhost:8080/iGeoWebServices/webresources/ride", $scope.ride).then(function (response) {
+                 delete $scope.ride;
+                 
+                 console.log("Deu certo");
+                 }), function (response) {
+                 console.log("Não deu certo");
+                 };
+                 }
+                /*
+                 var marker2 = {};
+                 
+                 //Pegando a geolocalização
+                 //                };
+                 //                };
+                 */
             }
             );
         </script>
     </head>
-    <body ng-controller="init">
+    <body ng-controller="caronaController">
         <div class="container col-sm-4">
             <div class="page-header">
 
                 <form>
                     <div class="form-group">
                         <label>De onde você vai sair?</label>
-                        <input class="form-control" type="text" ng-model="start" id="start">
+                        <input class="form-control" type="text" ng-model="ride.origin" id="start">
                     </div>
-                    <br/>
 
                     <div class="form-group">
                         <label>Para onde você vai?</label>
-                        <input class="form-control" type="text" id="end" ng-model="end">
+                        <input class="form-control" type="text" id="end" ng-model="ride.destiny">
                     </div>
-                    
+                    <button class="btn btn-default" id="find">Buscar Rota</button>
+                    <br/>
+                    <br/>
                     <div class="form-group">
                         <label>Data de Viagem</label>
-                        <input class="form-control" type="text" name="origem">
+                        <input class="form-control" type="text" name="origem" ng-model="ride.date">
                     </div>
-                    <br/>
-                    
+
                     <div class="form-group">
                         <label>Hora de Saída</label>
-                        <input class="form-control" type="text" name="origem">
+                        <input class="form-control" type="text" name="origem" ng-model="ride.departureTime" class="hour">
                     </div>
-                    <br/>
+
                     <div class="form-group">
                         <label>Ajuda de Custo</label>
-                        <input class="form-control" type="text" name="origem">
+                        <input class="form-control" ng-model="ride.oil" type="text" name="origem">
                     </div>
                     <br/>
-                    <button class="btn btn-success">Confirmar</button>
+                    <button class="btn btn-success" ng-click="salvar()">Salvar Carona</button>
                 </form>
             </div>
         </div>
         <div class="col-sm-2"></div>
         <div id="map" class="col-sm-4"></div>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFQnphaheCtrkO0LZGvozgTmLEajc7NJg"></script>
     </body>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFQnphaheCtrkO0LZGvozgTmLEajc7NJg&callback=initMap&language=pt&region=BR"></script>
-</body>
 </html>

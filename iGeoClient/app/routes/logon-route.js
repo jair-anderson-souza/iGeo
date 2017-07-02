@@ -2,11 +2,11 @@ var app = angular.module("app");
 
 app.config(function ($routeProvider) {
     $routeProvider.when("/oferecer", {
-        templateUrl: "../views/oferecer.html",
+        templateUrl: "/oferecer.html",
         controller: "caronaCtrl"
     }).when("/pedir", {
-        templateUrl: "../views/pedir.html"
+        templateUrl: "/pedir.html"
     }).otherwise({
-        redirectTo: "../index.html"
+        redirectTo: "/home.html"
     });
 });

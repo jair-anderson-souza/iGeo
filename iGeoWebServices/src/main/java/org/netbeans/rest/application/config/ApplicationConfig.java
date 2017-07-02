@@ -30,9 +30,9 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(io.github.jass2125.igeo.core.filter.CorsFilter.class);
-        resources.add(io.github.jass2125.igeo.core.filter.RequestSessionFilter.class);
         resources.add(io.github.jass2125.igeo.webservices.LoginWebService.class);
-        resources.add(io.github.jass2125.igeo.webservices.RegisterUserPrincipal.class);
+        resources.add(io.github.jass2125.igeo.webservices.RideWebService.class);
+        resources.add(io.github.jass2125.igeo.webservices.UserPrincipalWebService.class);
     }
 
 }

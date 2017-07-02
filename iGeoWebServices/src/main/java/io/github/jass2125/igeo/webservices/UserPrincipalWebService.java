@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -22,10 +23,10 @@ import javax.ws.rs.core.Response;
  * @author <a href="mailto:jair_anderson_bs@hotmail.com">Anderson Souza</a>
  * @since Jun 26, 2017 8:53:49 PM
  */
-@Path("register")
+@Path("userprincipal")
 @Consumes(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-public class RegisterUserPrincipal {
+public class UserPrincipalWebService {
 
     @EJB
     private UserPrincipalService userPrincipalService;
@@ -39,6 +40,12 @@ public class RegisterUserPrincipal {
             Logger.getLogger(LoginWebService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return Response.ok(user).build();
+    }
+
+    @PUT
+    public Response updateUserPrincipal(UserPrincipal userPrincipal) {
+        System.out.println(userPrincipal);
+        return Response.ok("Ok").build();
     }
 
 }

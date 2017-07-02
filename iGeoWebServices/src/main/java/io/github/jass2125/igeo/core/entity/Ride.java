@@ -7,7 +7,6 @@ package io.github.jass2125.igeo.core.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,11 +30,15 @@ public class Ride implements Serializable {
     private Long id;
     private String origin;
     private String destiny;
-    private LocalDate date;
+    private String date;
     private String departureTime;
     private BigDecimal oil;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Route route;
+    private String latitudeOrigin;
+    private String longitudeOrigin;
+    private String latitudeDestination;
+    private String longitudeDestination;
 
     public Ride() {
     }
@@ -64,12 +67,44 @@ public class Ride implements Serializable {
         this.destiny = destiny;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getLatitudeOrigin() {
+        return latitudeOrigin;
+    }
+
+    public void setLatitudeOrigin(String latitudeOrigin) {
+        this.latitudeOrigin = latitudeOrigin;
+    }
+
+    public String getLongitudeOrigin() {
+        return longitudeOrigin;
+    }
+
+    public void setLongitudeOrigin(String longitudeOrigin) {
+        this.longitudeOrigin = longitudeOrigin;
+    }
+
+    public String getLatitudeDestination() {
+        return latitudeDestination;
+    }
+
+    public void setLatitudeDestination(String latitudeDestination) {
+        this.latitudeDestination = latitudeDestination;
+    }
+
+    public String getLongitudeDestination() {
+        return longitudeDestination;
+    }
+
+    public void setLongitudeDestination(String longitudeDestination) {
+        this.longitudeDestination = longitudeDestination;
     }
 
     public String getDepartureTime() {
@@ -94,6 +129,11 @@ public class Ride implements Serializable {
 
     public void setRoute(Route route) {
         this.route = route;
+    }
+
+    @Override
+    public String toString() {
+        return "Ride{" + "id=" + id + ", origin=" + origin + ", destiny=" + destiny + ", date=" + date + ", departureTime=" + departureTime + ", oil=" + oil + ", route=" + route + '}';
     }
 
 }
