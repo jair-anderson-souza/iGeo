@@ -1,13 +1,41 @@
 var app = angular.module("app");
 
-app.config(function ($routeProvider) {
-    $routeProvider.when("/dashboard", {
-        templateUrl: "dashboard.html"
-    }).when("/login", {
-        templateUrl: "login.html",
-        controller: "loginController"
-    }).when("/register", {
-        templateUrl: "/register.html",
-        controller: "registerController"
-    });
+app.config(function ($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise("/");
+    $stateProvider
+            .state("/", {
+                cache: false,
+                url: "/",
+                views: {
+                    "header": {
+                        templateUrl: "dashboard.html"
+                    }
+                }
+            })
+            .state("/login", {
+                cache: false,
+                url: "/login",
+                views: {
+                    "header": {
+                        templateUrl: "dashboard.html"
+                    },
+                    "content": {
+                        templateUrl: "login.html",
+                        controller: "loginController"
+                    }
+                }
+            })
+            .state("/register", {
+                cache: false,
+                url: "/register",
+                views: {
+                    "header": {
+                        templateUrl: "dashboard.html"
+                    },
+                    "content": {
+                        templateUrl: "register.html",
+                        controller: "registerController"
+                    }
+                }
+            });
 });

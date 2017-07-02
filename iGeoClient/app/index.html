@@ -5,20 +5,22 @@
         <base href="/">
         <meta name="viewport"  content="initial-scale=1.0">
         <meta charset="utf-8">
+        
         <script src="assets/lib/angular/angular.min.js"></script>
-        <script src="assets/lib/angular-route/angular-route.min.js"></script>
+        <script src="assets/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
         <!-- Main App -->
         <script src="app.js"></script>
 
-        <!-- Routes -->
         <script src="routes/app-route.js"></script>
+        <script src="controllers/loginController.js"></script>
+        <!-- Routes
 
         <script src="services/userService.js"></script>
-
-        <script src="controllers/loginController.js"></script>
         <script src="controllers/registerController.js"></script>
         <script src="controllers/caronaController.js"></script>
+        
         <script src="config/apiConfig.js"></script>
+         -->
         <link rel="stylesheet" href="assets/lib/bootstrap/dist/css/bootstrap.min.css">
         <script src="assets/lib/jquery/dist/jquery.min.js"></script>
         <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -40,19 +42,22 @@
 
         </style>
     </head>
-    <body>
+    <body ng-controller="ctrl">
+
+        <div ui-view="header"></div>
+        <div ui-view="content"></div>
+        <div ui-view="footer"></div>
+<!--
         <nav class="nav navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <a href="" class="navbar-brand">iGeo</a>
                 </div>
                 <ul class="nav navbar-nav">
-                    <li><a href="#!/login">Login</a></li>
+                    <li><a href="" ng-click="ir()">Login</a></li>
                     <li><a href="#!/register">Cadstre-se</a></li>
                 </ul>
             </div>
-        </nav>
-        <div ng-view=""></div>
-
+        </nav>-->
     </body>
 </html>
