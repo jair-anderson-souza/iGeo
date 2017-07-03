@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html ng-app="app">
+<!--<!DOCTYPE html>
+<html>
     <head>
         <title>Welcome</title>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-        <script src="assets/lib/angular/angular.min.js"></script>
-        <link rel="stylesheet" href="assets/lib/bootstrap/dist/css/bootstrap.min.css">
-        <script src="assets/lib/jquery/dist/jquery.min.js"></script>
-        <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="assets/lib/angular-route/angular-route.min.js"></script>
-        <script src="assets/lib/angular-locale-pt-br/angular-locale_pt-br.js"></script>
-        <script src="app.js"></script>
-        <script src="routes/app-route.js"></script>
-
+        <meta name="viewport"  content="initial-scale=1.0">
+        <meta charset="utf-8">
+        
         <meta charset="utf-8">
         <style>
             body, html{
@@ -23,10 +17,13 @@
                 height: 100%;
             }   
         </style>
-        <script type="text/javascript">
-            var app = angular.module("app", []);
-            app.controller("caronaController", function ($scope, $http) {
 
+
+
+        <script type="text/javascript">
+            var app = angular.module("asspp", []);
+            app.controller("caronaController", function ($scope, $http) {
+                console.log("sd");
 
                 //dados da inicialização do mapa
                 var initalizeMap = {
@@ -104,45 +101,49 @@
             });
         </script>
     </head>
-    <body ng-controller="caronaController">
-        <div class="container col-sm-4">
-            <div class="page-header">
+    <body>
+-->
+<div class="container col-sm-4">
+    <div class="page-header">
 
-                <form>
-                    <div class="form-group">
-                        <label>De onde você vai sair?</label>
-                        <input class="form-control" type="text" ng-model="ride.origin" id="start">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Para onde você vai?</label>
-                        <input class="form-control" type="text" id="end" ng-model="ride.destiny">
-                    </div>
-                    <button class="btn btn-default" id="find">Buscar Rota</button>
-                    <br/>
-                    <br/>
-                    <div class="form-group">
-                        <label>Data de Viagem</label>
-                        <input class="form-control" type="text" name="origem" ng-model="ride.date">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Hora de Saída</label>
-                        <input class="form-control" type="text" name="origem" ng-model="ride.departureTime" class="hour">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Ajuda de Custo</label>
-                        <input class="form-control" ng-model="ride.oil" type="text" name="origem">
-                    </div>
-                    <br/>
-                    <button class="btn btn-success" ng-click="salvar()">Salvar Carona</button>
-                </form>
+        <form>
+            <div class="form-group">
+                <label>De onde você vai sair?</label>
+                <input class="form-control" type="text" ng-model="ride.origin" id="start">
             </div>
-        </div>
-        <div class="col-sm-2"></div>
-        <div id="map" class="col-sm-4"></div>
 
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFQnphaheCtrkO0LZGvozgTmLEajc7NJg"></script>
-    </body>
-</html>
+            <div class="form-group">
+                <label>Para onde você vai?</label>
+                <input class="form-control" type="text" id="end" ng-model="ride.destiny">
+            </div>
+            <button class="btn btn-default" id="find">Buscar Rota</button>
+            <br/>
+            <br/>
+            <div class="form-group">
+                <label>Data de Viagem</label>
+                <input class="form-control" type="text" name="origem" ng-model="ride.date">
+            </div>
+
+            <div class="form-group">
+                <label>Hora de Saída</label>
+                <input class="form-control" type="text" name="origem" ng-model="ride.departureTime" class="hour">
+            </div>
+
+            <div class="form-group">
+                <label>Ajuda de Custo</label>
+                <input class="form-control" ng-model="ride.oil" type="text" name="origem">
+            </div>
+            <br/>
+            <button class="btn btn-success" ng-click="salvar(ride)">Salvar Carona</button>
+        </form>
+    </div>
+</div>
+<div class="col-sm-2" id="map">
+    
+</div>
+
+<!--        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmmEch_9VmTUy7RMikSa0mGk9mqZGwh2M">
+    </script>
+<!--
+</body>
+</html>-->

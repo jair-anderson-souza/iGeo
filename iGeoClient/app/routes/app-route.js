@@ -25,6 +25,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                     }
                 }
             })
+            .state("/home", {
+                cache : false,
+                url : "/home",
+                views : {
+                    "content" : {
+                        templateUrl : "home.html",
+                        controller : "caronaController"
+                    }
+                }
+            })
             .state("/register", {
                 cache: false,
                 url: "/register",
@@ -39,3 +49,4 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 }
             });
 });
+

@@ -5,9 +5,7 @@
  */
 package io.github.jass2125.igeo.core.dao;
 
-import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
-import io.github.jass2125.igeo.core.entity.UserPrincipal_;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
@@ -16,9 +14,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Root;
 
 /**
@@ -69,6 +64,22 @@ public class UserPrincipalDao {
             return userPrincipal;
         } catch (Exception e) {
             throw new EntityException("Erro ao salvar entidade");
+        }
+    }
+
+    public UserPrincipal searchById(Long id) throws EntityException {
+        try {
+            return em.find(UserPrincipal.class, id);
+        } catch (Exception e) {
+            throw new EntityException("Erro ao buscar entidade");
+        }
+    }
+
+    public void updateUserPrincipal(UserPrincipal userPrincipal) throws EntityException {
+        try {
+            em.merge(userPrincipal);
+        } catch (Exception e) {
+            throw new EntityException("Não foi possível atualizar UserPrincipal");
         }
     }
 }

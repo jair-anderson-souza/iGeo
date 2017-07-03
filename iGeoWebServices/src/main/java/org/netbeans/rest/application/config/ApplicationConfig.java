@@ -5,7 +5,9 @@
  */
 package org.netbeans.rest.application.config;
 
+import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import java.util.Set;
+import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 /**
@@ -13,7 +15,7 @@ import javax.ws.rs.core.Application;
  * @author <a href="mailto:jair_anderson_bs@hotmail.com">Anderson Souza</a>
  * @since Jun 24, 2017 2:18:00 PM
  */
-@javax.ws.rs.ApplicationPath("webresources")
+@ApplicationPath("webresources")
 public class ApplicationConfig extends Application {
 
     @Override

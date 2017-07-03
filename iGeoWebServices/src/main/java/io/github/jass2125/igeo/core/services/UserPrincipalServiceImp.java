@@ -6,7 +6,9 @@
 package io.github.jass2125.igeo.core.services;
 
 import io.github.jass2125.igeo.core.dao.UserPrincipalDao;
+import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
+import io.github.jass2125.igeo.core.exceptions.EntityException;
 import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
 import io.github.jass2125.igeo.core.vo.LoginVO;
 import javax.ejb.EJB;
@@ -43,4 +45,23 @@ public class UserPrincipalServiceImp implements UserPrincipalService {
         }
     }
 
+    @Override
+    public UserPrincipal searchUserPrincipalById(Long id) {
+        try {
+            return dao.searchById(id);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public void addRide(Long id, Ride ride) throws Exception {
+        try {
+            UserPrincipal userPrincipal = searchUserPrincipalById(id);
+            userPrincipal.addRide(ride);
+            dao.updateUserPrincipal(userPrincipal);
+        } catch (EntityException ex) {
+            throw new Exception("Não foi possível salvar a rota no usuário selecionado!");
+        }
+    }
 }

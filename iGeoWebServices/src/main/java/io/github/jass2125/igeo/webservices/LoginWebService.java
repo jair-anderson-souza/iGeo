@@ -18,8 +18,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import static javax.ws.rs.core.Response.status;
 
 /**
  *
@@ -48,6 +46,7 @@ public class LoginWebService {
             jsonWebToken = new JsonWebToken(user.getEmail());
             String encodeResponse = jsonWebToken.encodeResponse(user.getName(), new Gson().toJson(user));
             sessionRedis.createKey(jsonWebToken.getToken(), user.getId().toString());
+            System.out.println(encodeResponse);
             return Response.
                     ok(encodeResponse, MediaType.TEXT_PLAIN).
                     header("User", getNameClass(user.getClass().getTypeName())).
