@@ -1,149 +1,38 @@
-<!--<!DOCTYPE html>
-<html>
-    <head>
-        <title>Welcome</title>
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-        <meta name="viewport"  content="initial-scale=1.0">
-        <meta charset="utf-8">
-        
-        <meta charset="utf-8">
-        <style>
-            body, html{
-                height: 100%;
-                padding: 0;
-                margin: 0;
-            }
-            #map{
-                height: 100%;
-            }   
-        </style>
 
+        <div class="container col-sm-4">
+            <div class="page-header">
+                <map-canvas id="map" style="height: 180px; width: 100%;"></map-canvas>
+                <form>
+                    <div class="form-group">
+                        <label>De onde você vai sair?</label>
+                        <input class="form-control" type="text" ng-model="ride.origin" id="start">
+                    </div>
 
+                    <div class="form-group">
+                        <label>Para onde você vai?</label>
+                        <input class="form-control" type="text" id="end" ng-model="ride.destiny">
+                    </div>
+                    <button class="btn btn-default" ng-click="addResource()">Buscar Rota</button>
+                    <br/>
+                    <br/>
+                    <div class="form-group">
+                        <label>Data de Viagem</label>
+                        <input class="form-control" type="text" name="origem" ng-model="ride.date">
+                    </div>
 
-        <script type="text/javascript">
-            var app = angular.module("asspp", []);
-            app.controller("caronaController", function ($scope, $http) {
-                console.log("sd");
+                    <div class="form-group">
+                        <label>Hora de Saída</label>
+                        <input class="form-control" type="text" name="origem" ng-model="ride.departureTime" class="hour">
+                    </div>
 
-                //dados da inicialização do mapa
-                var initalizeMap = {
-                    zoom: 15,
-                    center: {lat: 41.85, lng: -87.65}
-                };
-                $scope.map = new google.maps.Map(document.getElementById("map"), initalizeMap);
-                var marker = {};
-                var infoWindow = new google.maps.InfoWindow({map: $scope.map});
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                        var pos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        };
-                        infoWindow.setPosition(pos);
-                        $scope.map.setCenter(pos);
-                        createMarker(pos);
-                    });
-                }
-
-
-                function createMarker(pos) {
-                    marker = new google.maps.Marker({
-                        position: pos,
-                        animation: google.maps.Animation.DROP,
-                        draggable: true,
-                        map: $scope.map
-                    });
-                    console.log(marker);
-                    $scope.ride.latitudeOrigin = pos.lat;
-                    $scope.ride.longitudeOrigin = pos.lng;
-                }
-                ;
-                var directionService = new google.maps.DirectionsService;
-                var directionDisplay = new google.maps.DirectionsRenderer;
-                directionDisplay.setMap($scope.map);
-                var createDirection = function () {
-                    directionService.route({
-                        origin: document.getElementById("start").value,
-                        destination: document.getElementById("end").value,
-                        travelMode: "DRIVING",
-                    }, function (response, status) {
-                        if (status === "OK") {
-                            console.log(response);
-                            directionDisplay.setDirections(response);
-                            console.log(directionsDisplay);
-                        } else {
-                            map.setCenter(initalizeMap);
-                        }
-                    }
-                    );
-                };
-                document.getElementById("start").addEventListener("change", createDirection);
-                document.getElementById("end").addEventListener("change", createDirection);
-                $scope.userprincipal = {};
-                $scope.userprincipal.rides = $scope.ride;
-                $scope.salvar = function () {
-                    console.log($scope.ride.origin);
-                    console.log($scope.ride.destiny);
-                    $http.put("http://localhost:8080/iGeoWebServices/webresources/ride", $scope.userprincipal).
-                            then(function (response) {
-                                delete $scope.ride;
-                                console.log("Deu certo");
-                            }), function (response) {
-                        console.log("Não deu certo");
-                    };
-                };
-//            /*
-//             var marker2 = {};
-//             
-//             //Pegando a geolocalização
-//             */
-//            };
-            });
-        </script>
-    </head>
-    <body>
--->
-<div class="container col-sm-4">
-    <div class="page-header">
-
-        <form>
-            <div class="form-group">
-                <label>De onde você vai sair?</label>
-                <input class="form-control" type="text" ng-model="ride.origin" id="start">
+                    <div class="form-group">
+                        <label>Ajuda de Custo</label>
+                        <input class="form-control" ng-model="ride.oil" type="text" name="origem">
+                    </div>
+                    <br/>
+                    <button class="btn btn-success" ng-click="salvar(ride)">Salvar Carona</button>
+                </form>
             </div>
-
-            <div class="form-group">
-                <label>Para onde você vai?</label>
-                <input class="form-control" type="text" id="end" ng-model="ride.destiny">
-            </div>
-            <button class="btn btn-default" id="find">Buscar Rota</button>
-            <br/>
-            <br/>
-            <div class="form-group">
-                <label>Data de Viagem</label>
-                <input class="form-control" type="text" name="origem" ng-model="ride.date">
-            </div>
-
-            <div class="form-group">
-                <label>Hora de Saída</label>
-                <input class="form-control" type="text" name="origem" ng-model="ride.departureTime" class="hour">
-            </div>
-
-            <div class="form-group">
-                <label>Ajuda de Custo</label>
-                <input class="form-control" ng-model="ride.oil" type="text" name="origem">
-            </div>
-            <br/>
-            <button class="btn btn-success" ng-click="salvar(ride)">Salvar Carona</button>
-        </form>
-    </div>
-</div>
-<div class="col-sm-2" id="map">
-    
-</div>
-
-<!--        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmmEch_9VmTUy7RMikSa0mGk9mqZGwh2M">
-    </script>
-<!--
-</body>
-</html>-->
+        </div>
+        <br/>
+        <div id="map"></div>

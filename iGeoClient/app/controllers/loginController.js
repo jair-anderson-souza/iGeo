@@ -8,7 +8,7 @@ app.controller("loginController", function ($scope, userServiceAPI, $rootScope, 
         	console.log("Ctrl : " +$rootScope.token);
         	$location.path("/home");
         }), function (response) {
-        	$location.path("/index");
+        	$location.path("/");
             console.log("Não deu certo");
         /*
         */

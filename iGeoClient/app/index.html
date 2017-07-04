@@ -5,15 +5,16 @@
         <base href="/">
         <meta name="viewport"  content="initial-scale=1.0">
         <meta charset="utf-8">
-
+        
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmmEch_9VmTUy7RMikSa0mGk9mqZGwh2M">
         </script>
+            
         <script src="assets/lib/angular/angular.min.js"></script>
         <script src="assets/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
-        
+
         <!-- Main App -->
         <script src="app.js"></script>
-        
+
         <script src="controllers/loginController.js"></script>
         <script src="controllers/registerController.js"></script>
         <script src="controllers/caronaController.js"></script>
@@ -21,7 +22,7 @@
         <script src="routes/app-route.js"></script>
         <script src="config/apiConfig.js"></script>
 
-        
+
         <script src="services/userServiceAPI.js"></script>
         <script src="services/rideServiceAPI.js"></script>
         <!-- Routes
@@ -34,6 +35,7 @@
         <!--
         <script src="services/myInterceptor.js"></script>
         -->
+        
         <style type="text/css">
             .nav{
                 background: #2d2d30;
@@ -54,18 +56,11 @@
         <div ui-view="header"></div>
         <div ui-view="content"></div>
         <div ui-view="footer"></div>
-        <!--
-                <nav class="nav navbar-default">
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-                            <a href="" class="navbar-brand">iGeo</a>
-                        </div>
-                        <ul class="nav navbar-nav">
-                            <li><a href="" ng-click="ir()">Login</a></li>
-                            <li><a href="#!/register">Cadstre-se</a></li>
-                        </ul>
-                    </div>
-                </nav>-->
+
+        <div id="map"></div>
+
+        
+
     </body>
 
-        </html>
+</html>

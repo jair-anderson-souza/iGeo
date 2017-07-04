@@ -10,6 +10,7 @@ import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
+import io.github.jass2125.igeo.core.util.PasswordEncriptor;
 import io.github.jass2125.igeo.core.vo.LoginVO;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
@@ -26,11 +27,18 @@ public class UserPrincipalServiceImp implements UserPrincipalService {
 
     @EJB
     private UserPrincipalDao dao;
+    private PasswordEncriptor encriptor;
+
+    public UserPrincipalServiceImp() {
+        this.encriptor = new PasswordEncriptor();
+    }
 
     @Override
     public UserPrincipal login(LoginVO loginVO) throws Exception {
         try {
-            return dao.login(loginVO.getEmail(), loginVO.getPassword());
+            String encryptPassword = encriptor.encryptPassword(loginVO.getPassword());
+            UserPrincipal user = dao.login(loginVO.getEmail(), encryptPassword);
+            return user;
         } catch (Exception e) {
             throw new Exception("Ocorreu um erro");
         }
