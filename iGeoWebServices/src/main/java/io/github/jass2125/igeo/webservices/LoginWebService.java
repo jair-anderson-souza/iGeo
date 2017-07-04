@@ -7,10 +7,10 @@ package io.github.jass2125.igeo.webservices;
 
 import com.google.gson.Gson;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
+import io.github.jass2125.igeo.core.exceptions.ApplicationException;
 import io.github.jass2125.igeo.core.services.JsonWebToken;
 import io.github.jass2125.igeo.core.services.SessionRedis;
 import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
-import io.github.jass2125.igeo.core.util.PasswordEncriptor;
 import io.github.jass2125.igeo.core.vo.LoginVO;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -47,13 +47,18 @@ public class LoginWebService {
             jsonWebToken = new JsonWebToken(user.getEmail());
             String encodeResponse = jsonWebToken.encodeResponse(user.getName(), new Gson().toJson(user));
             sessionRedis.createKey(jsonWebToken.getToken(), user.getId().toString());
-            System.out.println(encodeResponse);
             return Response.
                     ok(encodeResponse, MediaType.TEXT_PLAIN).
                     header("User", getNameClass(user.getClass().getTypeName())).
                     header("SigningKey", jsonWebToken.getToken())
                     .build();
-        } catch (Exception ex) {
+        } catch (ApplicationException e) {
+            System.out.println("Erro: " + e.getMessage());
+            return Response.
+                    status(Response.Status.NOT_FOUND).
+                    build();
+        } catch (Exception e) {
+            System.out.println("Erro :" + e.getMessage());
             return Response.
                     status(Response.Status.NOT_FOUND).
                     build();

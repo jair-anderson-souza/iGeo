@@ -8,6 +8,9 @@ package io.github.jass2125.igeo.core.services;
 import io.github.jass2125.igeo.core.dao.UserPrincipalDao;
 import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
+import io.github.jass2125.igeo.core.exceptions.ApplicationException;
+import io.github.jass2125.igeo.core.exceptions.CryptographyException;
+import io.github.jass2125.igeo.core.exceptions.EncodingException;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
 import io.github.jass2125.igeo.core.util.PasswordEncriptor;
@@ -34,13 +37,15 @@ public class UserPrincipalServiceImp implements UserPrincipalService {
     }
 
     @Override
-    public UserPrincipal login(LoginVO loginVO) throws Exception {
+    public UserPrincipal login(LoginVO loginVO) throws ApplicationException {
         try {
             String encryptPassword = encriptor.encryptPassword(loginVO.getPassword());
-            UserPrincipal user = dao.login(loginVO.getEmail(), encryptPassword);
-            return user;
-        } catch (Exception e) {
-            throw new Exception("Ocorreu um erro");
+            return dao.login(loginVO.getEmail(), encryptPassword);
+        } catch (EncodingException | CryptographyException e) {
+            throw new ApplicationException(e, e.getMessage());
+        } catch (EntityException e) {
+            e.printStackTrace();
+            throw new ApplicationException(e, e.getMessage());
         }
     }
 
@@ -54,22 +59,24 @@ public class UserPrincipalServiceImp implements UserPrincipalService {
     }
 
     @Override
-    public UserPrincipal searchUserPrincipalById(Long id) {
+    public UserPrincipal searchUserPrincipalById(Long id) throws ApplicationException {
         try {
             return dao.searchById(id);
-        } catch (Exception e) {
-            return null;
+        } catch (EntityException e) {
+            throw new ApplicationException(e, e.getMessage());
         }
     }
 
     @Override
-    public void addRide(Long id, Ride ride) throws Exception {
+    public void addRide(Long id, Ride ride) throws ApplicationException {
         try {
             UserPrincipal userPrincipal = searchUserPrincipalById(id);
-            userPrincipal.addRide(ride);
-            dao.updateUserPrincipal(userPrincipal);
-        } catch (EntityException ex) {
-            throw new Exception("Não foi possível salvar a rota no usuário selecionado!");
+            if (userPrincipal != null) {
+                userPrincipal.addRide(ride);
+                dao.update(userPrincipal);
+            }
+        } catch (ApplicationException | EntityException e) {
+            throw new ApplicationException(e, e.getMessage());
         }
     }
 }

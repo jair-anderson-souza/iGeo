@@ -18,7 +18,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -84,7 +83,7 @@ public class UserPrincipal implements Serializable {
 
     public void addRide(Ride ride) throws EntityException {
         if (containsEntity(ride)) {
-            throw new EntityException("Duplicated Entity");
+            throw new EntityException("Entidade já existe");
         }
         this.rides.add(ride);
     }

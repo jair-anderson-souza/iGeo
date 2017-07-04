@@ -8,15 +8,11 @@ package io.github.jass2125.igeo.core.exceptions;
 /**
  *
  * @author <a href="mailto:jair_anderson_bs@hotmail.com">Anderson Souza</a>
- * @since Jun 23, 2017 11:58:48 PM
+ * @since Jul 4, 2017 4:39:58 PM
  */
-public class EntityException extends Exception {
+public class ApplicationException extends Exception {
 
-    public EntityException(Exception e, String msg) {
+    public ApplicationException(Exception e, String message) {
     }
-
-    public EntityException(String msg) {
-    }
-
 
 }

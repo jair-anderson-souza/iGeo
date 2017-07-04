@@ -6,7 +6,6 @@
 package io.github.jass2125.igeo.core.dao;
 
 import io.github.jass2125.igeo.core.entity.Ride;
-import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
@@ -42,7 +41,8 @@ public class RideDao {
             em.persist(ride);
             return ride;
         } catch (Exception e) {
-            throw new EntityException("Erro ao salvar entidade");
+            throw new EntityException(e, "Erro ao salvar entidade Ride");
         }
     }
+
 }

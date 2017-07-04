@@ -7,6 +7,7 @@ package io.github.jass2125.igeo.core.services.client;
 
 import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
+import io.github.jass2125.igeo.core.exceptions.ApplicationException;
 import io.github.jass2125.igeo.core.vo.LoginVO;
 
 /**
@@ -16,12 +17,12 @@ import io.github.jass2125.igeo.core.vo.LoginVO;
  */
 public interface UserPrincipalService {
 
-    public UserPrincipal login(LoginVO loginVO) throws Exception;
+    public UserPrincipal login(LoginVO loginVO) throws ApplicationException;
 
-    public UserPrincipal register(UserPrincipal userPrincipal);
+    public UserPrincipal register(UserPrincipal userPrincipal) throws ApplicationException;
 
-    public UserPrincipal searchUserPrincipalById(Long id);
+    public UserPrincipal searchUserPrincipalById(Long id) throws ApplicationException;
 
-    public void addRide(Long id, Ride ride) throws Exception;
+    public void addRide(Long id, Ride ride) throws ApplicationException;
 
 }

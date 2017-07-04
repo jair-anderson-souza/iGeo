@@ -8,9 +8,11 @@ package io.github.jass2125.igeo.core.dao;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -37,7 +39,14 @@ public class UserPrincipalDao {
         this.root = query.from(UserPrincipal.class);
     }
 
-    public UserPrincipal login(String email, String password) throws Exception {
+    @PreDestroy
+    public void onDestroy() {
+        this.criteriaBuilder = null;
+        this.query = null;
+        this.root = null;
+    }
+
+    public UserPrincipal login(String email, String password) throws EntityException {
         try {
 //            Join<UserPrincipal, Ride> join = root.join(UserPrincipal_.rides, JoinType.LEFT);
 //            join.on(criteriaBuilder.
@@ -47,14 +56,14 @@ public class UserPrincipalDao {
 //            return em.createQuery(query).getSingleResult();
 //            CriteriaQuery<UserPrincipal> query = query.
 //                    select(root);
-            return (UserPrincipal) em.createQuery("SELECT U FROM UserPrincipal U LEFT JOIN FETCH U.rides WHERE U.email = :email AND U.password = :password")
-                    .setParameter("email", email)
+            return (UserPrincipal) em.createQuery("SELECT U FROM UserPrincipal U LEFT JOIN FETCH U.rides WHERE LOWER(U.email) = :email AND U.password = :password")
+                    .setParameter("email", email.toLowerCase())
                     .setParameter("password", password)
                     .getSingleResult();
-        } catch (NoResultException e) {
-            //mudar pra exceção filha de Exception
-            throw new Exception("Os dados esão inválidos!");
-
+        } catch (NoResultException | NonUniqueResultException e) {
+            throw new EntityException(e, "Verifique os dados e tente novamente!");
+        } catch (Exception e) {
+            throw new EntityException(e, "Ocorreu um erro inesperado!");
         }
     }
 
@@ -63,7 +72,7 @@ public class UserPrincipalDao {
             em.persist(userPrincipal);
             return userPrincipal;
         } catch (Exception e) {
-            throw new EntityException("Erro ao salvar entidade");
+            throw new EntityException(e, "Erro ao salvar entidade");
         }
     }
 
@@ -71,15 +80,15 @@ public class UserPrincipalDao {
         try {
             return em.find(UserPrincipal.class, id);
         } catch (Exception e) {
-            throw new EntityException("Erro ao buscar entidade");
+            throw new EntityException(e, "Erro ao buscar entidade");
         }
     }
 
-    public void updateUserPrincipal(UserPrincipal userPrincipal) throws EntityException {
+    public UserPrincipal update(UserPrincipal userPrincipal) throws EntityException {
         try {
-            em.merge(userPrincipal);
+            return em.merge(userPrincipal);
         } catch (Exception e) {
-            throw new EntityException("Não foi possível atualizar UserPrincipal");
+            throw new EntityException(e, "Não foi possível atualizar UserPrincipal");
         }
     }
 }
