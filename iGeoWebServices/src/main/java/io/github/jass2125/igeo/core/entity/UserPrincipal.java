@@ -5,6 +5,7 @@
  */
 package io.github.jass2125.igeo.core.entity;
 
+import io.github.jass2125.igeo.core.entity.enums.Status;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,9 +42,10 @@ public class UserPrincipal implements Serializable {
     private String birthday;
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Status profileStatus;
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
     @JoinColumn(name = "userprincipal_id", referencedColumnName = "id")
-
     private List<Ride> rides;
 
     public UserPrincipal() {
@@ -112,6 +116,14 @@ public class UserPrincipal implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Status getProfileStatus() {
+        return profileStatus;
+    }
+
+    public void setProfileStatus(Status profileStatus) {
+        this.profileStatus = profileStatus;
     }
 
     @Override

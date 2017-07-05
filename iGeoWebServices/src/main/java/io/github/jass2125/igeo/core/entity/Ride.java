@@ -36,9 +36,9 @@ public class Ride implements Serializable {
     private BigDecimal oil;
     private String distance;
     private String arrivalTime;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
     private Route routeOrigin;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
     private Route routeDestiny;
 
     public Ride() {
