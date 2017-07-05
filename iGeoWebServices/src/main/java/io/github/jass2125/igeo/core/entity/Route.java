@@ -6,6 +6,7 @@
 package io.github.jass2125.igeo.core.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,8 +25,10 @@ public class Route implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "route_seq")
     private Long id;
-    private String distance;
-    private String arrivalTime;
+    private String latitudeOrigin;
+    private String longitudeOrigin;
+    private String latitudeDestination;
+    private String longitudeDestination;
 
     public Route() {
     }
@@ -38,20 +41,63 @@ public class Route implements Serializable {
         this.id = id;
     }
 
-    public String getDistance() {
-        return distance;
+    public String getLatitudeOrigin() {
+        return latitudeOrigin;
     }
 
-    public void setDistance(String distance) {
-        this.distance = distance;
+    public void setLatitudeOrigin(String latitudeOrigin) {
+        this.latitudeOrigin = latitudeOrigin;
     }
 
-    public String getArrivalTime() {
-        return arrivalTime;
+    public String getLongitudeOrigin() {
+        return longitudeOrigin;
     }
 
-    public void setArrivalTime(String arrivalTime) {
-        this.arrivalTime = arrivalTime;
+    public void setLongitudeOrigin(String longitudeOrigin) {
+        this.longitudeOrigin = longitudeOrigin;
+    }
+
+    public String getLatitudeDestination() {
+        return latitudeDestination;
+    }
+
+    public void setLatitudeDestination(String latitudeDestination) {
+        this.latitudeDestination = latitudeDestination;
+    }
+
+    public String getLongitudeDestination() {
+        return longitudeDestination;
+    }
+
+    public void setLongitudeDestination(String longitudeDestination) {
+        this.longitudeDestination = longitudeDestination;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 61 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Route other = (Route) obj;
+        return Objects.equals(this.id, other.id);
+    }
+
+    @Override
+    public String toString() {
+        return "Route{" + "id=" + id + ", latitudeOrigin=" + latitudeOrigin + ", longitudeOrigin=" + longitudeOrigin + ", latitudeDestination=" + latitudeDestination + ", longitudeDestination=" + longitudeDestination + '}';
     }
 
 }

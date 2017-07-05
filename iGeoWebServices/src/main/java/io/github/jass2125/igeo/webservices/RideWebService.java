@@ -7,15 +7,18 @@ package io.github.jass2125.igeo.webservices;
 
 import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.exceptions.ApplicationException;
+import io.github.jass2125.igeo.core.services.client.RideService;
 import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 /**
  *
@@ -28,13 +31,28 @@ import javax.ws.rs.core.Response;
 public class RideWebService {
 
     @EJB
-    private UserPrincipalService userPrincipalService;
+    private RideService rideService;
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteRide(@PathParam("id") Long id) {
+        try {
+            Ride ride = this.rideService.delete(id);
+            return Response
+                    .ok(ride, MediaType.APPLICATION_JSON)
+                    .build();
+        } catch (ApplicationException e) {
+            System.out.println("Erro: " + e.getMessage());
+            return Response.
+                    status(Status.NOT_FOUND).
+                    build();
+        }
+    }
 
     @POST
-    @Path("/{id}")
-    public Response registerRide(@PathParam("id") Long id, Ride ride) {
+    public Response registerRide(Ride ride) {
         try {
-            userPrincipalService.addRide(id, ride);
+            rideService.register(ride);
             //lembrar de colocar a resposta, ver o filtro do token
             return Response
                     .ok(ride, MediaType.APPLICATION_JSON)
@@ -52,4 +70,5 @@ public class RideWebService {
                     build();
         }
     }
+
 }

@@ -16,6 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
@@ -39,6 +40,8 @@ public class UserPrincipal implements Serializable {
     private String email;
     private String password;
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "userprincipal_id", referencedColumnName = "id")
+
     private List<Ride> rides;
 
     public UserPrincipal() {

@@ -59,14 +59,4 @@ public class PasswordEncriptor {
         }
     }
 
-    public static void main(String[] args) throws CryptographyException {
-        try {
-            PasswordEncriptor en = new PasswordEncriptor();
-            System.out.println(en.encryptPassword("jair"));
-            boolean comparatePassword = en.comparatePassword("C3279B376799B128B9F505AD5126693CD5D13449F5BB126AE9C3010730FA8CAF", "jair");
-            System.out.println(comparatePassword);
-        } catch (EncodingException ex) {
-            Logger.getLogger(PasswordEncriptor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 }

@@ -3,6 +3,8 @@
     <persistence-unit name="pu" transaction-type="JTA">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <jta-data-source>jdbc/igeo</jta-data-source>
+        <class>io.github.jass2125.igeo.core.entity.UserPrincipal</class>
+        <class>io.github.jass2125.igeo.core.entity.Ride</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="eclipselink.ddl-generation" value="create-tables"/>

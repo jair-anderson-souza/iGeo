@@ -7,6 +7,8 @@ package io.github.jass2125.igeo.core.services;
 
 import io.github.jass2125.igeo.core.dao.RideDao;
 import io.github.jass2125.igeo.core.entity.Ride;
+import io.github.jass2125.igeo.core.exceptions.ApplicationException;
+import io.github.jass2125.igeo.core.exceptions.EntityException;
 import io.github.jass2125.igeo.core.services.client.RideService;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
@@ -25,11 +27,22 @@ public class RideServiceImp implements RideService {
     private RideDao dao;
 
     @Override
-    public Ride register(Ride ride) {
+    public Ride register(Ride ride) throws ApplicationException {
         try {
             return dao.save(ride);
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    @Override
+    public Ride delete(Long id) throws ApplicationException {
+        try {
+            return dao.delete(id);
+        } catch (EntityException e) {
+            throw new ApplicationException(e, e.getMessage());
+        } catch (Exception e) {
+            throw new ApplicationException(e, e.getMessage());
         }
     }
 }

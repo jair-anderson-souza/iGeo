@@ -6,12 +6,16 @@
 package io.github.jass2125.igeo.core.dao;
 
 import io.github.jass2125.igeo.core.entity.Ride;
+import io.github.jass2125.igeo.core.entity.Ride_;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
+import java.io.Serializable;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -26,14 +30,27 @@ public class RideDao {
     @PersistenceContext
     private EntityManager em;
     private CriteriaBuilder criteriaBuilder;
-    private CriteriaQuery<Ride> query;
-    private Root<Ride> root;
+    private CriteriaQuery<Ride> criteriaQuery;
+    private CriteriaDelete<Ride> criteriaDelete;
+    private Root<Ride> rootQuery;
+    private Root<Ride> rootDelete;
 
     @PostConstruct
     public void init() {
         this.criteriaBuilder = em.getCriteriaBuilder();
-        this.query = criteriaBuilder.createQuery(Ride.class);
-        this.root = query.from(Ride.class);
+        this.criteriaQuery = criteriaBuilder.createQuery(Ride.class);
+        this.criteriaDelete = criteriaBuilder.createCriteriaDelete(Ride.class);
+        this.rootQuery = criteriaQuery.from(Ride.class);
+        this.rootDelete = criteriaDelete.from(Ride.class);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        this.criteriaBuilder = null;
+        this.criteriaQuery = null;
+        this.criteriaDelete = null;
+        this.rootQuery = null;
+        this.rootDelete = null;
     }
 
     public Ride save(Ride ride) throws EntityException {
@@ -45,4 +62,27 @@ public class RideDao {
         }
     }
 
+    public Ride searchById(Long id) throws EntityException {
+        try {
+            return em.find(Ride.class, id);
+        } catch (Exception e) {
+            throw new EntityException(e, "Não foi possível consultar Ride!!");
+        }
+    }
+
+    public Ride delete(Long id) throws EntityException {
+        try {
+            Ride ride = searchById(id);
+            em.remove(ride);
+//            criteriaDelete.where(criteriaBuilder.equal(rootDelete.get(Ride_.id), id));
+//            int numberOfLines = em.createQuery(criteriaDelete).executeUpdate();
+//            if (numberOfLines <= 0) {
+//                throw new EntityException("Não foi possível excluir a entidade!!");
+//            }
+            return ride;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new EntityException(e, "Ocorreu um erro de sistema!!");
+        }
+    }
 }

@@ -7,6 +7,7 @@ package io.github.jass2125.igeo.core.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,7 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -29,17 +29,17 @@ public class Ride implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ride_seq")
     private Long id;
-    private String origin;
-    private String destiny;
+    private String cityOrigin;
+    private String cityDestiny;
     private String date;
     private String departureTime;
     private BigDecimal oil;
+    private String distance;
+    private String arrivalTime;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    private Route route;
-    private String latitudeOrigin;
-    private String longitudeOrigin;
-    private String latitudeDestination;
-    private String longitudeDestination;
+    private Route routeOrigin;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private Route routeDestiny;
 
     public Ride() {
     }
@@ -52,20 +52,20 @@ public class Ride implements Serializable {
         this.id = id;
     }
 
-    public String getOrigin() {
-        return origin;
+    public String getCityOrigin() {
+        return cityOrigin;
     }
 
-    public void setOrigin(String origin) {
-        this.origin = origin;
+    public void setCityOrigin(String cityOrigin) {
+        this.cityOrigin = cityOrigin;
     }
 
-    public String getDestiny() {
-        return destiny;
+    public String getCityDestiny() {
+        return cityDestiny;
     }
 
-    public void setDestiny(String destiny) {
-        this.destiny = destiny;
+    public void setCityDestiny(String cityDestiny) {
+        this.cityDestiny = cityDestiny;
     }
 
     public String getDate() {
@@ -74,38 +74,6 @@ public class Ride implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public String getLatitudeOrigin() {
-        return latitudeOrigin;
-    }
-
-    public void setLatitudeOrigin(String latitudeOrigin) {
-        this.latitudeOrigin = latitudeOrigin;
-    }
-
-    public String getLongitudeOrigin() {
-        return longitudeOrigin;
-    }
-
-    public void setLongitudeOrigin(String longitudeOrigin) {
-        this.longitudeOrigin = longitudeOrigin;
-    }
-
-    public String getLatitudeDestination() {
-        return latitudeDestination;
-    }
-
-    public void setLatitudeDestination(String latitudeDestination) {
-        this.latitudeDestination = latitudeDestination;
-    }
-
-    public String getLongitudeDestination() {
-        return longitudeDestination;
-    }
-
-    public void setLongitudeDestination(String longitudeDestination) {
-        this.longitudeDestination = longitudeDestination;
     }
 
     public String getDepartureTime() {
@@ -124,17 +92,63 @@ public class Ride implements Serializable {
         this.oil = oil;
     }
 
-    public Route getRoute() {
-        return route;
+    public String getDistance() {
+        return distance;
     }
 
-    public void setRoute(Route route) {
-        this.route = route;
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(String arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public Route getRouteOrigin() {
+        return routeOrigin;
+    }
+
+    public void setRouteOrigin(Route routeOrigin) {
+        this.routeOrigin = routeOrigin;
+    }
+
+    public Route getRouteDestiny() {
+        return routeDestiny;
+    }
+
+    public void setRouteDestiny(Route routeDestiny) {
+        this.routeDestiny = routeDestiny;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Ride other = (Ride) obj;
+        return Objects.equals(this.id, other.id);
     }
 
     @Override
     public String toString() {
-        return "Ride{" + "id=" + id + ", origin=" + origin + ", destiny=" + destiny + ", date=" + date + ", departureTime=" + departureTime + ", oil=" + oil + ", route=" + route + '}';
+        return "Ride{" + "id=" + id + ", cityOrigin=" + cityOrigin + ", cityDestiny=" + cityDestiny + ", date=" + date + ", departureTime=" + departureTime + ", oil=" + oil + ", distance=" + distance + ", arrivalTime=" + arrivalTime + ", routeOrigin=" + routeOrigin + ", routeDestiny=" + routeDestiny + '}';
     }
 
 }
