@@ -8,11 +8,11 @@ package io.github.jass2125.igeo.webservices;
 import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.exceptions.ApplicationException;
 import io.github.jass2125.igeo.core.services.client.RideService;
-import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -49,24 +49,36 @@ public class RideWebService {
         }
     }
 
+    @PUT
+    @Path("{id}")
+    public Response updateRide(Ride ride) {
+        try {
+            Ride rideTemp = this.rideService.updateRide(ride);
+            return Response
+                    .ok(rideTemp, MediaType.APPLICATION_JSON)
+                    .build();
+        } catch (ApplicationException e) {
+            System.out.println("Erro: " + e.getMessage());
+            return Response.
+                    ok(ride).
+                    status(Status.NO_CONTENT).
+                    build();
+        }
+    }
+
     @POST
     public Response registerRide(Ride ride) {
         try {
-            rideService.register(ride);
+            Ride rideTemp = rideService.register(ride);
             //lembrar de colocar a resposta, ver o filtro do token
             return Response
-                    .ok(ride, MediaType.APPLICATION_JSON)
+                    .ok(rideTemp, MediaType.APPLICATION_JSON)
                     .build();
-        } catch (ApplicationException e) {
-            System.out.println(e.getMessage());
-            return Response
-                    .ok(ride, MediaType.APPLICATION_JSON).
-                    build();
-
         } catch (Exception e) {
-            System.out.println("Erro: " + e.getMessage());
-            return Response
-                    .ok(ride, MediaType.APPLICATION_JSON).
+            System.out.println(e.getMessage());
+            return Response.
+                    ok(ride, MediaType.APPLICATION_JSON).
+                    status(Status.NO_CONTENT).
                     build();
         }
     }
