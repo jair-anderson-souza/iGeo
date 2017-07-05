@@ -6,9 +6,7 @@
 package io.github.jass2125.igeo.core.dao;
 
 import io.github.jass2125.igeo.core.entity.Ride;
-import io.github.jass2125.igeo.core.entity.Ride_;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
-import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -70,9 +68,8 @@ public class RideDao {
         }
     }
 
-    public Ride delete(Long id) throws EntityException {
+    public Ride delete(Ride ride) throws EntityException {
         try {
-            Ride ride = searchById(id);
             em.remove(ride);
 //            criteriaDelete.where(criteriaBuilder.equal(rootDelete.get(Ride_.id), id));
 //            int numberOfLines = em.createQuery(criteriaDelete).executeUpdate();
@@ -81,7 +78,14 @@ public class RideDao {
 //            }
             return ride;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new EntityException(e, "Não foi possível excluir a Carona!!");
+        }
+    }
+
+    public Ride update(Ride ride) throws EntityException {
+        try {
+            return em.merge(ride);
+        } catch (Exception e) {
             throw new EntityException(e, "Ocorreu um erro de sistema!!");
         }
     }
