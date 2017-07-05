@@ -5,7 +5,7 @@
  */
 package io.github.jass2125.igeo.core.filter;
 
-import io.github.jass2125.igeo.core.services.SessionRedis;
+import io.github.jass2125.igeo.core.util.SessionRedis;
 import java.io.IOException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;

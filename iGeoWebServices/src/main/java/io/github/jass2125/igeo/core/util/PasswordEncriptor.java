@@ -12,12 +12,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Singleton;
 
 /**
  *
  * @author <a href="mailto:jair_anderson_bs@hotmail.com">Anderson Souza</a>
  * @since Jul 4, 2017 1:10:41 PM
  */
+@Singleton
 public class PasswordEncriptor {
 
     private MessageDigest instance;

@@ -25,4 +25,5 @@ public interface UserPrincipalService {
 
     public void addRide(Long id, Ride ride) throws ApplicationException;
 
+    public UserPrincipal delete(UserPrincipal userPrincipal) throws ApplicationException;
 }

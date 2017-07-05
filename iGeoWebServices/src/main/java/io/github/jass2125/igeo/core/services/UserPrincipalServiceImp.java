@@ -8,6 +8,7 @@ package io.github.jass2125.igeo.core.services;
 import io.github.jass2125.igeo.core.dao.UserPrincipalDao;
 import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
+import io.github.jass2125.igeo.core.entity.enums.Status;
 import io.github.jass2125.igeo.core.exceptions.ApplicationException;
 import io.github.jass2125.igeo.core.exceptions.CryptographyException;
 import io.github.jass2125.igeo.core.exceptions.EncodingException;
@@ -30,10 +31,10 @@ public class UserPrincipalServiceImp implements UserPrincipalService {
 
     @EJB
     private UserPrincipalDao dao;
+    @EJB
     private PasswordEncriptor encriptor;
 
     public UserPrincipalServiceImp() {
-        this.encriptor = new PasswordEncriptor();
     }
 
     @Override
@@ -41,20 +42,38 @@ public class UserPrincipalServiceImp implements UserPrincipalService {
         try {
             String encryptPassword = encriptor.encryptPassword(loginVO.getPassword());
             return dao.login(loginVO.getEmail(), encryptPassword);
-        } catch (EncodingException | CryptographyException e) {
-            throw new ApplicationException(e, e.getMessage());
-        } catch (EntityException e) {
-            e.printStackTrace();
+        } catch (EncodingException | CryptographyException | EntityException e) {
             throw new ApplicationException(e, e.getMessage());
         }
     }
 
     @Override
-    public UserPrincipal register(UserPrincipal userPrincipal) {
+    public UserPrincipal register(UserPrincipal userPrincipal) throws ApplicationException {
         try {
+            UserPrincipal userPrincipalTemp = dao.searchUserPrincipalByEmail(userPrincipal.getEmail());
+            if (userPrincipalTemp != null) {
+                throw new ApplicationException("Email já cadastrado, tente outro");
+            }
+            String passwordEncrypted = encriptor.encryptPassword(userPrincipal.getPassword());
+            userPrincipal.setPassword(passwordEncrypted);
+            userPrincipal.setProfileStatus(Status.ACTIVE);
             return dao.save(userPrincipal);
-        } catch (Exception e) {
+        } catch (EncodingException | CryptographyException | EntityException e) {
+            throw new ApplicationException(e, e.getMessage());
+        }
+    }
+
+    @Override
+    public UserPrincipal delete(UserPrincipal userPrincipal) throws ApplicationException {
+        try {
+            UserPrincipal userPrincipalTemp = dao.searchUserPrincipalByEmail(userPrincipal.getEmail());
+            System.out.println(userPrincipalTemp);
+            String passwordEncrypted = encriptor.encryptPassword(userPrincipal.getPassword());
+            userPrincipal.setPassword(passwordEncrypted);
+//            return dao.save(userPrincipal);
             return null;
+        } catch (Exception e) {
+            throw new ApplicationException(e, e.getMessage());
         }
     }
 

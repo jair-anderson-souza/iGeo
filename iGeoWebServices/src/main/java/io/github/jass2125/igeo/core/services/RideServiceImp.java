@@ -6,7 +6,9 @@
 package io.github.jass2125.igeo.core.services;
 
 import io.github.jass2125.igeo.core.dao.RideDao;
+import io.github.jass2125.igeo.core.dao.RouteDao;
 import io.github.jass2125.igeo.core.entity.Ride;
+import io.github.jass2125.igeo.core.entity.Route;
 import io.github.jass2125.igeo.core.exceptions.ApplicationException;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import io.github.jass2125.igeo.core.services.client.RideService;
@@ -24,23 +26,41 @@ import javax.ejb.Stateless;
 public class RideServiceImp implements RideService {
 
     @EJB
-    private RideDao dao;
+    private RideDao rideDao;
+    @EJB
+    private RouteDao routeDao;
 
     @Override
     public Ride register(Ride ride) throws ApplicationException {
         try {
-            return dao.save(ride);
-        } catch (Exception e) {
-            return null;
+            Route routeOrigin = ride.getRouteOrigin();
+            Route routeDestiny = ride.getRouteDestiny();
+            routeDao.save(routeOrigin);
+            routeDao.save(routeDestiny);
+            return rideDao.save(ride);
+        } catch (EntityException e) {
+            throw new ApplicationException(e, e.getMessage());
         }
     }
 
     @Override
     public Ride delete(Long id) throws ApplicationException {
         try {
-            return dao.delete(id);
-        } catch (EntityException e) {
+            Ride ride = rideDao.searchById(id);
+            return rideDao.delete(ride);
+        } catch (Exception e) {
             throw new ApplicationException(e, e.getMessage());
+        }
+    }
+
+    @Override
+    public Ride updateRide(Ride ride) throws ApplicationException {
+        try {
+            Ride rideTemp = rideDao.searchById(ride.getId());
+            if (rideTemp == null) {
+                throw new ApplicationException("Não existe carona com o id especificado!!");
+            }
+            return rideDao.update(ride);
         } catch (Exception e) {
             throw new ApplicationException(e, e.getMessage());
         }

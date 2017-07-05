@@ -19,4 +19,6 @@ public interface RideService {
 
     public Ride delete(Long id) throws ApplicationException;
 
+    public Ride updateRide(Ride ride) throws ApplicationException;
+
 }

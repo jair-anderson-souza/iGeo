@@ -5,6 +5,7 @@
         <jta-data-source>jdbc/igeo</jta-data-source>
         <class>io.github.jass2125.igeo.core.entity.UserPrincipal</class>
         <class>io.github.jass2125.igeo.core.entity.Ride</class>
+        <class>io.github.jass2125.igeo.core.entity.Route</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="eclipselink.ddl-generation" value="create-tables"/>

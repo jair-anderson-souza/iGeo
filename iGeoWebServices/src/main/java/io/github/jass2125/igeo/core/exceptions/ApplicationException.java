@@ -13,6 +13,11 @@ package io.github.jass2125.igeo.core.exceptions;
 public class ApplicationException extends Exception {
 
     public ApplicationException(Exception e, String message) {
+        super(message, e);
+    }
+
+    public ApplicationException(String msg) {
+        super(msg);
     }
 
 }

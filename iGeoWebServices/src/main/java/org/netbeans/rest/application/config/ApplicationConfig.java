@@ -33,7 +33,6 @@ public class ApplicationConfig extends Application {
         resources.add(io.github.jass2125.igeo.core.filter.CorsFilter.class);
         resources.add(io.github.jass2125.igeo.webservices.LoginWebService.class);
         resources.add(io.github.jass2125.igeo.webservices.RideWebService.class);
-        resources.add(io.github.jass2125.igeo.webservices.RouteWebService.class);
         resources.add(io.github.jass2125.igeo.webservices.UserPrincipalWebService.class);
     }
 

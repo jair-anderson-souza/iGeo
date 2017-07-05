@@ -13,9 +13,11 @@ package io.github.jass2125.igeo.core.exceptions;
 public class EntityException extends Exception {
 
     public EntityException(Exception e, String msg) {
+        super(msg, e);
     }
 
     public EntityException(String msg) {
+        super(msg);
     }
 
 
