@@ -4,41 +4,109 @@
         <br/>
         <br/>
         <form name="formRegister" method="post">
+
+            <div ng-if="formRegister.email.$dirty || formRegister.$submitted" ng-messages="formRegister.email.$error">
+                <div class="alert alert-danger" ng-message="email">
+                    E-mail inválido
+                </div>
+                <!-- Ver pattern para email -->
+                <div class="alert alert-danger" ng-message="required">
+                    Preencha o E-mail
+                </div>
+            </div>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                <input type="text" name="email" class="form-control" ng-model="newUser.email" placeholder="Email">
+                <input type="email" name="email" pattern="" class="form-control" ng-model="newUser.email" required="true" placeholder="Email">
             </div>
 
             <br/>
+            <br/>
 
+            <div ng-if="formRegister.name.$dirty || formRegister.$submitted" ng-messages="formRegister.name.$error">
+                <div class="alert alert-danger" ng-message="required">
+                    Preencha o nome
+                </div>
+            </div>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input class="form-control" type="text" name="name" ng-model="newUser.name" placeholder="Nome Completo">
+                <input class="form-control" type="text" name="name" required="true" ng-model="newUser.name" placeholder="Nome Completo">
             </div>
+
             <br/>
+            <br/>
+
+            <div ng-if="formRegister.birthday.$dirty" ng-messages="formRegister.birthday.$error">
+                <div class="alert alert-danger" ng-message="required">
+                    Preencha a Data de Aniversário
+                </div>
+                <div class="alert alert-danger" ng-message="pattern">
+
+                </div>
+            </div>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
-                <input class="form-control" type="text" name="birthday" ng-model="newUser.birthday" placeholder="Data de Aniversário">
+                <input class="form-control" type="text" name="birthday" required="true" ng-model="newUser.birthday" placeholder="Data de Aniversário">
             </div>
+
             <br/>
+            <br/>
+
+            <div ng-if="formRegister.gender.$dirty" ng-messages="formRegister.gender.$error">
+                <div class="alert alert-danger" ng-message="required">
+                    Selecione um gênero
+                </div>
+            </div>
+            <div class="form-group">
+                <select class="form-control" name="gender" required="true" ng-options="gender for gender in genders" ng-model="newUser.gender">
+                    <option value="">Selecione um gênero</option>
+                </select>
+            </div>
+
+            <br/>
+            <br/>
+
+            <div ng-if="formRegister.password.$dirty || formRegister.password.$submitted" ng-messages="formRegister.password.$error">
+                <div class="alert alert-danger" ng-message="required">
+                    Preencha sua senha
+                </div>
+                <div ng-message="pattern">
+                    Padrão
+                </div>
+            </div>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-"></i></span>
-            <input type="text" class="form-control" name="gender" ng-model="newUser.gender" placeholder="Sexo">
+                <input class="form-control" required="true" type="password" name="password" ng-model="newUser.password" placeholder="Senha">
             </div>
+            
             <br/>
+            <br/>
+
+            <div ng-if="formRegister.phone.$dirty || formRegister.phone.$submitted" ng-messages="formRegister.password.$error">
+                <div class="alert alert-danger" ng-message="required">
+                    Preencha seu telefone
+                </div>
+                <div ng-message="pattern">
+                    Padrão de telefone
+                </div>
+            </div>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-"></i></span>
-                <input class="form-control" type="password" name="password" ng-model="newUser.password" placeholder="Senha">
+                <input type="text" class="form-control" required="true" name="phone" ng-model="newUser.phone" placeholder="Telefone">
             </div>
+
             <br/>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-"></i></span>
-                <input type="text" class="form-control" name="phone" ng-model="newUser.phone" placeholder="Telefone">
+            <br/>
+
+            <div>
+                <div ng-messages="formRegister">
+                    <div class="alert alert-danger" ng-message="$invalid">
+                        Preencha os campos corretamente antes de cadastrar o usuário
+                    </div>
+                </div>
             </div>
-  
-            <br/>
-            <br/>
-            <button class="btn btn-success" type="submit" ng-click="register(newUser);" name="login">Cadastrar</button>
+
+            <button class="btn btn-success" type="submit" ng-click="register(newUser);" ng-disabled="formRegister.$invalid" name="login">Cadastrar</button>
+
         </form>
     </div>
 </div>

@@ -13,6 +13,7 @@
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                 <input type="text" name="email" class="form-control" ng-model="loginVO.email" required="true" placeholder="Email">
             </div>
+            
             <br/>
 
             <div ng-if="formLogin.password.$dirty" ng-messages="formLogin.password.$error">
@@ -20,7 +21,6 @@
                     Preencha este campo
                 </div>
             </div>
-
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                 <input type="password" class="form-control" name="password" ng-model="loginVO.password" required="true" placeholder="Password">
@@ -28,14 +28,18 @@
 
             <br/>
             <br/>
-                        
+
             <button class="btn btn-success" type="submit" ng-click="login(loginVO);" ng-disabled="formLogin.$invalid" name="login">Login</button>
-            
-            <div ng-messages="formLogin.$error" class="alert alert-danger">
-                <div>
-                    Preencha os campos antes de submeter
-                </div>
+
+            <br/>
+            <br/>
+
+            <div ng-if="formLogin.$invalid" class="alert alert-danger">
+                <div>Preencha os campos antes de submeter</div>
             </div>
-        </form>
+
     </div>
+
+</form>
+</div>
 </div>
