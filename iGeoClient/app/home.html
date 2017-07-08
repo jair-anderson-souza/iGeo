@@ -1,38 +1,41 @@
+<div class="container">
+    <div class="col-sm-4">
+        <div class="page-header">
+            <form>
+                <div class="form-group">
+                    <label>De onde você vai sair?</label>
+                    <input class="form-control" type="text" ng-model="ride.cityOrigin" id="start">
+                </div>
 
-        <div class="container col-sm-4">
-            <div class="page-header">
-                <map-canvas id="map" style="height: 180px; width: 100%;"></map-canvas>
-                <form>
-                    <div class="form-group">
-                        <label>De onde você vai sair?</label>
-                        <input class="form-control" type="text" ng-model="ride.origin" id="start">
-                    </div>
+                <div class="form-group">
+                    <label>Para onde você vai?</label>
+                    <input class="form-control" type="text" id="end" ng-model="ride.cityDestiny">
+                </div>
+                <button class="btn btn-default" ng-click="searchRoute()">Buscar Rota</button>
+                <br/>
+                <br/>
+                <div class="form-group">
+                    <label>Data de Viagem</label>
+                    <input class="form-control" type="text" name="origem" ng-model="ride.date">
+                </div>
 
-                    <div class="form-group">
-                        <label>Para onde você vai?</label>
-                        <input class="form-control" type="text" id="end" ng-model="ride.destiny">
-                    </div>
-                    <button class="btn btn-default" ng-click="addResource()">Buscar Rota</button>
-                    <br/>
-                    <br/>
-                    <div class="form-group">
-                        <label>Data de Viagem</label>
-                        <input class="form-control" type="text" name="origem" ng-model="ride.date">
-                    </div>
+                <div class="form-group">
+                    <label>Hora de Saída</label>
+                    <input class="form-control" type="text" name="origem" ng-model="ride.departureTime" class="hour">
+                </div>
 
-                    <div class="form-group">
-                        <label>Hora de Saída</label>
-                        <input class="form-control" type="text" name="origem" ng-model="ride.departureTime" class="hour">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Ajuda de Custo</label>
-                        <input class="form-control" ng-model="ride.oil" type="text" name="origem">
-                    </div>
-                    <br/>
-                    <button class="btn btn-success" ng-click="salvar(ride)">Salvar Carona</button>
-                </form>
-            </div>
+                <div class="form-group">
+                    <label>Ajuda de Custo</label>
+                    <input class="form-control" ng-model="ride.oil" type="text" name="origem">
+                </div>
+                <br/>
+                <button class="btn btn-success" ng-click="salvar(ride)">Salvar Carona</button>
+            </form>
         </div>
-        <br/>
+    </div>
+    <br/>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
         <div id="map"></div>
+    </div>
+</div>

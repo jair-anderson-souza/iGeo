@@ -8,6 +8,11 @@
         
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmmEch_9VmTUy7RMikSa0mGk9mqZGwh2M">
         </script>
+        
+        <link rel="stylesheet" href="assets/lib/bootstrap/dist/css/bootstrap.min.css">
+        <script src="assets/lib/jquery/dist/jquery.min.js"></script>
+        <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        
             
         <script src="assets/lib/angular/angular.min.js"></script>
         <script src="assets/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
@@ -29,9 +34,6 @@
 
         
         -->
-        <link rel="stylesheet" href="assets/lib/bootstrap/dist/css/bootstrap.min.css">
-        <script src="assets/lib/jquery/dist/jquery.min.js"></script>
-        <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
         <!--
         <script src="services/myInterceptor.js"></script>
         -->
@@ -45,8 +47,10 @@
             .navbar-nav li a{
                 color: red;
             }
-            #map{
-                height: 100%;
+            /* Always set the map height explicitly to define the size of the div
+             * element that contains the map. */
+            #map {
+                height: 500px;
             }
 
         </style>
@@ -55,11 +59,7 @@
 
         <div ui-view="header"></div>
         <div ui-view="content"></div>
-        <div ui-view="footer"></div>
-
-        <div id="map"></div>
-
-        
+        <div ui-view="footer"></div>        
 
     </body>
 

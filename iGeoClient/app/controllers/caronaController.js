@@ -1,195 +1,72 @@
 var app = angular.module("app");
+app.controller("caronaController", function ($scope, $http) {
 
-app.controller("caronaController", function ($scope, rideServiceAPI, $http) {
-
-    $scope.salvar = function (ride) {
-        $http.post(apiConfig.api + "/ride/" + id, ride).then(function (response) {
-            console.log("Entrou");
-        }), function (response) {
-            console.log("Não Entrou");
+    $scope.salvar = function(ride){
+        /*ride.routeOrigin = { 
+            latitudeOrigin : "123", 
+            longitudeOrigin : "20"
         };
-    };
-    var initialize = function() {
-        var mapOptions = {
-            center: new google.maps.LatLng(41.894465, -88.460500),
-            zoom: 12,
-            mapTypeId: google.maps.MapTypeId.HYBRID
-        };
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        */ 
+        $http.post("http://localhost:8080/iGeoWebServices/webresources/ride", ride).then(function(response){
+            console.log("Entour");
+        }), function(response){
+            console.log("Ñ Entour");
+        }
+    }
+
+
+    var directionsService = new google.maps.DirectionsService();
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+    $scope.map = new google.maps.Map(document.getElementById("map"), {
+        center: {lat: -34.397, lng: 150.644},
+        zoom: 8
+    });
+    
+ 
+    directionsDisplay.setMap($scope.map);
+
+    var onChangedHandler = function () {
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
     };
 
-    google.maps.event.addListenerOnce(window, "load", initialize);
+    var infoWindow = new google.maps.InfoWindow({map: $scope.map});
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            infoWindow.setPosition(pos);
+            infoWindow.setContent("Localização encontrada");
+            $scope.setCenter(map);
+        }, function () {
+            handleLocation(true, infoWindow, map.getCenter());
+        });
+    } else {
+        handleLocation(false, infoWindow, map.getCenter());
+    }
 
+    function handleLocation(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+    }
+    function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        directionsService.route({
+            origin: document.getElementById("start").value,
+            destination: document.getElementById("end").value,
+            travelMode: "DRIVING"
+        }, function (response, status) {
+            if (status === "OK") {
+                directionsDisplay.setDirections(response);
+            } else {
+                alert("A cidade informada não foi encontrada");
+            }
+        });
+    }
+    $scope.searchRoute = function () {
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
+    };
 });
-
-
-   //rideServiceAPI.saveRide(ride, 1).then(function (response) {
-/*
-    $scope.addDiv = function(){
-        $scope.element = document.createElement("div");
-        $scope.element.id = "map";
-        document.body.append($scope.element);
-        $scope.addResource();
-    }
- 
-    $scope.addResource = function(){
-        $scope.element = document.createElement("script");
-        $scope.element.type = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCmmEch_9VmTUy7RMikSa0mGk9mqZGwh2M&amp;sensor=false";
-        element.src = "text/javascript";
-        document.body.append($scope.element);
-        $scope.initialize();
-    }
- var map = new google.maps.Map(document.getElementById("map"), {
- zoom: 15,
- center: {lat: 41.85, lng: -87.65};
- });
- 
- 
- //    
- //     
- //     var div = function(){
- //     var element = document.createElement("div");
- //     element.id = "map";
- //     document.body.append(element);
- //     };
- /*
- 
- var map = new google.maps.Map(document.getElementById("id"), initialize);
- 
- document.getElementById("panel").addEventListener("ready", function(){
- var element = document.createElement("div");
- element.id = "map";
- document.body.append(element);
- });
- 
- 
- 
- 
- //dados da inicialização do mapa
- var initalizeMap = {
- zoom: 15,
- center: {lat: 41.85, lng: -87.65}
- };
- $scope.map = new google.maps.Map(document.getElementById("map2"), initalizeMap);
- var marker = {};
- var infoWindow = new google.maps.InfoWindow({map: $scope.map});
- if (navigator.geolocation) {
- navigator.geolocation.getCurrentPosition(function (position) {
- var pos = {
- lat: position.coords.latitude,
- lng: position.coords.longitude
- };
- infoWindow.setPosition(pos);
- $scope.map.setCenter(pos);
- createMarker(pos);
- });
- }
- 
- google.maps.event.add
- 
- function createMarker(pos) {
- marker = new google.maps.Marker({
- position: pos,
- animation: google.maps.Animation.DROP,
- draggable: true,
- map: $scope.map
- });
- console.log(marker);
- $scope.ride.latitudeOrigin = pos.lat;
- $scope.ride.longitudeOrigin = pos.lng;
- }
- ;
- var directionService = new google.maps.DirectionsService;
- var directionDisplay = new google.maps.DirectionsRenderer;
- directionDisplay.setMap($scope.map);
- var createDirection = function () {
- directionService.route({
- origin: document.getElementById("start").value,
- destination: document.getElementById("end").value,
- travelMode: "DRIVING",
- }, function (response, status) {
- if (status === "OK") {
- console.log(response);
- directionDisplay.setDirections(response);
- console.log(directionsDisplay);
- } else {
- map.setCenter(initalizeMap);
- }
- }
- );
- };
- document.getElementById("start").addEventListener("change", createDirection);
- document.getElementById("end").addEventListener("change", createDirection);
- $scope.userprincipal = {};
- $scope.userprincipal.rides = $scope.ride;
- $scope.salvar = function () {
- console.log($scope.ride.origin);
- console.log($scope.ride.destiny);
- $http.put("http://localhost:8080/iGeoWebServices/webresources/ride", $scope.userprincipal).
- then(function (response) {
- delete $scope.ride;
- console.log("Deu certo");
- }), function (response) {
- console.log("Não deu certo");
- };
- };
- // */
-//             var marker2 = {};
-//             
-//             //Pegando a geolocalização
-//             */
-//            };
-//});
-//app.controller("caronaControllerasdasd", function ($scope) {
-//
-////dados da inicialização do mapa
-//    var options = function () {
-//        return  pos = {
-//            zoom: 15,
-//            center: {lat: -25.363, lng: 131.044}
-//        };
-//    };
-//    $scope.map = new google.maps.Map(document.getElementById("map"), options.getPos());
-//    var marker = {};
-//    var marker2 = {};
-//    var directionService = new google.maps.DirectionsService;
-//    var directionDisplay = new google.maps.DirectionsRenderer;
-//    //Pegando a geolocalização
-//    var infoWindow = new google.maps.InfoWindow({map: $scope.map});
-//    if (navigator.geolocation) {
-//        navigator.geolocation.getCurrentPosition(function (position) {
-//            var pos = {
-//                lat: position.coords.latitude,
-//                lng: position.coords.longitude
-//            };
-//            infoWindow.setPosition(pos);
-//            $scope.map.setCenter(pos);
-//            marker = new google.maps.Marker({
-//                position: pos,
-//                animation: google.maps.Animation.DROP,
-//                draggable: true,
-//                title: "Local de Saída",
-//                map: $scope.map
-//            });
-//        });
-//    }
-//    //                };
-//    //                };
-//    directionDisplay.setMap($scope.map);
-//    var call = function () {
-//        directionService.route({
-//            origin: $scope.start,
-//            destination: document.getElementById("end").value,
-//            travelMode: "DRIVING"
-//        }, function (response, status) {
-//            if (status === "OK") {
-//                directionDisplay.setDirections(response);
-//                console.log(directionsDisplay);
-//            } else {
-//                alert("Ocorreu um erro");
-//            }
-//        });
-//    };
-//    document.getElementById("start").addEventListener("change", call);
-//    document.getElementById("end").addEventListener("change", call);
-//});
+        

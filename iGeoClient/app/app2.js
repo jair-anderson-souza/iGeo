@@ -3,7 +3,11 @@ var app = angular.module("app", []);
 app.controller("home", function ($scope, $http) {
 
     $scope.salvar = function(ride){
-         
+        /*ride.routeOrigin = { 
+            latitudeOrigin : "123", 
+            longitudeOrigin : "20"
+        };
+        */ 
         $http.post("http://localhost:8080/iGeoWebServices/webresources/ride", ride).then(function(response){
             console.log("Entour");
         }), function(response){
