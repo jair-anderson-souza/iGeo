@@ -11,6 +11,7 @@ import io.github.jass2125.igeo.core.exceptions.ApplicationException;
 import io.github.jass2125.igeo.core.util.JsonWebToken;
 import io.github.jass2125.igeo.core.util.SessionRedis;
 import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
+import io.github.jass2125.igeo.core.util.PasswordEncriptor;
 import io.github.jass2125.igeo.core.vo.LoginVO;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
