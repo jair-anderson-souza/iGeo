@@ -1,28 +1,28 @@
 var app = angular.module("app");
-app.controller("caronaController", function ($scope, $http) {
+app.controller("caronaController", function ($scope, $http, apiConfig) {
 
-    $scope.salvar = function(ride){
-        /*ride.routeOrigin = { 
-            latitudeOrigin : "123", 
-            longitudeOrigin : "20"
-        };
-        */ 
-        $http.post("http://localhost:8080/iGeoWebServices/webresources/ride", ride).then(function(response){
+    $scope.salvar = function (ride) {
+        
+        $http.post(apiConfig.api + "/ride", ride).then(function (response) {
             console.log("Entour");
-        }), function(response){
+        }), function (response) {
             console.log("Ñ Entour");
-        }
-    }
+        };
+    };
 
 
     var directionsService = new google.maps.DirectionsService();
     var directionsDisplay = new google.maps.DirectionsRenderer();
+
     $scope.map = new google.maps.Map(document.getElementById("map"), {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 8
+        zoom: 8,
+        center: {lat: 0, lng: 0}
     });
-    
- 
+
+
+
+    /*google.maps.event.addDomListener(window, "load", onLoad($scope));*/
+
     directionsDisplay.setMap($scope.map);
 
     var onChangedHandler = function () {
@@ -38,7 +38,7 @@ app.controller("caronaController", function ($scope, $http) {
             };
             infoWindow.setPosition(pos);
             infoWindow.setContent("Localização encontrada");
-            $scope.setCenter(map);
+            $scope.map.setCenter(pos);
         }, function () {
             handleLocation(true, infoWindow, map.getCenter());
         });

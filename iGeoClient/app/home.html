@@ -1,15 +1,19 @@
 <div class="container">
     <div class="col-sm-4">
         <div class="page-header">
-            <div class="alert alert-danger">
-                <strong>Warning</strong>Seus dados estão inválidos, tente novamente
-            </div>
-            <form>
+            
+            <form name="formOffer">
+                <div ng-if="formOffer.origin.$dirty" ng-messages="formOffer.origin.$error">
+                    <div class="alert alert-danger" ng-message="required">
+                        <strong>Atenção</strong> Preencha este campo
+                    </div>
+                </div>
                 <div class="form-group">
                     <label>De onde você vai sair?</label>
-                    <input class="form-control" type="text" ng-model="ride.cityOrigin" id="start">
+                    <input class="form-control" type="text" name="origin" required="true" ng-model="ride.cityOrigin" id="start">
                 </div>
 
+                
                 <div class="form-group">
                     <label>Para onde você vai?</label>
                     <input class="form-control" type="text" id="end" ng-model="ride.cityDestiny">
@@ -32,7 +36,7 @@
                     <input class="form-control" ng-model="ride.oil" type="text" name="origem">
                 </div>
                 <br/>
-                <button class="btn btn-success" ng-click="salvar(ride)">Salvar Carona</button>
+                <button class="btn btn-success" ng-click="salvar(ride)" ng-disabled="formOffer.$invalid">Salvar Carona</button>
             </form>
         </div>
     </div>
