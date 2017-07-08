@@ -1,24 +1,41 @@
 <div class="container">
     <div class="page-header">
-    <h1>Login</h1>
-    <br/>
-    <br/>
+        <h1>Login</h1>
+        <br/>
+        <br/>
         <form name="formLogin" method="post">
+            <div ng-if="formLogin.email.$dirty" ng-messages="formLogin.email.$error">
+                <div class="alert alert-danger" ng-message="required">
+                    Preencha esta campo
+                </div>
+            </div>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input type="text" name="email" class="form-control" ng-model="loginVO.email" placeholder="Email">
+                <input type="text" name="email" class="form-control" ng-model="loginVO.email" required="true" placeholder="Email">
             </div>
-            <br/>
-            <div class="input-group">
-            	
-            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-            <input type="password" class="form-control" name="password" ng-model="loginVO.password" placeholder="Password">
-            </div>
-            
-            <br/>
             <br/>
 
-            <button class="btn btn-success" type="submit" ng-click="login(loginVO);" name="login">Login</button>
+            <div ng-if="formLogin.password.$dirty" ng-messages="formLogin.password.$error">
+                <div class="alert alert-danger" ng-message="required">
+                    Preencha este campo
+                </div>
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input type="password" class="form-control" name="password" ng-model="loginVO.password" required="true" placeholder="Password">
+            </div>
+
+            <br/>
+            <br/>
+                        
+            <button class="btn btn-success" type="submit" ng-click="login(loginVO);" ng-disabled="formLogin.$invalid" name="login">Login</button>
+            
+            <div ng-messages="formLogin.$error" class="alert alert-danger">
+                <div>
+                    Preencha os campos antes de submeter
+                </div>
+            </div>
         </form>
     </div>
 </div>
