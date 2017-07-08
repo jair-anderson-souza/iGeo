@@ -34,14 +34,14 @@ public class Ride implements Serializable {
     private String date;
     private String departureTime;
     private BigDecimal oil;
-    private String distance;
-    private String arrivalTime;
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
     private Route routeOrigin;
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
     private Route routeDestiny;
 
     public Ride() {
+        this.routeOrigin = new Route();
+        this.routeDestiny = new Route();
     }
 
     public Long getId() {
@@ -92,22 +92,6 @@ public class Ride implements Serializable {
         this.oil = oil;
     }
 
-    public String getDistance() {
-        return distance;
-    }
-
-    public void setDistance(String distance) {
-        this.distance = distance;
-    }
-
-    public String getArrivalTime() {
-        return arrivalTime;
-    }
-
-    public void setArrivalTime(String arrivalTime) {
-        this.arrivalTime = arrivalTime;
-    }
-
     public Route getRouteOrigin() {
         return routeOrigin;
     }
@@ -148,7 +132,7 @@ public class Ride implements Serializable {
 
     @Override
     public String toString() {
-        return "Ride{" + "id=" + id + ", cityOrigin=" + cityOrigin + ", cityDestiny=" + cityDestiny + ", date=" + date + ", departureTime=" + departureTime + ", oil=" + oil + ", distance=" + distance + ", arrivalTime=" + arrivalTime + ", routeOrigin=" + routeOrigin + ", routeDestiny=" + routeDestiny + '}';
+        return "Ride{" + "id=" + id + ", cityOrigin=" + cityOrigin + ", cityDestiny=" + cityDestiny + ", date=" + date + ", departureTime=" + departureTime + ", oil=" + oil + ", routeOrigin=" + routeOrigin + ", routeDestiny=" + routeDestiny + '}';
     }
 
 }

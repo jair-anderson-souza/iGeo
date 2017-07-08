@@ -9,6 +9,7 @@
         <script src="assets/lib/jquery/dist/jquery.min.js"></script>
         <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmmEch_9VmTUy7RMikSa0mGk9mqZGwh2M"></script>
+        <script type="text/javascript" src="app2.js"></script>
         <style>
             /* Always set the map height explicitly to define the size of the div
              * element that contains the map. */
@@ -25,14 +26,14 @@
                     <form>
                         <div class="form-group">
                             <label>De onde você vai sair?</label>
-                            <input class="form-control" type="text" ng-model="ride.origin" id="start">
+                            <input class="form-control" type="text" ng-model="ride.cityOrigin" id="start">
                         </div>
 
                         <div class="form-group">
                             <label>Para onde você vai?</label>
-                            <input class="form-control" type="text" id="end" ng-model="ride.destiny">
+                            <input class="form-control" type="text" id="end" ng-model="ride.cityDestiny">
                         </div>
-                        <button class="btn btn-default" ng-click="addResource()">Buscar Rota</button>
+                        <button class="btn btn-default" ng-click="searchRoute()">Buscar Rota</button>
                         <br/>
                         <br/>
                         <div class="form-group">
@@ -60,38 +61,5 @@
                 <div id="map"></div>
             </div>
         </div>
-        
-        <script type="text/javascript">
-            var app = angular.module("app", []);
-            app.controller("home", function ($scope) {
-                $scope.map = new google.maps.Map(document.getElementById("map"), {
-                    center: {lat: -34.397, lng: 150.644},
-                    zoom: 8
-                });
-                var infoWindow = new google.maps.InfoWindow({map: $scope.map});
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                        var pos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        };
-                        infoWindow.setPosition(pos);
-                        infoWindow.setContent("Localização encontrada");
-                        $scope.setCenter(map);
-                    }, function () {
-                        handleLocation(true, infoWindow, map.getCenter());
-                    });
-                } else {
-                    handleLocation(false, infoWindow, map.getCenter());
-                }
-
-                function handleLocation(browserHasGeolocation, infoWindow, pos) {
-                    infoWindow.setPosition(pos);
-                    infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-                }
-            });
-        </script>
     </body>
 </html>

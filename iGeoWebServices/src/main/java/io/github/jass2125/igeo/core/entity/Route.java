@@ -29,6 +29,8 @@ public class Route implements Serializable {
     private String longitudeOrigin;
     private String latitudeDestination;
     private String longitudeDestination;
+    private String distance;
+    private String arrivalTime;
 
     public Route() {
     }
@@ -73,6 +75,22 @@ public class Route implements Serializable {
         this.longitudeDestination = longitudeDestination;
     }
 
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(String arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -97,7 +115,7 @@ public class Route implements Serializable {
 
     @Override
     public String toString() {
-        return "Route{" + "id=" + id + ", latitudeOrigin=" + latitudeOrigin + ", longitudeOrigin=" + longitudeOrigin + ", latitudeDestination=" + latitudeDestination + ", longitudeDestination=" + longitudeDestination + '}';
+        return "Route{" + "id=" + id + ", latitudeOrigin=" + latitudeOrigin + ", longitudeOrigin=" + longitudeOrigin + ", latitudeDestination=" + latitudeDestination + ", longitudeDestination=" + longitudeDestination + ", distance=" + distance + ", arrivalTime=" + arrivalTime + '}';
     }
 
 }
