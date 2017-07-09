@@ -2,6 +2,14 @@
     <div class="col-sm-4">
         <div class="page-header">
             
+            <div ng-if="message.rideSuccessful.length > 0" class="alert alert-success">
+                {{message.rideSuccessful}}
+            </div>
+            
+            <div ng-if="message.rideError.length > 0" class="alert alert-success">
+                {{message.rideError}}
+            </div>
+
             <form name="formOffer">
                 <div ng-if="formOffer.origin.$dirty" ng-messages="formOffer.origin.$error">
                     <div class="alert alert-danger" ng-message="required">
@@ -12,7 +20,7 @@
                     <label>De onde você vai sair?</label>
                     <input class="form-control" type="text" name="origin" required="true" ng-model="ride.cityOrigin" id="start">
                 </div>
-                
+
                 <br/>
 
                 <div ng-if="formOffer.destination.$dirty" ng-messages="formOffer.origin.$error">
@@ -24,14 +32,14 @@
                     <label>Para onde você vai?</label>
                     <input class="form-control" name="destination" required="true" type="text" id="end" ng-model="ride.cityDestiny">
                 </div>
-                
+
                 <br/>
 
                 <button class="btn btn-default" ng-disabled="formOffer.origin.$invalid || formOffer.destination.$invalid" ng-click="searchRoute()">Buscar Rota</button>
-                
+
                 <br/>
                 <br/>
-                
+
                 <div ng-if="formOffer.date.$dirty" ng-messages="formOffer.date.$error">
                     <div class="alert alert-danger" ng-message="required">
                         <strong>Atenção</strong> Preencha este campo
@@ -44,9 +52,9 @@
                     <label>Data de Viagem</label>
                     <input class="form-control" type="text" mask="99/99/9999" required="true" name="date" ng-model="ride.date">
                 </div>
-                
+
                 <br/>
-                
+
                 <div ng-if="formOffer.departureTime.$dirty" ng-messages="formOffer.departureTime.$error">
                     <div class="alert alert-danger" ng-message="required">
                         <strong>Atenção</strong> Preencha este campo
@@ -59,9 +67,9 @@
                     <label>Hora de Saída</label>
                     <input class="form-control" required="true" mask="23:59" type="text" name="departureTime" ng-model="ride.departureTime" class="hour">
                 </div>
-                
+
                 <br/>
-                
+
                 <div ng-if="formOffer.oil.$dirty" ng-messages="formOffer.oil.$error">
                     <div class="alert alert-danger" ng-message="required">
                         <strong>Atenção</strong> Preencha este campo

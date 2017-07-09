@@ -1,6 +1,6 @@
 var app = angular.module("app");
 
-app.controller("loginController", function ($scope, userServiceAPI, $rootScope, $location, $state, $http) {
+app.controller("loginController", function ($scope, userServiceAPI, $rootScope, $state, $http) {
 
     $scope.message = {};
 

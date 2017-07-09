@@ -1,9 +1,19 @@
 var app = angular.module("app");
 app.controller("caronaController", function ($scope, $http, apiConfig) {
 
+    $scope.message = {};
+
     $scope.salvar = function (ride) {
         
         $http.post(apiConfig.api + "/ride/1", ride).then(function (response) {
+            if(response.status === 200){
+                delete $scope.ride;
+                delete $scope.formOffer;
+                $scope.message.rideSuccessful = "A carona foi registrada com sucesso";
+            }else if(response.status === 204){
+                $scope.message.rideError = "Ocorreu um erro, tente novamente";
+            }
+            delete $scope.formOffer;
             console.log("Entour");
         }), function (response) {
             console.log("Ñ Entour");
@@ -62,7 +72,11 @@ app.controller("caronaController", function ($scope, $http, apiConfig) {
             if (status === "OK") {
                 directionsDisplay.setDirections(response);
             } else {
+                $scope.formOffer.destination.$invalid = true;
+                $scope.formOffer.origin.$invalid = true;
                 alert("A cidade informada não foi encontrada");
+                delete $scope.ride.cityOrigin;
+                delete $scope.ride.cityDestiny;
             }
         });
     }

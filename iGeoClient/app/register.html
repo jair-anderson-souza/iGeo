@@ -1,22 +1,21 @@
 <div class="container">
     <div class="page-header">
         <h1>Cadastre-se</h1>
+        
         <br/>
         <br/>
         
-
-
         <form name="formRegister" method="post">
-        <div class="alert alert-danger" ng-if="message.registeredError.length > 0">
-            {{message.registeredError}} 
-            <br/>
-        </div>
-        
-        <div class="alert alert-success" ng-if="message.userRegistered.length > 0">
-            {{message.userRegistered}}
-            <br/>
-            <button class="btn btn-success" ng-click="goToLoginPage()">Clique aqui para logar</button>
-        </div>
+            <div class="alert alert-danger" ng-if="message.registeredError.length > 0">
+                {{message.registeredError}} 
+                <br/>
+            </div>
+
+            <div class="alert alert-success" ng-if="message.userRegistered.length > 0">
+                {{message.userRegistered}}
+                <br/>
+                <button class="btn btn-success" ng-click="goToLoginPage()">Clique aqui para logar</button>
+            </div>
 
             <div ng-if="formRegister.email.$dirty || formRegister.$submitted" ng-messages="formRegister.email.$error">
                 <div class="alert alert-danger" ng-message="email">
@@ -90,7 +89,7 @@
                 <span class="input-group-addon"><i class="glyphicon glyphicon-"></i></span>
                 <input class="form-control" required="true" type="password" name="password" ng-model="newUser.password" placeholder="Senha">
             </div>
-            
+
             <br/>
             <br/>
 

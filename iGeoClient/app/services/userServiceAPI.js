@@ -6,7 +6,6 @@ app.service("userServiceAPI", function($http, apiConfig){
 	};
 
 	var _register = function(newUser){
-		console.log(newUser);
 		return $http.post(apiConfig.api + "/userprincipal", newUser);
 	};
 	return {

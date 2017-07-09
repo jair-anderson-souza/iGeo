@@ -6,9 +6,7 @@
 package io.github.jass2125.igeo.core.services;
 
 import io.github.jass2125.igeo.core.dao.RideDao;
-import io.github.jass2125.igeo.core.dao.RouteDao;
 import io.github.jass2125.igeo.core.entity.Ride;
-import io.github.jass2125.igeo.core.entity.Route;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.exceptions.ApplicationException;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
