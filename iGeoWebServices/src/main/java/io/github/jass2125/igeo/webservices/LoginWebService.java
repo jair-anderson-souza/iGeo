@@ -41,6 +41,7 @@ public class LoginWebService {
 
     @POST
     public Response login(LoginVO loginVo) {
+        System.out.println(loginVo);
         UserPrincipal user = null;
         try {
             user = userService.login(loginVo);
@@ -50,17 +51,18 @@ public class LoginWebService {
             return Response.
                     ok(encodeResponse, MediaType.TEXT_PLAIN).
                     header("User", getNameClass(user.getClass().getTypeName())).
-                    header("SigningKey", jsonWebToken.getToken())
+                    header("SigningKey", jsonWebToken.getToken()).
+                    status(Response.Status.OK)
                     .build();
         } catch (ApplicationException e) {
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println("Erro 1: " + e.getMessage());
             return Response.
-                    status(Response.Status.NOT_FOUND).
+                    status(Response.Status.NO_CONTENT).
                     build();
         } catch (Exception e) {
-            System.out.println("Erro :" + e.getMessage());
+            System.out.println("Erro 2:" + e.getMessage());
             return Response.
-                    status(Response.Status.NOT_FOUND).
+                    status(Response.Status.NO_CONTENT).
                     build();
         }
     }

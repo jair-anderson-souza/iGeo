@@ -3,6 +3,13 @@
         <h1>Cadastre-se</h1>
         <br/>
         <br/>
+
+        <div class="alert alert-success" ng-if="message.userRegistered.length > 0">
+            {{message.userRegistered}}
+            <br/>
+            <button class="btn btn-success" ng-click="goToLoginPage()">Clique aqui para logar</button>
+        </div>
+
         <form name="formRegister" method="post">
 
             <div ng-if="formRegister.email.$dirty || formRegister.$submitted" ng-messages="formRegister.email.$error">
@@ -16,7 +23,7 @@
             </div>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                <input type="email" name="email" pattern="" class="form-control" ng-model="newUser.email" required="true" placeholder="Email">
+                <input type="email" name="email" class="form-control" ng-model="newUser.email" required="true" placeholder="Email">
             </div>
 
             <br/>

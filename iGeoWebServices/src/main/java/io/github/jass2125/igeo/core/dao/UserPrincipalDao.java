@@ -58,14 +58,17 @@ public class UserPrincipalDao {
 //            return em.createQuery(query).getSingleResult();
 //            CriteriaQuery<UserPrincipal> query = query.
 //                    select(root);
-            return (UserPrincipal) em.createQuery("SELECT U FROM UserPrincipal U LEFT JOIN FETCH U.rides WHERE LOWER(U.email) = :email AND U.password = :password AND U.profileStatus = :status")
+            UserPrincipal user = (UserPrincipal) em.createQuery("SELECT U FROM UserPrincipal U LEFT JOIN FETCH U.rides WHERE LOWER(U.email) = :email AND U.password = :password AND U.profileStatus = :status")
                     .setParameter("email", email.toLowerCase())
                     .setParameter("password", password)
                     .setParameter("status", Status.ACTIVE)
                     .getSingleResult();
+            return user;
         } catch (NoResultException | NonUniqueResultException e) {
+            e.printStackTrace();
             throw new EntityException(e, "Verifique os dados e tente novamente!");
         } catch (Exception e) {
+            e.printStackTrace();
             throw new EntityException(e, "Ocorreu um erro inesperado!");
         }
     }

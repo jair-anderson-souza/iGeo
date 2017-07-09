@@ -31,22 +31,18 @@ public class RideServiceImp implements RideService {
     private RideDao rideDao;
     @EJB
     private UserPrincipalService userPrincipalService;
-    @EJB
-    private RouteDao routeDao;
 
     @Override
     public Ride register(Ride ride, Long idUserPrincipal) throws ApplicationException {
         try {
             UserPrincipal userPrincipal = this.userPrincipalService.searchUserPrincipalById(idUserPrincipal);
-            if (userPrincipal != null) {
-//                Route routeOrigin = ride.getRouteOrigin();
-//                Route routeDestiny = ride.getRouteDestiny();
-//                routeDao.save(routeOrigin);
-//                routeDao.save(routeDestiny);
-                userPrincipal.addRide(ride);
-                userPrincipalService.update(userPrincipal);
+            if (userPrincipal == null) {
+                throw new ApplicationException("Não foi possível encontrar o usuário");
+
             }
-            return null;
+            userPrincipal.addRide(ride);
+            userPrincipalService.update(userPrincipal);
+            return ride;
         } catch (EntityException e) {
             throw new ApplicationException(e, e.getMessage());
         }

@@ -28,7 +28,7 @@ import javax.ws.rs.core.Response.Status;
  */
 @Path("userprincipal")
 @Consumes(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-@Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+@Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8", MediaType.TEXT_HTML})
 public class UserPrincipalWebService {
 
     @EJB
@@ -43,8 +43,9 @@ public class UserPrincipalWebService {
                     ok(user).
                     build();
         } catch (Exception ex) {
+            ex.printStackTrace();
             return Response.
-                    ok(ex.getMessage()).
+                    ok(userPrincipal).
                     status(Status.NO_CONTENT).
                     build();
         }

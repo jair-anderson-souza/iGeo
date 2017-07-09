@@ -3,6 +3,11 @@
         <h1>Login</h1>
         <br/>
         <br/>
+        
+        <div class="alert alert-danger" ng-if="message.messageLoginError.length > 0">
+            {{message.messageLoginError}}
+        </div>
+
         <form name="formLogin" method="post">
             <div ng-if="formLogin.email.$dirty" ng-messages="formLogin.email.$error">
                 <div class="alert alert-danger" ng-message="required">
