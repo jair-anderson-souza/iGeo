@@ -41,7 +41,6 @@ public class LoginWebService {
 
     @POST
     public Response login(LoginVO loginVo) {
-        System.out.println(loginVo);
         UserPrincipal user = null;
         try {
             user = userService.login(loginVo);
@@ -55,12 +54,10 @@ public class LoginWebService {
                     status(Response.Status.OK)
                     .build();
         } catch (ApplicationException e) {
-            System.out.println("Erro 1: " + e.getMessage());
             return Response.
                     status(Response.Status.NO_CONTENT).
                     build();
         } catch (Exception e) {
-            System.out.println("Erro 2:" + e.getMessage());
             return Response.
                     status(Response.Status.NO_CONTENT).
                     build();

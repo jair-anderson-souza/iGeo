@@ -42,7 +42,6 @@ public class RideWebService {
                     .ok(ride, MediaType.APPLICATION_JSON)
                     .build();
         } catch (ApplicationException e) {
-            System.out.println("Erro: " + e.getMessage());
             return Response.
                     status(Status.NOT_FOUND).
                     build();
@@ -58,7 +57,6 @@ public class RideWebService {
                     .ok(rideTemp, MediaType.APPLICATION_JSON)
                     .build();
         } catch (ApplicationException e) {
-            System.out.println("Erro: " + e.getMessage());
             return Response.
                     ok(ride).
                     status(Status.NO_CONTENT).
@@ -76,7 +74,6 @@ public class RideWebService {
                     .ok(rideTemp, MediaType.APPLICATION_JSON)
                     .build();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return Response.
                     ok(ride, MediaType.APPLICATION_JSON).
                     status(Status.NO_CONTENT).

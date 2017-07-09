@@ -42,8 +42,12 @@ public class UserPrincipalWebService {
             return Response.
                     ok(user).
                     build();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (ApplicationException e) {
+            return Response.
+                    ok().
+                    status(Status.RESET_CONTENT).
+                    build();
+        } catch (Exception e) {
             return Response.
                     ok(userPrincipal).
                     status(Status.NO_CONTENT).

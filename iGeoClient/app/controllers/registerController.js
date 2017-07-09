@@ -1,5 +1,5 @@
 var app = angular.module("app");
-app.controller("registerController", function($scope, userServiceAPI, $location, $state){
+app.controller("registerController", function($scope, userServiceAPI, $state){
 	
 	$scope.genders = ["MALE", "FEMALE"];
 
@@ -11,13 +11,19 @@ app.controller("registerController", function($scope, userServiceAPI, $location,
 
 	$scope.register = function(newUser){
 		userServiceAPI.register(newUser).then(function (response) {
-            if(response.status === 204){
-            	$scope.message.messageRegisteredError = "Ocorreu um erro, tente novamente mais tarde";
+			delete $scope.message.registeredError;
+			delete $scope.message.userRegistered;
+            
+            if(response.status === 205){
+            	$scope.message.registeredError = "Email sendo utilizado, use outro";
+            }else if(response.status === 204){
+            	$scope.message.registeredError = "Ocorreu um erro, tente novamente mais tarde";
             }else {
 				delete $scope.newUser;
-            	delete $scope.formRegister;
             	$scope.message.userRegistered = "Seu cadastro foi efetuado com sucesso!";
             }
+            delete $scope.formRegister;
+        
         }), function (response) {
             console.log("Não deu certo");
         };

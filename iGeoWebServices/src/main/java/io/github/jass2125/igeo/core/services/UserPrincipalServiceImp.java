@@ -67,7 +67,6 @@ public class UserPrincipalServiceImp implements UserPrincipalService {
     public UserPrincipal delete(UserPrincipal userPrincipal) throws ApplicationException {
         try {
             UserPrincipal userPrincipalTemp = dao.searchUserPrincipalByEmail(userPrincipal.getEmail());
-            System.out.println(userPrincipalTemp);
             String passwordEncrypted = encriptor.encryptPassword(userPrincipal.getPassword());
             userPrincipal.setPassword(passwordEncrypted);
 //            return dao.save(userPrincipal);
