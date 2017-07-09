@@ -15,7 +15,7 @@ import io.github.jass2125.igeo.core.exceptions.ApplicationException;
  */
 public interface RideService {
 
-    public Ride register(Ride ride) throws ApplicationException;
+    public Ride register(Ride ride, Long idUserPrincipal) throws ApplicationException;
 
     public Ride delete(Long id) throws ApplicationException;
 

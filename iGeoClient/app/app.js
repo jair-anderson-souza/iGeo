@@ -1,2 +1,2 @@
-var app = angular.module("app", ["ui.router", "ngMessages"]);
+var app = angular.module("app", ["ui.router", "ngMessages", "ngMask"]);
 

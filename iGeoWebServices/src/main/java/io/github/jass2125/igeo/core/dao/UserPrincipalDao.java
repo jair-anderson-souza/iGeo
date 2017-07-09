@@ -81,7 +81,7 @@ public class UserPrincipalDao {
 
     public UserPrincipal searchById(Long id) throws EntityException {
         try {
-            return em.find(UserPrincipal.class, id);
+            return (UserPrincipal) em.createQuery("SELECT U FROM UserPrincipal U LEFT JOIN FETCH U.rides WHERE U.id = :id").setParameter("id", id).getSingleResult();
         } catch (Exception e) {
             throw new EntityException(e, "Erro ao buscar entidade");
         }

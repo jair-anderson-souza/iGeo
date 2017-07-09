@@ -78,6 +78,15 @@ public class UserPrincipalServiceImp implements UserPrincipalService {
     }
 
     @Override
+    public UserPrincipal update(UserPrincipal userPrincipal) throws ApplicationException {
+        try {
+            return dao.update(userPrincipal);
+        } catch (EntityException e) {
+            throw new ApplicationException(e, e.getMessage());
+        }
+    }
+
+    @Override
     public UserPrincipal searchUserPrincipalById(Long id) throws ApplicationException {
         try {
             return dao.searchById(id);
@@ -87,13 +96,14 @@ public class UserPrincipalServiceImp implements UserPrincipalService {
     }
 
     @Override
-    public void addRide(Long id, Ride ride) throws ApplicationException {
+    public Ride addRide(Long id, Ride ride) throws ApplicationException {
         try {
             UserPrincipal userPrincipal = searchUserPrincipalById(id);
             if (userPrincipal != null) {
                 userPrincipal.addRide(ride);
                 dao.update(userPrincipal);
             }
+            return ride;
         } catch (ApplicationException | EntityException e) {
             throw new ApplicationException(e, e.getMessage());
         }

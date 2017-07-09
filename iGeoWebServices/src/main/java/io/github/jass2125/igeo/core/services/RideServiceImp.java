@@ -9,9 +9,11 @@ import io.github.jass2125.igeo.core.dao.RideDao;
 import io.github.jass2125.igeo.core.dao.RouteDao;
 import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.entity.Route;
+import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.exceptions.ApplicationException;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import io.github.jass2125.igeo.core.services.client.RideService;
+import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -28,16 +30,23 @@ public class RideServiceImp implements RideService {
     @EJB
     private RideDao rideDao;
     @EJB
+    private UserPrincipalService userPrincipalService;
+    @EJB
     private RouteDao routeDao;
 
     @Override
-    public Ride register(Ride ride) throws ApplicationException {
+    public Ride register(Ride ride, Long idUserPrincipal) throws ApplicationException {
         try {
-            Route routeOrigin = ride.getRouteOrigin();
-            Route routeDestiny = ride.getRouteDestiny();
-            routeDao.save(routeOrigin);
-            routeDao.save(routeDestiny);
-            return rideDao.save(ride);
+            UserPrincipal userPrincipal = this.userPrincipalService.searchUserPrincipalById(idUserPrincipal);
+            if (userPrincipal != null) {
+//                Route routeOrigin = ride.getRouteOrigin();
+//                Route routeDestiny = ride.getRouteDestiny();
+//                routeDao.save(routeOrigin);
+//                routeDao.save(routeDestiny);
+                userPrincipal.addRide(ride);
+                userPrincipalService.update(userPrincipal);
+            }
+            return null;
         } catch (EntityException e) {
             throw new ApplicationException(e, e.getMessage());
         }

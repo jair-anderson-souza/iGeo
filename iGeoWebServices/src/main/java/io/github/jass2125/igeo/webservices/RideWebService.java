@@ -67,9 +67,10 @@ public class RideWebService {
     }
 
     @POST
-    public Response registerRide(Ride ride) {
+    @Path("{id}")
+    public Response registerRide(Ride ride, @PathParam("id") Long idUserPrincipal) {
         try {
-            Ride rideTemp = rideService.register(ride);
+            Ride rideTemp = rideService.register(ride, idUserPrincipal);
             //lembrar de colocar a resposta, ver o filtro do token
             return Response
                     .ok(rideTemp, MediaType.APPLICATION_JSON)

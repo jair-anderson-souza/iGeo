@@ -23,7 +23,9 @@ public interface UserPrincipalService {
 
     public UserPrincipal searchUserPrincipalById(Long id) throws ApplicationException;
 
-    public void addRide(Long id, Ride ride) throws ApplicationException;
+    public Ride addRide(Long id, Ride ride) throws ApplicationException;
 
     public UserPrincipal delete(UserPrincipal userPrincipal) throws ApplicationException;
+
+    public UserPrincipal update(UserPrincipal userPrincipal) throws ApplicationException;
 }

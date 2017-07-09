@@ -3,7 +3,7 @@ app.controller("caronaController", function ($scope, $http, apiConfig) {
 
     $scope.salvar = function (ride) {
         
-        $http.post(apiConfig.api + "/ride", ride).then(function (response) {
+        $http.post(apiConfig.api + "/ride/1", ride).then(function (response) {
             console.log("Entour");
         }), function (response) {
             console.log("Ñ Entour");
@@ -53,6 +53,7 @@ app.controller("caronaController", function ($scope, $http, apiConfig) {
                 'Error: Your browser doesn\'t support geolocation.');
     }
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        infoWindow.setContent("Minha Localização");
         directionsService.route({
             origin: document.getElementById("start").value,
             destination: document.getElementById("end").value,
@@ -66,7 +67,11 @@ app.controller("caronaController", function ($scope, $http, apiConfig) {
         });
     }
     $scope.searchRoute = function () {
-        calculateAndDisplayRoute(directionsService, directionsDisplay);
+        if($scope.ride.cityOrigin.toUpperCase() == $scope.ride.cityDestiny.toUpperCase()){
+            alert("Você informou a mesma cidade!!");
+        }else{
+            calculateAndDisplayRoute(directionsService, directionsDisplay);
+        }
     };
 });
         
