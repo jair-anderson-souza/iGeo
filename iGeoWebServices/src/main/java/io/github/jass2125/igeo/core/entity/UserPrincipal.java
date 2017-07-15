@@ -5,6 +5,7 @@
  */
 package io.github.jass2125.igeo.core.entity;
 
+import static io.github.jass2125.igeo.core.entity.UserPrincipal_.count;
 import io.github.jass2125.igeo.core.entity.enums.Status;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import java.io.Serializable;
@@ -21,6 +22,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 /**
@@ -40,8 +42,8 @@ public class UserPrincipal implements Serializable {
 //    @JsonSerialize(using = LocalDateSerializer.class)
 //    @JsonDeserialize(using = LocalDateDeserializer.class)
     private String birthday;
-    private String email;
-    private String password;
+    @OneToOne(cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Count count;
     @Enumerated(EnumType.STRING)
     private Status profileStatus;
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
@@ -50,6 +52,29 @@ public class UserPrincipal implements Serializable {
 
     public UserPrincipal() {
         this.rides = new ArrayList<>();
+        this.count = new Count();
+    }
+
+    public UserPrincipal(Long id, String name, Status profileStatus) {
+        this.id = id;
+        this.name = name;
+        this.profileStatus = profileStatus;
+    }
+
+    public UserPrincipal(Long id, String phone, String name, String birthday, Status profileStatus, Long idCount, String email, String password) {
+        this.id = id;
+        this.phone = phone;
+        this.name = name;
+        this.birthday = birthday;
+        this.profileStatus = profileStatus;
+        this.profileStatus = profileStatus;
+        this.count = new Count();
+        this.count.setEmail(email);
+        this.count.setPassword(password);
+    }
+
+    public UserPrincipal(Long id) {
+        this.id = id;
     }
 
     public Long getId() {
@@ -66,6 +91,14 @@ public class UserPrincipal implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Count getCount() {
+        return count;
+    }
+
+    public void setCount(Count count) {
+        this.count = count;
     }
 
     public String getName() {
@@ -102,22 +135,6 @@ public class UserPrincipal implements Serializable {
         this.rides.remove(ride);
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Status getProfileStatus() {
         return profileStatus;
     }
@@ -126,10 +143,14 @@ public class UserPrincipal implements Serializable {
         this.profileStatus = profileStatus;
     }
 
+    public List<Ride> getRides() {
+        return rides;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 17 * hash + Objects.hashCode(this.email);
+        int hash = 5;
+        hash = 61 * hash + Objects.hashCode(this.count);
         return hash;
     }
 
@@ -145,12 +166,12 @@ public class UserPrincipal implements Serializable {
             return false;
         }
         final UserPrincipal other = (UserPrincipal) obj;
-        return Objects.equals(this.email, other.email);
+        return Objects.equals(this.count, other.count);
     }
 
     @Override
     public String toString() {
-        return "UserPrincipal{" + "id=" + id + ", phone=" + phone + ", name=" + name + ", birthday=" + birthday + ", email=" + email + ", password=" + password + ", rides=" + rides + '}';
+        return "UserPrincipal{" + "id=" + id + ", phone=" + phone + ", name=" + name + ", birthday=" + birthday + ", count=" + count + ", profileStatus=" + profileStatus + ", rides=" + rides + '}';
     }
 
 }

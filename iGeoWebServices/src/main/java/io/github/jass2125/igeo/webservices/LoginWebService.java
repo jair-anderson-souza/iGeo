@@ -6,6 +6,7 @@
 package io.github.jass2125.igeo.webservices;
 
 import com.google.gson.Gson;
+import io.github.jass2125.igeo.core.entity.Count;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.exceptions.ApplicationException;
 import io.github.jass2125.igeo.core.util.JsonWebToken;
@@ -40,11 +41,11 @@ public class LoginWebService {
     }
 
     @POST
-    public Response login(LoginVO loginVo) {
+    public Response login(Count count) {
         UserPrincipal user = null;
         try {
-            user = userService.login(loginVo);
-            jsonWebToken = new JsonWebToken(user.getEmail());
+            user = userService.login(count);
+            jsonWebToken = new JsonWebToken(user.getCount().getEmail());
             String encodeResponse = jsonWebToken.encodeResponse(user.getName(), new Gson().toJson(user));
             sessionRedis.createKey(jsonWebToken.getToken(), user.getId().toString());
             return Response.
@@ -54,10 +55,12 @@ public class LoginWebService {
                     status(Response.Status.OK)
                     .build();
         } catch (ApplicationException e) {
+            e.printStackTrace();
             return Response.
                     status(Response.Status.NO_CONTENT).
                     build();
         } catch (Exception e) {
+            e.printStackTrace();
             return Response.
                     status(Response.Status.NO_CONTENT).
                     build();

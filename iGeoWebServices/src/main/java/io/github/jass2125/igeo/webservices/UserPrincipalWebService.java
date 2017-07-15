@@ -60,6 +60,7 @@ public class UserPrincipalWebService {
     public Response deleteUserPrincipal(@PathParam("id") Long id) {
         try {
             UserPrincipal searchUserPrincipalById = userPrincipalService.searchUserPrincipalById(id);
+            System.out.println(searchUserPrincipalById);
             userPrincipalService.delete(searchUserPrincipalById);
         } catch (ApplicationException ex) {
             Logger.getLogger(UserPrincipalWebService.class.getName()).log(Level.SEVERE, null, ex);

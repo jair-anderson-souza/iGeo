@@ -6,6 +6,7 @@
 package io.github.jass2125.igeo.core.services;
 
 import io.github.jass2125.igeo.core.dao.UserPrincipalDao;
+import io.github.jass2125.igeo.core.entity.Count;
 import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.entity.enums.Status;
@@ -15,7 +16,6 @@ import io.github.jass2125.igeo.core.exceptions.EncodingException;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
 import io.github.jass2125.igeo.core.util.PasswordEncriptor;
-import io.github.jass2125.igeo.core.vo.LoginVO;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -38,10 +38,11 @@ public class UserPrincipalServiceImp implements UserPrincipalService {
     }
 
     @Override
-    public UserPrincipal login(LoginVO loginVO) throws ApplicationException {
+    public UserPrincipal login(Count count) throws ApplicationException {
         try {
-            String encryptPassword = encriptor.encryptPassword(loginVO.getPassword());
-            return dao.login(loginVO.getEmail(), encryptPassword);
+            String encryptPassword = encriptor.encryptPassword(count.getPassword());
+            UserPrincipal login = dao.login(count.getEmail(), encryptPassword);
+            return login;
         } catch (EncodingException | CryptographyException | EntityException e) {
             throw new ApplicationException(e, e.getMessage());
         }
@@ -50,12 +51,12 @@ public class UserPrincipalServiceImp implements UserPrincipalService {
     @Override
     public UserPrincipal register(UserPrincipal userPrincipal) throws ApplicationException {
         try {
-            UserPrincipal userPrincipalTemp = dao.searchUserPrincipalByEmail(userPrincipal.getEmail());
-            if (userPrincipalTemp != null) {
+            Count count = dao.searchUserPrincipalByEmail(userPrincipal.getCount().getEmail());
+            if (count != null) {
                 throw new ApplicationException("Email já cadastrado, tente outro");
             }
-            String passwordEncrypted = encriptor.encryptPassword(userPrincipal.getPassword());
-            userPrincipal.setPassword(passwordEncrypted);
+            String passwordEncrypted = encriptor.encryptPassword(userPrincipal.getCount().getPassword());
+            userPrincipal.getCount().setPassword(passwordEncrypted);
             userPrincipal.setProfileStatus(Status.ACTIVE);
             return dao.save(userPrincipal);
         } catch (EncodingException | CryptographyException | EntityException e) {
@@ -66,9 +67,9 @@ public class UserPrincipalServiceImp implements UserPrincipalService {
     @Override
     public UserPrincipal delete(UserPrincipal userPrincipal) throws ApplicationException {
         try {
-            UserPrincipal userPrincipalTemp = dao.searchUserPrincipalByEmail(userPrincipal.getEmail());
-            String passwordEncrypted = encriptor.encryptPassword(userPrincipal.getPassword());
-            userPrincipal.setPassword(passwordEncrypted);
+            Count count = dao.searchUserPrincipalByEmail(userPrincipal.getCount().getEmail());
+            String passwordEncrypted = encriptor.encryptPassword(userPrincipal.getCount().getPassword());
+            userPrincipal.getCount().setPassword(passwordEncrypted);
 //            return dao.save(userPrincipal);
             return null;
         } catch (Exception e) {

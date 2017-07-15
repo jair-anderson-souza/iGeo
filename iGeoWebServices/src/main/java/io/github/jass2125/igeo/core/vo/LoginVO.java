@@ -12,6 +12,7 @@ import java.io.Serializable;
  * @author <a href="mailto:jair_anderson_bs@hotmail.com">Anderson Souza</a>
  * @since Jun 27, 2017 9:53:02 PM
  */
+@Deprecated
 public class LoginVO implements Serializable {
 
     private String email;

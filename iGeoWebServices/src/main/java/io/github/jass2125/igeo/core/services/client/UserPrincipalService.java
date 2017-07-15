@@ -5,10 +5,10 @@
  */
 package io.github.jass2125.igeo.core.services.client;
 
+import io.github.jass2125.igeo.core.entity.Count;
 import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.exceptions.ApplicationException;
-import io.github.jass2125.igeo.core.vo.LoginVO;
 
 /**
  *
@@ -17,7 +17,7 @@ import io.github.jass2125.igeo.core.vo.LoginVO;
  */
 public interface UserPrincipalService {
 
-    public UserPrincipal login(LoginVO loginVO) throws ApplicationException;
+    public UserPrincipal login(Count count) throws ApplicationException;
 
     public UserPrincipal register(UserPrincipal userPrincipal) throws ApplicationException;
 

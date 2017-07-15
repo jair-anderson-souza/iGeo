@@ -44,6 +44,7 @@ public class RideDao {
 
     @PreDestroy
     public void destroy() {
+        this.em = null;
         this.criteriaBuilder = null;
         this.criteriaQuery = null;
         this.criteriaDelete = null;

@@ -5,10 +5,13 @@
  */
 package io.github.jass2125.igeo.core.dao;
 
+import io.github.jass2125.igeo.core.entity.Count;
+import io.github.jass2125.igeo.core.entity.Count_;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.entity.UserPrincipal_;
 import io.github.jass2125.igeo.core.entity.enums.Status;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -18,6 +21,11 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
@@ -31,39 +39,55 @@ public class UserPrincipalDao {
     @PersistenceContext
     private EntityManager em;
     private CriteriaBuilder criteriaBuilder;
-    private CriteriaQuery<UserPrincipal> criteriaQuery;
-    private Root<UserPrincipal> root;
+
+    private CriteriaQuery<UserPrincipal> criteriaQueryUserPrincipal;
+    private CriteriaQuery<Count> criteriaQueryCount;
+
+    private Root<UserPrincipal> rootUserPrincipal;
+    private Root<Count> rootCount;
 
     @PostConstruct
     public void init() {
         this.criteriaBuilder = em.getCriteriaBuilder();
-        this.criteriaQuery = criteriaBuilder.createQuery(UserPrincipal.class);
-        this.root = criteriaQuery.from(UserPrincipal.class);
+        this.criteriaQueryUserPrincipal = criteriaBuilder.createQuery(UserPrincipal.class);
+        this.criteriaQueryCount = criteriaBuilder.createQuery(Count.class);
+        this.rootUserPrincipal = criteriaQueryUserPrincipal.from(UserPrincipal.class);
+        this.rootCount = criteriaQueryCount.from(Count.class);
     }
 
     @PreDestroy
     public void onDestroy() {
+        this.em = null;
         this.criteriaBuilder = null;
-        this.criteriaQuery = null;
-        this.root = null;
+        this.criteriaQueryUserPrincipal = null;
+        this.criteriaQueryCount = null;
+        this.rootUserPrincipal = null;
+        this.rootCount = null;
     }
 
     public UserPrincipal login(String email, String password) throws EntityException {
         try {
-//            Join<UserPrincipal, Ride> join = root.join(UserPrincipal_.rides, JoinType.LEFT);
-//            join.on(criteriaBuilder.
-//                    and(criteriaBuilder.equal(root.get(UserPrincipal_.email), email),
-//                            criteriaBuilder.equal(root.get(UserPrincipal_.password), password)));
-//            query.select(root);
-//            return em.createQuery(query).getSingleResult();
-//            CriteriaQuery<UserPrincipal> query = query.
-//                    select(root);
-            UserPrincipal user = (UserPrincipal) em.createQuery("SELECT U FROM UserPrincipal U LEFT JOIN FETCH U.rides WHERE LOWER(U.email) = :email AND U.password = :password AND U.profileStatus = :status")
-                    .setParameter("email", email.toLowerCase())
-                    .setParameter("password", password)
-                    .setParameter("status", Status.ACTIVE)
-                    .getSingleResult();
-            return user;
+            Count count = searchUserPrincipalByEmail(email);
+            if (count != null) {
+                Join<UserPrincipal, Count> join = rootUserPrincipal.join(UserPrincipal_.count);
+
+                this.criteriaQueryUserPrincipal.
+                        multiselect(
+                                rootUserPrincipal.get(UserPrincipal_.id),
+                                rootUserPrincipal.get(UserPrincipal_.name),
+                                rootUserPrincipal.get(UserPrincipal_.profileStatus));
+
+                Predicate equalEmail = criteriaBuilder.equal(join.get(Count_.email), email);
+                Predicate equalPassword = criteriaBuilder.equal(join.get(Count_.password), password);
+                Predicate equalProfileStatus = criteriaBuilder.equal(rootUserPrincipal.get(UserPrincipal_.profileStatus), Status.ACTIVE);
+
+                this.criteriaQueryUserPrincipal.where(equalEmail, equalPassword, equalProfileStatus);
+
+                UserPrincipal user = em.createQuery(this.criteriaQueryUserPrincipal).getSingleResult();
+                user.setCount(count);
+                return user;
+            }
+            return null;
         } catch (NoResultException | NonUniqueResultException e) {
             e.printStackTrace();
             throw new EntityException(e, "Verifique os dados e tente novamente!");
@@ -75,6 +99,7 @@ public class UserPrincipalDao {
 
     public UserPrincipal save(UserPrincipal userPrincipal) throws EntityException {
         try {
+            em.persist(userPrincipal.getCount());
             em.persist(userPrincipal);
             return userPrincipal;
         } catch (Exception e) {
@@ -84,8 +109,21 @@ public class UserPrincipalDao {
 
     public UserPrincipal searchById(Long id) throws EntityException {
         try {
-            return (UserPrincipal) em.createQuery("SELECT U FROM UserPrincipal U LEFT JOIN FETCH U.rides WHERE U.id = :id").setParameter("id", id).getSingleResult();
+            Join<UserPrincipal, Count> join = this.rootUserPrincipal.join(UserPrincipal_.count);
+            this.criteriaQueryUserPrincipal.multiselect(
+                    rootUserPrincipal.get(UserPrincipal_.id),
+                    rootUserPrincipal.get(UserPrincipal_.phone),
+                    rootUserPrincipal.get(UserPrincipal_.name),
+                    rootUserPrincipal.get(UserPrincipal_.birthday),
+                    rootUserPrincipal.get(UserPrincipal_.profileStatus),
+                    join.get(Count_.id),
+                    join.get(Count_.email),
+                    join.get(Count_.password));
+            Predicate equalId = criteriaBuilder.equal(rootUserPrincipal.get(UserPrincipal_.id), id);
+            this.criteriaQueryUserPrincipal.where(equalId);
+            return this.em.createQuery(this.criteriaQueryUserPrincipal).getSingleResult();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new EntityException(e, "Erro ao buscar entidade");
         }
     }
@@ -98,15 +136,16 @@ public class UserPrincipalDao {
         }
     }
 
-    public UserPrincipal searchUserPrincipalByEmail(String email) throws EntityException {
+    public Count searchUserPrincipalByEmail(String email) throws EntityException {
         try {
-            this.criteriaQuery.
-                    where(criteriaBuilder.
-                            equal(criteriaBuilder.lower(root.get(UserPrincipal_.email)), email.toLowerCase()));
-            return em.createQuery(this.criteriaQuery).getSingleResult();
+            this.criteriaQueryCount
+                    .select(rootCount)
+                    .where(criteriaBuilder.equal(criteriaBuilder.lower(rootCount.get(Count_.email)), email.toLowerCase()));
+            return em.createQuery(this.criteriaQueryCount).getSingleResult();
         } catch (NoResultException e) {
             return null;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new EntityException(e, "Não existe");
         }
     }

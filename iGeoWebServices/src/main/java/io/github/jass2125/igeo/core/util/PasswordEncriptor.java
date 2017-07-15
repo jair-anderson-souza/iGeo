@@ -60,7 +60,7 @@ public class PasswordEncriptor {
             throw new EncodingException(e, "Não foi possível realizar a codificação da senha!");
         }
     }
-    
+
     public static void main(String[] args) throws EncodingException, CryptographyException {
         PasswordEncriptor enc = new PasswordEncriptor();
         String encryptPassword = enc.encryptPassword("123");
