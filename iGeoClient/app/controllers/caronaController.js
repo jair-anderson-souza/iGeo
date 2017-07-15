@@ -3,14 +3,23 @@ app.controller("caronaController", function ($scope, $http, apiConfig) {
 
     $scope.message = {};
 
+
+    $scope.addCityRoute = function () {
+        var input = document.createElement("input");
+        input.type = "text";
+        document.append(input);
+        console.log("entour");
+    }
+
+
     $scope.salvar = function (ride) {
-        
+
         $http.post(apiConfig.api + "/ride/1", ride).then(function (response) {
-            if(response.status === 200){
+            if (response.status === 200) {
                 delete $scope.ride;
                 delete $scope.formOffer;
                 $scope.message.rideSuccessful = "A carona foi registrada com sucesso";
-            }else if(response.status === 204){
+            } else if (response.status === 204) {
                 $scope.message.rideError = "Ocorreu um erro, tente novamente";
             }
             delete $scope.formOffer;
@@ -26,7 +35,7 @@ app.controller("caronaController", function ($scope, $http, apiConfig) {
 
     $scope.map = new google.maps.Map(document.getElementById("map"), {
         zoom: 8,
-        center: {lat: 0, lng: 0}
+        center: {lat: 41.85, lng: -87.65}
     });
 
 
@@ -62,10 +71,21 @@ app.controller("caronaController", function ($scope, $http, apiConfig) {
                 'Error: The Geolocation service failed.' :
                 'Error: Your browser doesn\'t support geolocation.');
     }
+    
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        var waypts = [];
         infoWindow.setContent("Minha Localização");
+        var passage = document.getElementById("passage").value;
+        if(passage !== null && passage !== ""){
+            waypts.push({
+                location : passage,
+                stopover : true
+            });
+        }
         directionsService.route({
             origin: document.getElementById("start").value,
+            optimizeWaypoints : true,
+            waypoints : waypts, 
             destination: document.getElementById("end").value,
             travelMode: "DRIVING"
         }, function (response, status) {
@@ -80,10 +100,11 @@ app.controller("caronaController", function ($scope, $http, apiConfig) {
             }
         });
     }
+
     $scope.searchRoute = function () {
-        if($scope.ride.cityOrigin.toUpperCase() == $scope.ride.cityDestiny.toUpperCase()){
+        if ($scope.ride.cityOrigin.toUpperCase() == $scope.ride.cityDestiny.toUpperCase()) {
             alert("Você informou a mesma cidade!!");
-        }else{
+        } else {
             calculateAndDisplayRoute(directionsService, directionsDisplay);
         }
     };

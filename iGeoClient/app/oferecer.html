@@ -1,1 +1,99 @@
-<h1>Oferecer Carona</h1>
+<div class="container">
+    <div class="col-sm-4">
+        <div class="page-header">
+            
+            <div ng-if="message.rideSuccessful.length > 0" class="alert alert-success">
+                {{message.rideSuccessful}}
+            </div>
+            
+            <div ng-if="message.rideError.length > 0" class="alert alert-success">
+                {{message.rideError}}
+            </div>
+
+            <form name="formOffer">
+                <div ng-if="formOffer.origin.$dirty" ng-messages="formOffer.origin.$error">
+                    <div class="alert alert-danger" ng-message="required">
+                        <strong>Atenção</strong> Preencha este campo
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>De onde você vai sair?</label>
+                    <input class="form-control" type="text" name="origin" required="true" ng-model="ride.cityOrigin" id="start">
+                </div>
+
+                <br/>
+
+                <div ng-if="formOffer.destination.$dirty" ng-messages="formOffer.origin.$error">
+                    <div class="alert alert-danger" ng-message="required">
+                        <strong>Atenção</strong> Preencha este campo
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Para onde você vai?</label>
+                    <input class="form-control" name="destination" required="true" type="text" id="end" ng-model="ride.cityDestiny">
+                </div>
+
+                <br/>
+                <label>Adicionar Cidade de Passagem</label>
+                <input class="form-control" type="text" name="cidade" ng-model="passage" id="passage">
+                
+                <br/>
+
+                <button class="btn btn-default" ng-disabled="formOffer.origin.$invalid || formOffer.destination.$invalid" ng-click="searchRoute()">Buscar Rota</button>
+        
+                <br/>
+                <br/>
+
+                <div ng-if="formOffer.date.$dirty" ng-messages="formOffer.date.$error">
+                    <div class="alert alert-danger" ng-message="required">
+                        <strong>Atenção</strong> Preencha este campo
+                    </div>
+                    <div class="alert alert-danger" ng-message="mask">
+                        <strong>Atenção</strong> Formato dd/MM/yyyy
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Data de Viagem</label>
+                    <input class="form-control" type="text" mask="99/99/9999" required="true" name="date" ng-model="ride.date">
+                </div>
+
+                <br/>
+
+                <div ng-if="formOffer.departureTime.$dirty" ng-messages="formOffer.departureTime.$error">
+                    <div class="alert alert-danger" ng-message="required">
+                        <strong>Atenção</strong> Preencha este campo
+                    </div>
+                    <div class="alert alert-danger" ng-message="mask">
+                        <strong>Atenção</strong> Formato hh:mm - Hora máxima: 23:59
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Hora de Saída</label>
+                    <input class="form-control" required="true" mask="23:59" type="text" name="departureTime" ng-model="ride.departureTime" class="hour">
+                </div>
+
+                <br/>
+
+                <div ng-if="formOffer.oil.$dirty" ng-messages="formOffer.oil.$error">
+                    <div class="alert alert-danger" ng-message="required">
+                        <strong>Atenção</strong> Preencha este campo
+                    </div>
+                    <div class="alert alert-danger" ng-message="mask">
+                        <strong>Atenção</strong> O valor deve ser separado por vírgula
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Ajuda de Custo</label>
+                    <input class="form-control" mask="9?9?9,99" required="true" ng-model="ride.oil" type="text" name="oil">
+                </div>
+                <br/>
+                <button class="btn btn-success" ng-click="salvar(ride)" ng-disabled="formOffer.$invalid">Salvar Carona</button>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <div id="map"></div>
+    </div>
+</div>
