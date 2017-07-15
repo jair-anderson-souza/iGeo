@@ -3,7 +3,7 @@
         <h1>Login</h1>
         <br/>
         <br/>
-        
+
         <div class="alert alert-danger" ng-if="message.messageLoginError.length > 0">
             {{message.messageLoginError}}
         </div>
@@ -18,7 +18,7 @@
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                 <input type="text" name="email" class="form-control" ng-model="loginVO.email" required="true" placeholder="Email">
             </div>
-            
+
             <br/>
 
             <div ng-if="formLogin.password.$dirty" ng-messages="formLogin.password.$error">
@@ -46,5 +46,4 @@
     </div>
 
 </form>
-</div>
 </div>

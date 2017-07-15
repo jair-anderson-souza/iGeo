@@ -1,5 +1,4 @@
 var app = angular.module("app");
-
 app.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/");
     $stateProvider
@@ -26,16 +25,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 }
             })
             .state("/home", {
-                cache : false,
-                url : "/home",
-                views : {
-                    "header" : {
-                        templateUrl : "dashboard2.html",
-                        controller : "caronaController"
+                cache: false,
+                url: "/home",
+                views: {
+                    "header": {
+                        templateUrl: "dashboard2.html",
+                        controller: "caronaController"
                     },
-                    "content" : {
-                        templateUrl : "home.html",
-                        controller : "caronaController"
+                    "content": {
+                        templateUrl: "home.html",
+                        controller: "caronaController"
                     }
                 }
             })
@@ -51,6 +50,30 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                         controller: "registerController"
                     }
                 }
-            });
+            })
+            .state("/oferecer", {
+                cache: false,
+                url: "/oferecer",
+                views: {
+                    "header": {
+                        templateUrl: "dashboard2.html"
+                    },
+                    "content": {
+                        templateUrl: "oferecer.html",
+                        controller: "caronaController"
+                    }
+                }})
+            .state("/pedir", {
+                cache: false,
+                url: "/pedir",
+                views: {
+                    "header": {
+                        templateUrl: "dashboard2.html"
+                    },
+                    "content": {
+                        templateUrl: "pedir.html",
+                        controller: "caronaController"
+                    }
+                }});
 });
 

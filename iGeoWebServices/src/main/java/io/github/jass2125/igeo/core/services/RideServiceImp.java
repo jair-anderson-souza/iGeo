@@ -36,7 +36,6 @@ public class RideServiceImp implements RideService {
             UserPrincipal userPrincipal = this.userPrincipalService.searchUserPrincipalById(idUserPrincipal);
             if (userPrincipal == null) {
                 throw new ApplicationException("Não foi possível encontrar o usuário");
-
             }
             userPrincipal.addRide(ride);
             userPrincipalService.update(userPrincipal);

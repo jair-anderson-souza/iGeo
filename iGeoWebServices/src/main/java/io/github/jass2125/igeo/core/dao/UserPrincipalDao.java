@@ -7,11 +7,12 @@ package io.github.jass2125.igeo.core.dao;
 
 import io.github.jass2125.igeo.core.entity.Count;
 import io.github.jass2125.igeo.core.entity.Count_;
+import io.github.jass2125.igeo.core.entity.Ride;
+import io.github.jass2125.igeo.core.entity.Ride_;
 import io.github.jass2125.igeo.core.entity.UserPrincipal;
 import io.github.jass2125.igeo.core.entity.UserPrincipal_;
 import io.github.jass2125.igeo.core.entity.enums.Status;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -21,10 +22,8 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Path;
+import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -109,19 +108,9 @@ public class UserPrincipalDao {
 
     public UserPrincipal searchById(Long id) throws EntityException {
         try {
-            Join<UserPrincipal, Count> join = this.rootUserPrincipal.join(UserPrincipal_.count);
-            this.criteriaQueryUserPrincipal.multiselect(
-                    rootUserPrincipal.get(UserPrincipal_.id),
-                    rootUserPrincipal.get(UserPrincipal_.phone),
-                    rootUserPrincipal.get(UserPrincipal_.name),
-                    rootUserPrincipal.get(UserPrincipal_.birthday),
-                    rootUserPrincipal.get(UserPrincipal_.profileStatus),
-                    join.get(Count_.id),
-                    join.get(Count_.email),
-                    join.get(Count_.password));
-            Predicate equalId = criteriaBuilder.equal(rootUserPrincipal.get(UserPrincipal_.id), id);
-            this.criteriaQueryUserPrincipal.where(equalId);
-            return this.em.createQuery(this.criteriaQueryUserPrincipal).getSingleResult();
+            return (UserPrincipal) em.createQuery("SELECT U FROm UserPrincipal U JOIN FETCH U.rides JOIN FETCH U.count WHERE U.id = :id").
+                    setParameter("id", id).
+                    getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();
             throw new EntityException(e, "Erro ao buscar entidade");

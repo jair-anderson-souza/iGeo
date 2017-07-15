@@ -5,7 +5,6 @@
  */
 package io.github.jass2125.igeo.core.entity;
 
-import static io.github.jass2125.igeo.core.entity.UserPrincipal_.count;
 import io.github.jass2125.igeo.core.entity.enums.Status;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import java.io.Serializable;
