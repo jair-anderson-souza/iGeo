@@ -12,6 +12,7 @@ import io.github.jass2125.igeo.core.exceptions.ApplicationException;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import io.github.jass2125.igeo.core.services.client.RideService;
 import io.github.jass2125.igeo.core.services.client.UserPrincipalService;
+import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -64,6 +65,15 @@ public class RideServiceImp implements RideService {
             }
             return rideDao.update(ride);
         } catch (Exception e) {
+            throw new ApplicationException(e, e.getMessage());
+        }
+    }
+
+    @Override
+    public Set<Ride> getRides() throws ApplicationException {
+        try {
+            return rideDao.findAll();
+        } catch (EntityException e) {
             throw new ApplicationException(e, e.getMessage());
         }
     }

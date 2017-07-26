@@ -1,7 +1,19 @@
 var app = angular.module("app");
-app.controller("caronaController", function ($scope, $http, apiConfig) {
+
+app.controller("caronaController", function ($scope, $http, apiConfig, rideServiceAPI) {
+    loadRides();
 
     $scope.message = {};
+
+    function loadRides() {
+        $http.get(apiConfig.api + "/ride").then(function (response) {
+            if (response.status == 200) {
+                console.log(response);
+                $scope.rides = response.data;
+            }
+        }), function (response) {
+        };
+    }
 
 
     $scope.addCityRoute = function () {
@@ -10,6 +22,7 @@ app.controller("caronaController", function ($scope, $http, apiConfig) {
         document.append(input);
         console.log("entour");
     }
+
 
 
     $scope.salvar = function (ride) {
@@ -71,21 +84,21 @@ app.controller("caronaController", function ($scope, $http, apiConfig) {
                 'Error: The Geolocation service failed.' :
                 'Error: Your browser doesn\'t support geolocation.');
     }
-    
+
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         var waypts = [];
         infoWindow.setContent("Minha Localização");
         var passage = document.getElementById("passage").value;
-        if(passage !== null && passage !== ""){
+        if (passage !== null && passage !== "") {
             waypts.push({
-                location : passage,
-                stopover : true
+                location: passage,
+                stopover: true
             });
         }
         directionsService.route({
             origin: document.getElementById("start").value,
-            optimizeWaypoints : true,
-            waypoints : waypts, 
+            optimizeWaypoints: true,
+            waypoints: waypts,
             destination: document.getElementById("end").value,
             travelMode: "DRIVING"
         }, function (response, status) {

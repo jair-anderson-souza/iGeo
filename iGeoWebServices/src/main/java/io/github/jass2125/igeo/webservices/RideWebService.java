@@ -8,14 +8,17 @@ package io.github.jass2125.igeo.webservices;
 import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.exceptions.ApplicationException;
 import io.github.jass2125.igeo.core.services.client.RideService;
+import java.util.Set;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -59,6 +62,21 @@ public class RideWebService {
         } catch (ApplicationException e) {
             return Response.
                     ok(ride).
+                    status(Status.NO_CONTENT).
+                    build();
+        }
+    }
+
+    @GET
+    public Response getAllRides() {
+        try {
+            Set<Ride> rides = this.rideService.getRides();
+            return Response
+                    .ok(new GenericEntity<Set<Ride>>(rides){}, MediaType.APPLICATION_JSON)
+                    .build();
+        } catch (ApplicationException e) {
+            return Response.
+                    ok().
                     status(Status.NO_CONTENT).
                     build();
         }

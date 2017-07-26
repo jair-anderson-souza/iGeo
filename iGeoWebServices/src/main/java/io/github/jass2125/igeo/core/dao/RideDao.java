@@ -6,12 +6,17 @@
 package io.github.jass2125.igeo.core.dao;
 
 import io.github.jass2125.igeo.core.entity.Ride;
+import io.github.jass2125.igeo.core.entity.Ride_;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
@@ -88,6 +93,22 @@ public class RideDao {
             return em.merge(ride);
         } catch (Exception e) {
             throw new EntityException(e, "Ocorreu um erro de sistema!!");
+        }
+    }
+
+    public Set<Ride> findAll() throws EntityException {
+        try {
+            this.criteriaQuery.multiselect(
+                    this.rootQuery.get(Ride_.id),
+                    this.rootQuery.get(Ride_.cityOrigin),
+                    this.rootQuery.get(Ride_.cityDestiny),
+                    this.rootQuery.get(Ride_.date),
+                    this.rootQuery.get(Ride_.departureTime)
+            );
+            List<Ride> resultList = em.createQuery(criteriaQuery).getResultList();
+            return new HashSet<>(resultList);
+        } catch (Exception e) {
+            throw new EntityException(e, "Não foi possível buscar as caronas!");
         }
     }
 }
