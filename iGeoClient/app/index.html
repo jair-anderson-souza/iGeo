@@ -22,6 +22,7 @@
         <script src="controllers/loginController.js"></script>
         <script src="controllers/registerController.js"></script>
         <script src="controllers/caronaController.js"></script>
+        <script src="controllers/rideCtrl.js"></script>
 
         <script src="routes/app-route.js"></script>
         <script src="config/apiConfig.js"></script>
@@ -29,6 +30,7 @@
 
         <script src="services/userServiceAPI.js"></script>
         <script src="services/rideServiceAPI.js"></script>
+        <script src="services/directionsApiAPI.js"></script>
         <!-- Routes
 
         
@@ -50,6 +52,7 @@
              * element that contains the map. */
             #map {
                 height: 500px;
+                width: 100%;
             }
 
         </style>
@@ -59,9 +62,9 @@
         <div ui-view="header"></div>
         <div ui-view="content"></div>
         <div ui-view="footer"></div>        
-
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTdf2tYuR20XgsTUSU7h8VbG3ksNoUuNE">
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTdf2tYuR20XgsTUSU7h8VbG3ksNoUuNE">
         </script>
+        
     </body>
 
 </html>

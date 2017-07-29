@@ -72,7 +72,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                     },
                     "content": {
                         templateUrl: "pedir.html",
-                        controller: "caronaController"
+                        controller: "rideCtrl"
                     }
                 }});
 });

@@ -1,20 +1,11 @@
 var app = angular.module("app");
 
-app.controller("caronaController", function ($scope, $http, apiConfig, rideServiceAPI) {
-    loadRides();
+app.controller("caronaController", function ($scope, $http, apiConfig, rideServiceAPI, directionService) {
+    
 
     $scope.message = {};
-
-    function loadRides() {
-        $http.get(apiConfig.api + "/ride").then(function (response) {
-            if (response.status == 200) {
-                console.log(response);
-                $scope.rides = response.data;
-            }
-        }), function (response) {
-        };
-    }
-
+    $scope.lat = {};
+    
 
     $scope.addCityRoute = function () {
         var input = document.createElement("input");
@@ -23,12 +14,21 @@ app.controller("caronaController", function ($scope, $http, apiConfig, rideServi
         console.log("entour");
     }
 
-
+    function searchOnApiDirections(){
+        var start = document.getElementById("start");
+        var end = document.getElementById("end");
+        directionService.getDirection(start, end).then(function(response){
+                console.log(response);
+            }), function(response){
+                console.log(response);
+            }   
+        }
 
     $scope.salvar = function (ride) {
-
         $http.post(apiConfig.api + "/ride/1", ride).then(function (response) {
             if (response.status === 200) {
+                searchOnApiDirections();
+                console.log($scope.lat);
                 delete $scope.ride;
                 delete $scope.formOffer;
                 $scope.message.rideSuccessful = "A carona foi registrada com sucesso";
@@ -45,15 +45,12 @@ app.controller("caronaController", function ($scope, $http, apiConfig, rideServi
 
     var directionsService = new google.maps.DirectionsService();
     var directionsDisplay = new google.maps.DirectionsRenderer();
-
+    
     $scope.map = new google.maps.Map(document.getElementById("map"), {
         zoom: 8,
         center: {lat: 41.85, lng: -87.65}
     });
 
-
-
-    /*google.maps.event.addDomListener(window, "load", onLoad($scope));*/
 
     directionsDisplay.setMap($scope.map);
 
@@ -62,6 +59,7 @@ app.controller("caronaController", function ($scope, $http, apiConfig, rideServi
     };
 
     var infoWindow = new google.maps.InfoWindow({map: $scope.map});
+    
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             var pos = {
@@ -104,6 +102,8 @@ app.controller("caronaController", function ($scope, $http, apiConfig, rideServi
         }, function (response, status) {
             if (status === "OK") {
                 directionsDisplay.setDirections(response);
+                console.log(directionsDisplay);
+                $scope.lat = $scope.map.getCenter().lat(); 
             } else {
                 $scope.formOffer.destination.$invalid = true;
                 $scope.formOffer.origin.$invalid = true;

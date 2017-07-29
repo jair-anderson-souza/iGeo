@@ -8,7 +8,7 @@ app.service("rideServiceAPI", function($http, apiConfig){
 	var _getRides = function(){
 		return $http.get(apiConfig.api + "/ride");
 	}
-
+	
 	return {
 		saveRide : _saveRide,
 		getRide : _getRides
