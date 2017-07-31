@@ -27,8 +27,10 @@ public class Route implements Serializable {
     private Long id;
     private String latitudeOrigin;
     private String longitudeOrigin;
+    private String cityNameOrigin;
     private String latitudeDestination;
     private String longitudeDestination;
+    private String cityNameDestination;
     private String distance;
     private String arrivalTime;
 
@@ -89,6 +91,22 @@ public class Route implements Serializable {
 
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    public String getCityNameOrigin() {
+        return cityNameOrigin;
+    }
+
+    public void setCityNameOrigin(String cityNameOrigin) {
+        this.cityNameOrigin = cityNameOrigin;
+    }
+
+    public String getCityNameDestination() {
+        return cityNameDestination;
+    }
+
+    public void setCityNameDestination(String cityNameDestination) {
+        this.cityNameDestination = cityNameDestination;
     }
 
     @Override

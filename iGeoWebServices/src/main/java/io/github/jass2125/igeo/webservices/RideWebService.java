@@ -91,7 +91,7 @@ public class RideWebService {
             return Response
                     .ok(rideTemp, MediaType.APPLICATION_JSON)
                     .build();
-        } catch (Exception e) {
+        } catch (ApplicationException e) {
             return Response.
                     ok(ride, MediaType.APPLICATION_JSON).
                     status(Status.NO_CONTENT).

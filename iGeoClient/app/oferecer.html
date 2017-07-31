@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group">
                     <label>De onde você vai sair?</label>
-                    <input class="form-control" type="text" name="origin" required="true" ng-model="ride.cityOrigin" id="start">
+                    <input class="form-control" type="text" name="origin" required="true" ng-model="ride.routeOrigin.cityNameOrigin" id="start">
                 </div>
 
                 <br/>
@@ -30,12 +30,12 @@
                 </div>
                 <div class="form-group">
                     <label>Para onde você vai?</label>
-                    <input class="form-control" name="destination" required="true" type="text" id="end" ng-model="ride.cityDestiny">
+                    <input class="form-control" name="destination" required="true" type="text" id="end" ng-model="ride.routeDestination.cityNameDestination">
                 </div>
 
                 <br/>
                 <label>Adicionar Cidade de Passagem</label>
-                <input class="form-control" type="text" name="cidade" ng-model="passage" id="passage">
+                <input class="form-control" type="text" name="cidade" ng-model="ride.cityInTheMiddle.cityNameDestination" id="passage">
                 
                 <br/>
 

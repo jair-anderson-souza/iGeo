@@ -6,7 +6,6 @@
 package io.github.jass2125.igeo.core.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -29,11 +28,11 @@ public class Ride implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ride_seq")
     private Long id;
-    private String cityOrigin;
-    private String cityDestiny;
     private String date;
     private String departureTime;
-    private BigDecimal oil;
+    private String oil;
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
+    private Route cityInTheMiddle;
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
     private Route routeOrigin;
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
@@ -42,12 +41,11 @@ public class Ride implements Serializable {
     public Ride() {
         this.routeOrigin = new Route();
         this.routeDestiny = new Route();
+        this.cityInTheMiddle = new Route();
     }
 
-    public Ride(Long id, String cityOrigin, String cityDestiny, String date, String departureTime) {
+    public Ride(Long idString, String date, String departureTime) {
         this.id = id;
-        this.cityOrigin = cityOrigin;
-        this.cityDestiny = cityDestiny;
         this.date = date;
         this.departureTime = departureTime;
     }
@@ -60,20 +58,12 @@ public class Ride implements Serializable {
         this.id = id;
     }
 
-    public String getCityOrigin() {
-        return cityOrigin;
+    public Route getCityInTheMiddle() {
+        return cityInTheMiddle;
     }
 
-    public void setCityOrigin(String cityOrigin) {
-        this.cityOrigin = cityOrigin;
-    }
-
-    public String getCityDestiny() {
-        return cityDestiny;
-    }
-
-    public void setCityDestiny(String cityDestiny) {
-        this.cityDestiny = cityDestiny;
+    public void setCityInTheMiddle(Route cityInTheMiddle) {
+        this.cityInTheMiddle = cityInTheMiddle;
     }
 
     public String getDate() {
@@ -92,11 +82,11 @@ public class Ride implements Serializable {
         this.departureTime = departureTime;
     }
 
-    public BigDecimal getOil() {
+    public String getOil() {
         return oil;
     }
 
-    public void setOil(BigDecimal oil) {
+    public void setOil(String oil) {
         this.oil = oil;
     }
 
@@ -140,7 +130,7 @@ public class Ride implements Serializable {
 
     @Override
     public String toString() {
-        return "Ride{" + "id=" + id + ", cityOrigin=" + cityOrigin + ", cityDestiny=" + cityDestiny + ", date=" + date + ", departureTime=" + departureTime + ", oil=" + oil + ", routeOrigin=" + routeOrigin + ", routeDestiny=" + routeDestiny + '}';
+        return "Ride{" + "id=" + id + ", date=" + date + ", departureTime=" + departureTime + ", oil=" + oil + ", cityInTheMiddle=" + cityInTheMiddle + ", routeOrigin=" + routeOrigin + ", routeDestiny=" + routeDestiny + '}';
     }
 
 }
