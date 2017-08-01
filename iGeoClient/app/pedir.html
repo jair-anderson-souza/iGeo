@@ -1,10 +1,29 @@
-<div id="offer">
-	<table>
-    <td>sdfsd</td>
-    	<tr ng-repeat="ride in rides">
-    		<td>{{ride}}</td>
-    		<td>{{ride.cityDestiny}}</td>
-    	</tr>
+
+<div>
+    <form name="formSearch">
+        <label>Saindo de:</label>
+        <input type="text" name="ride" ng-model="origin">
+        
+        <label>Indo para:</label>
+        <input type="text" name="ride" ng-model="destination">
+
+        <input type="text" name="ride" ng-model="date">
+
+        <input type="button" name="" value="Buscar Carona" ng-click="search(origin, destination, date)">
+    </form>
+
+    <table>
+        <tr ng-repeat="ride in ridesBy">
+            <td>{{ride}}</td>
+            <td>{{ride.id}}</td>
+        </tr>
+    </table>
+
+    <table>
+        <tr ng-repeat="ride in rides">
+            <td>{{ride}}</td>
+            <td>{{ride.cityDestiny}}</td>
+        </tr>
     </table>
 
 </div>

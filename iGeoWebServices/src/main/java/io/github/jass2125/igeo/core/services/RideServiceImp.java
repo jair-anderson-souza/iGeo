@@ -77,4 +77,13 @@ public class RideServiceImp implements RideService {
             throw new ApplicationException(e, e.getMessage());
         }
     }
+
+    @Override
+    public Set<Ride> getRides(String origin, String destination, String date) throws ApplicationException {
+        try {
+            return rideDao.searchByParameters(origin, destination, date);
+        } catch (Exception e) {
+            throw new ApplicationException(e, e.getMessage());
+        }
+    }
 }

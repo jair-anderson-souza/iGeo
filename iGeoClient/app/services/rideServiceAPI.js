@@ -5,12 +5,23 @@ app.service("rideServiceAPI", function($http, apiConfig){
 		return $http.post(apiConfig.api + "/ride/" + id , ride);
 	};
 
-	var _getRides = function(){
+	var _getAllRides = function(){
 		return $http.get(apiConfig.api + "/ride");
+	}
+
+	var _getRides = function(origin, destination, date){
+		return $http({
+			method : "GET",
+			url : apiConfig.api + "/ride/list",
+			params : {"origin": origin, "destination" : destination, "date" : date}
+		});	
+		/*return $http.get(apiConfig.api + "/ride?origin=" + origin + "&destination=" + destination + "&date=" + date);*/
 	}
 	
 	return {
 		saveRide : _saveRide,
-		getRide : _getRides
+		getAllRides : _getAllRides,
+		getRides : _getRides
+
 	}
 });

@@ -24,4 +24,6 @@ public interface RideService {
 
     public Set<Ride> getRides() throws ApplicationException;
 
+    public Set<Ride> getRides(String origin, String destination, String date) throws ApplicationException;
+
 }

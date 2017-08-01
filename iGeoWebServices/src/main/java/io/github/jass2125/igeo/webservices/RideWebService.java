@@ -8,6 +8,8 @@ package io.github.jass2125.igeo.webservices;
 import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.exceptions.ApplicationException;
 import io.github.jass2125.igeo.core.services.client.RideService;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -18,6 +20,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -68,11 +71,31 @@ public class RideWebService {
     }
 
     @GET
-    public Response getAllRides() {
+    public Response getRides() {
         try {
             Set<Ride> rides = this.rideService.getRides();
             return Response
-                    .ok(new GenericEntity<Set<Ride>>(rides){}, MediaType.APPLICATION_JSON)
+                    .ok(new GenericEntity<Set<Ride>>(rides) {
+                    }, MediaType.APPLICATION_JSON)
+                    .build();
+        } catch (ApplicationException e) {
+            return Response.
+                    ok().
+                    status(Status.NO_CONTENT).
+                    build();
+        }
+    }
+
+    @GET
+    @Path("/list")
+    public Response getAllRides(@QueryParam("origin") String origin, @QueryParam("destination") String destination, @QueryParam("date") String date) {
+        try {
+            Set<Ride> rides = this.rideService.getRides(origin, destination, date);
+            List<Ride> lista = new ArrayList<>(rides);
+            System.out.println(rides);
+            return Response
+                    .ok(new GenericEntity<List<Ride>>(lista) {
+                    })
                     .build();
         } catch (ApplicationException e) {
             return Response.

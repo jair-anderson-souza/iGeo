@@ -97,17 +97,32 @@ public class RideDao {
 
     public Set<Ride> findAll() throws EntityException {
         try {
-//            this.criteriaQuery.multiselect(
-//                    this.rootQuery.get(Ride_.id),
-//                    this.rootQuery.get(Ride_.cityOrigin),
-//                    this.rootQuery.get(Ride_.cityDestiny),
-//                    this.rootQuery.get(Ride_.date),
-//                    this.rootQuery.get(Ride_.departureTime)
-//            );
-//            List<Ride> resultList = em.createQuery(criteriaQuery).getResultList();
-            return new HashSet<>(null);
+            this.criteriaQuery.multiselect(
+                    this.rootQuery.get(Ride_.id),
+                    this.rootQuery.get(Ride_.date),
+                    this.rootQuery.get(Ride_.departureTime)
+            );
+            List<Ride> resultList = em.createQuery(criteriaQuery).getResultList();
+            return new HashSet<>(resultList);
         } catch (Exception e) {
             throw new EntityException(e, "Não foi possível buscar as caronas!");
+        }
+    }
+
+    public Set<Ride> searchByParameters(String origin, String destination, String date) {
+        try {
+            List<Ride> lista = em.createQuery("SELECT R FROM Ride R LEFT JOIN FETCH R.cityInTheMiddle LEFT JOIN FETCH R.routeDestiny LEFT JOIN FETCH R.routeOrigin").getResultList();
+//            List<Ride> lista = em.createQuery("SELECT R "
+//                    + "FROM Ride R LEFT JOIN FETCH R.cityInTheMiddle "
+//                    + "WHERE R.cityInTheMiddle.cityNameOrigin = :origin OR R.routeDestiny.cityNameDestination = :destination OR R.date = :date").
+//                    setParameter("origin", origin).
+//                    setParameter("destination", destination).
+//                    setParameter("date", date).
+//                    getResultList();
+            return new HashSet(lista);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

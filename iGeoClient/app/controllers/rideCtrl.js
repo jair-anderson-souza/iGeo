@@ -1,13 +1,14 @@
 var app = angular.module("app");
 
-app.controller("rideCtrl", function ($scope, rideServiceAPI, $http) {
-    console.log("entrou");
-    $http.get("http://localhost:8080/iGeoWebServices/webresources/ride").then(function (response) {
-        if (response.status == 200) {
-            console.log(response);
-            $scope.rides = response.data;
-        }
-    }), function (response) {
-    };
+app.controller("rideCtrl", function ($scope, rideServiceAPI) {
+
+    $scope.search = function (origin, destination, date) {
+        rideServiceAPI.getRides(origin, destination, date).then(function (response) {
+        	console.log(response);
+        	$scope.ridesBy = response.data;
+        }), function (response) {
+        	console.log("Erro");
+        };
+    }
 
 });

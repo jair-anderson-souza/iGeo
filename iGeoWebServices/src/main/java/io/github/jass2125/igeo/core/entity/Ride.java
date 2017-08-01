@@ -44,7 +44,7 @@ public class Ride implements Serializable {
         this.cityInTheMiddle = new Route();
     }
 
-    public Ride(Long idString, String date, String departureTime) {
+    public Ride(Long id, String date, String departureTime) {
         this.id = id;
         this.date = date;
         this.departureTime = departureTime;
