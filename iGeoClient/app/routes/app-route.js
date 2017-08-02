@@ -29,12 +29,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: "/home",
                 views: {
                     "header": {
-                        templateUrl: "dashboard2.html",
-                        controller: "caronaController"
+                        templateUrl: "dashboard2.html"
                     },
                     "content": {
-                        templateUrl: "home.html",
-                        controller: "caronaController"
+                        templateUrl: "home.html"
                     }
                 }
             })

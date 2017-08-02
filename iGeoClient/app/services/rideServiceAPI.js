@@ -2,7 +2,7 @@ var app = angular.module("app");
 
 app.service("rideServiceAPI", function($http, apiConfig){
 	var _saveRide = function(ride, id){
-		return $http.post(apiConfig.api + "/ride/" + id , ride);
+		return $http.post(apiConfig.api + "/ride/1", ride);
 	};
 
 	var _getAllRides = function(){
@@ -15,7 +15,6 @@ app.service("rideServiceAPI", function($http, apiConfig){
 			url : apiConfig.api + "/ride/list",
 			params : {"origin": origin, "destination" : destination, "date" : date}
 		});	
-		/*return $http.get(apiConfig.api + "/ride?origin=" + origin + "&destination=" + destination + "&date=" + date);*/
 	}
 	
 	return {

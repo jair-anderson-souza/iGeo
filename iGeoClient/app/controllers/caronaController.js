@@ -1,31 +1,26 @@
+/* global google */
+
 var app = angular.module("app");
 
-app.controller("caronaController", function ($scope, $http, apiConfig, rideServiceAPI, directionService) {
-    
+app.controller("caronaController", function ($scope, apiConfig, rideServiceAPI) {
+
 
     $scope.message = {};
     $scope.lat = {};
-    
+
 
     $scope.addCityRoute = function () {
         var input = document.createElement("input");
         input.type = "text";
         document.append(input);
         console.log("entour");
-    }
+    };
 
-    function searchOnApiDirections(){
-        var start = document.getElementById("start").value;
-        var end = document.getElementById("end").value;
-        directionService.getDirection(start, end).then(function(response){
-                console.log(response);
-            }), function(response){
-                console.log(response);
-            }   
-        }
 
     $scope.salvar = function (ride) {
-        $http.post(apiConfig.api + "/ride/1", ride).then(function (response) {
+        console.log($scope.ride.departureTime);
+        $scope.ride.cityInTheMiddle.arrivalTime = $scope.ride.departureTime + $scope.arrivalTime;
+        rideServiceAPI.saveRide(ride).then(function (response) {
             if (response.status === 200) {
                 delete $scope.ride;
                 delete $scope.formOffer;
@@ -43,21 +38,15 @@ app.controller("caronaController", function ($scope, $http, apiConfig, rideServi
 
     var directionsService = new google.maps.DirectionsService();
     var directionsDisplay = new google.maps.DirectionsRenderer();
-    
+
     $scope.map = new google.maps.Map(document.getElementById("map"), {
         zoom: 8,
         center: {lat: 41.85, lng: -87.65}
     });
-
-
     directionsDisplay.setMap($scope.map);
-
-    var onChangedHandler = function () {
-        calculateAndDisplayRoute(directionsService, directionsDisplay);
-    };
-
     var infoWindow = new google.maps.InfoWindow({map: $scope.map});
-    
+
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             var pos = {
@@ -101,6 +90,8 @@ app.controller("caronaController", function ($scope, $http, apiConfig, rideServi
             if (status === "OK") {
                 directionsDisplay.setDirections(response);
 
+                console.log($scope.ride);
+
                 console.log(response.routes[0].legs[0]);
 
 
@@ -111,7 +102,8 @@ app.controller("caronaController", function ($scope, $http, apiConfig, rideServi
                 $scope.ride.routeOrigin.cityNameOrigin = document.getElementById("start").value;
                 $scope.ride.routeOrigin.cityNameDestination = document.getElementById("passage").value;
                 $scope.ride.routeOrigin.distance = response.routes[0].legs[0].distance.value;
-                
+                $scope.arrivalTime = response.routes[0].legs[0].duration.value / 3600;
+
                 $scope.ride.cityInTheMiddle.cityNameOrigin = document.getElementById("start").value;
                 $scope.ride.cityInTheMiddle.latitudeOrigin = response.routes[0].legs[0].start_location.lat();
                 $scope.ride.cityInTheMiddle.longitudeOrigin = response.routes[0].legs[0].start_location.lng();
@@ -128,23 +120,23 @@ app.controller("caronaController", function ($scope, $http, apiConfig, rideServi
                 $scope.ride.routeDestiny.cityNameOrigin = document.getElementById("passage").value;
 
 
-/*
-                $scope.ride.cityInTheMiddle.latitudeOrigin = response.routes[1].legs[0].end_location.lat();
-                $scope.ride.routeOrigin.longitudeOrigin = response.routes[1].legs[0].end_location.lng();
-            
-
-                $scope.ride.routeOrigin.latitudeOrigin = response.routes[1].legs[0].end_location.lat();
-                $scope.ride.routeOrigin.longitudeOrigin = response.routes[1].legs[0].end_location.lng();
-                
- */               console.log(response.routes[0].legs[0]);
+                /*
+                 $scope.ride.cityInTheMiddle.latitudeOrigin = response.routes[1].legs[0].end_location.lat();
+                 $scope.ride.routeOrigin.longitudeOrigin = response.routes[1].legs[0].end_location.lng();
+                 
+                 
+                 $scope.ride.routeOrigin.latitudeOrigin = response.routes[1].legs[0].end_location.lat();
+                 $scope.ride.routeOrigin.longitudeOrigin = response.routes[1].legs[0].end_location.lng();
+                 
+                 */               console.log(response.routes[0].legs[0]);
                 console.log("Distance:" + response.routes[0].legs[0].distance.text);
                 console.log("Duration: " + response.routes[0].legs[0].duration.text);
-                
+
                 console.log("Start Location Lat: " + response.routes[0].legs[0].start_location.lat());
-                console.log("Start Location Lng:" + response.routes[0].legs[0].start_location.lng()); 
+                console.log("Start Location Lng:" + response.routes[0].legs[0].start_location.lng());
 
                 console.log("End Location Lat: " + response.routes[0].legs[0].end_location.lat());
-                console.log("End Location Lng:" + response.routes[0].legs[0].end_location.lng()); 
+                console.log("End Location Lng:" + response.routes[0].legs[0].end_location.lng());
             } else {
                 $scope.formOffer.destination.$invalid = true;
                 $scope.formOffer.origin.$invalid = true;

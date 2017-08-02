@@ -1,7 +1,7 @@
 var app = angular.module("app");
 app.controller("registerController", function($scope, userServiceAPI, $state){
 	
-	$scope.genders = ["MALE", "FEMALE"];
+	$scope.genders = [{name : "MASCULINO"}, {name : "FEMININO"}];
 
 	$scope.message = {};
 
