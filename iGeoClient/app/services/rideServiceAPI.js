@@ -9,11 +9,11 @@ app.service("rideServiceAPI", function($http, apiConfig){
 		return $http.get(apiConfig.api + "/ride");
 	}
 
-	var _getRides = function(origin, destination, date){
+	var _getRides = function(origin, date){
 		return $http({
 			method : "GET",
 			url : apiConfig.api + "/ride/list",
-			params : {"origin": origin, "destination" : destination, "date" : date}
+			params : {"origin": origin, "date" : date}
 		});	
 	}
 	

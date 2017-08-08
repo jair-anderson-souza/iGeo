@@ -1,22 +1,20 @@
-var app = angular.module("App");
+var app = angular.module("app");
 
 app.factory('testInterceptor', testInterceptor).config(function ($httpProvider) {
     $httpProvider.interceptors.push('testInterceptor');
 });
-function testInterceptor($rootScope, $location, $q, $timeout) {
+function testInterceptor($rootScope, $location, $q, $timeout, $rootScope) {
   var token = {};
   return {
     request: function(config) {
         config.headers = config.headers || {};
-        console.log("Request:" + config.headers);
-        console.log("Token:" + $rootScope.token);
-        if($rootScope.token){
-            config.header["SigningKey"] = $rootScope.token;
-        };
+        console.log($rootScope);
+
         return config;
     },
 
     requestError: function(config) {
+      console.log($rootScope);
       /*if(res.status !== 200){
         $location.path("/index");
       };
@@ -26,6 +24,7 @@ function testInterceptor($rootScope, $location, $q, $timeout) {
   */  return config;
 },
     response: function(res) {
+      console.log($rootScope);
       /*
       if(res.status == 200 && !res.data){
         
@@ -47,6 +46,7 @@ function testInterceptor($rootScope, $location, $q, $timeout) {
     },
 
     responseError: function(res) {
+      console.log($rootScope);
       /*
       console.log("ResponseError:" + res.status);
       console.log("ResponseError:" + res.headers);

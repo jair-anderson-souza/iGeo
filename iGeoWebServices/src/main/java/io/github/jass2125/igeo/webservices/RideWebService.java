@@ -8,7 +8,6 @@ package io.github.jass2125.igeo.webservices;
 import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.exceptions.ApplicationException;
 import io.github.jass2125.igeo.core.services.client.RideService;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
@@ -88,14 +87,13 @@ public class RideWebService {
 
     @GET
     @Path("/list")
-    public Response getAllRides(@QueryParam("origin") String origin, @QueryParam("destination") String destination, @QueryParam("date") String date) {
+    public Response getAllRides(@QueryParam("origin") String origin, @QueryParam("date") String date) {
         try {
-            Set<Ride> rides = this.rideService.getRides(origin, destination, date);
-            List<Ride> lista = new ArrayList<>(rides);
-            System.out.println(rides);
+            List<Ride> rides = this.rideService.getRides(origin, date);
+            System.out.println(rides.size());
             return Response
-                    .ok(new GenericEntity<List<Ride>>(lista) {
-                    })
+                    .ok(new GenericEntity<List<Ride>>(rides) {
+                    }, MediaType.APPLICATION_JSON)
                     .build();
         } catch (ApplicationException e) {
             return Response.

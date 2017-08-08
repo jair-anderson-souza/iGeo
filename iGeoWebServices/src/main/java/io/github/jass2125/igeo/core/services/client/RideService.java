@@ -7,6 +7,7 @@ package io.github.jass2125.igeo.core.services.client;
 
 import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.exceptions.ApplicationException;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -24,6 +25,6 @@ public interface RideService {
 
     public Set<Ride> getRides() throws ApplicationException;
 
-    public Set<Ride> getRides(String origin, String destination, String date) throws ApplicationException;
+    public List<Ride> getRides(String origin, String date) throws ApplicationException;
 
 }

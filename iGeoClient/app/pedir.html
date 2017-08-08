@@ -1,39 +1,54 @@
-
-<div>
-    <form name="formSearch">
-        <label>Saindo de:</label>
-        <input type="text" name="ride" ng-model="origin">
-        
-        <label>Indo para:</label>
-        <input type="text" name="ride" ng-model="destination">
-
-        <input type="text" name="ride" ng-model="date">
-
-        <input type="button" name="" value="Buscar Carona" ng-click="search(origin, destination, date)">
-    </form>
+<div class="container">
+    <br/>
     
+    <form name="formOffer">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Data</th>
-                <th>Hora de Saída</th>
-                <th>Ajuda no Combustível</th>
-                <th>Cidade de Passagem</th>
-            </tr>      
-        </thead>
-        <tbody>
-            <tr ng-repeat="ride in ridesBy">
-                <td>{{ride.date}}</td>
-                <td>{{ride.departureTime}}</td>
+        <div class="form-group">
+            <label>Data</label>
+            <input class="form-control" type="text" name="origin" required="true" ng-model="date">
+        </div>
+    </form>
+
+    <div class="page-header">
+        <div class="form-group">
+            <label>Origem</label>
+            <input class="form-control" type="text" name="origin" required="true" ng-model="origin">
+        </div>
+
+        <br/>
+
+        <button class="btn btn-success" ng-click="search(origin, date)">Buscar Caronas</button>
+
+    </div>
+    <div class="col-sm-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Hora de Saída</th>
+                    <th>Ajuda no Combustível</th>
+                    <th>Cidade de Passagem</th>
+                </tr>      
+            </thead>
+            <tbody>
+                <tr ng-repeat="ride in ridesBy">
+                    <td>{{ride}}</td>
+                <!--<td>{{ride.departureTime}}</td>
                 <td>{{ride.oil}}</td>
                 <td>{{ride.routeOrigin}}</td>
                 <td>{{ride.cityInTheMiddle}}</td>
-                <td>{{ride.routeDestiny}}</td>
+                <td>{{ride.routeDestiny}}</td>-->
             </tr>
         </tbody>
     </table>
-    
-    
+</div>
+<div class="col-sm-4"></div>
+</div>
 
+
+<br/>
+
+<br/>
+
+</div>
 </div>
