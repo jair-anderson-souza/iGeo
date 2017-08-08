@@ -6,8 +6,6 @@
 package io.github.jass2125.igeo.core.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,7 +13,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
@@ -40,11 +37,11 @@ public class Ride implements Serializable {
     private City cityOrigin;
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
     private City cityDestiny;
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
-    private List<City> cities;
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
+    private City cityPassage;
 
     public Ride() {
-        this.cities = new ArrayList<>();
+        this.cityPassage = new City();
         this.cityOrigin = new City();
         this.cityDestiny = new City();
     }
@@ -103,6 +100,14 @@ public class Ride implements Serializable {
         this.arrivalTime = arrivalTime;
     }
 
+    public void setCityPassage(City cityPassage) {
+        this.cityPassage = cityPassage;
+    }
+
+    public City getCityPassage() {
+        return cityPassage;
+    }
+
     public City getCityOrigin() {
         return cityOrigin;
     }
@@ -117,14 +122,6 @@ public class Ride implements Serializable {
 
     public void setCityDestiny(City cityDestiny) {
         this.cityDestiny = cityDestiny;
-    }
-
-    public List<City> getCities() {
-        return cities;
-    }
-
-    public void setCities(List<City> cities) {
-        this.cities = cities;
     }
 
     @Override
@@ -151,7 +148,7 @@ public class Ride implements Serializable {
 
     @Override
     public String toString() {
-        return "Ride{" + "id=" + id + ", date=" + date + ", departureTime=" + departureTime + ", oil=" + oil + ", distance=" + distance + ", arrivalTime=" + arrivalTime + ", cityOrigin=" + cityOrigin + ", cityDestiny=" + cityDestiny + ", cities=" + cities + '}';
+        return "Ride{" + "id=" + id + ", date=" + date + ", departureTime=" + departureTime + ", oil=" + oil + ", distance=" + distance + ", arrivalTime=" + arrivalTime + ", cityOrigin=" + cityOrigin + ", cityDestiny=" + cityDestiny + ", cityPassage=" + cityPassage + '}';
     }
 
 }

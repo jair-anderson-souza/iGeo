@@ -1,11 +1,11 @@
 <div class="container">
     <div class="col-sm-4">
         <div class="page-header">
-            
+
             <div ng-if="message.rideSuccessful.length > 0" class="alert alert-success">
                 {{message.rideSuccessful}}
             </div>
-            
+
             <div ng-if="message.rideError.length > 0" class="alert alert-success">
                 {{message.rideError}}
             </div>
@@ -34,13 +34,16 @@
                 </div>
 
                 <br/>
-                <label>Adicionar Cidade de Passagem</label>
-                <input class="form-control" type="text" name="cidade" id="passage">
                 
+                <div class="form-group">
+                <label>Adicionar Ponto de Passagem</label>
+                    <input class="form-control" type="text" name="cidade" id="passage" ng-model="ride.cityPassage.cityName">
+                </div>
+
                 <br/>
 
                 <button class="btn btn-default" ng-disabled="formOffer.origin.$invalid || formOffer.destination.$invalid" ng-click="searchRoute()">Buscar Rota</button>
-        
+
                 <br/>
                 <br/>
 
