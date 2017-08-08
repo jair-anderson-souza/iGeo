@@ -8,6 +8,7 @@ package io.github.jass2125.igeo.core.dao;
 import io.github.jass2125.igeo.core.entity.Ride;
 import io.github.jass2125.igeo.core.entity.Ride_;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -111,7 +112,10 @@ public class RideDao {
 
     public List<Ride> searchByParameters(String origin, String date) {
         try {
-            List<Ride> lista = em.createQuery("SELECT R FROM Ride R JOIN FETCH R.cityDestiny JOIN FETCH R.cityOrigin JOIN FETCH R.cityPassage").getResultList();
+            List<Ride> lista = em.
+                    createQuery("SELECT R FROM Ride R JOIN FETCH R.cityDestiny JOIN FETCH R.cityOrigin JOIN FETCH R.cityPassage WHERE R.date = :date").
+                    setParameter("date", date).
+                    getResultList();
 //            List<Ride> lista = em.createQuery("SELECT R "
 //                    + "FROM Ride R LEFT JOIN FETCH R.cityInTheMiddle "
 //                    + "WHERE R.cityInTheMiddle.cityNameOrigin = :origin OR R.routeDestiny.cityNameDestination = :destination OR R.date = :date").
@@ -122,7 +126,7 @@ public class RideDao {
             return lista;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return Collections.EMPTY_LIST;
         }
     }
 }
