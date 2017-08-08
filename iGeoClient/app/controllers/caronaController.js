@@ -18,8 +18,8 @@ app.controller("caronaController", function ($scope, apiConfig, rideServiceAPI) 
 
 
     $scope.salvar = function (ride) {
-        console.log($scope.ride.departureTime);
-        $scope.ride.cityInTheMiddle.arrivalTime = $scope.ride.departureTime + $scope.arrivalTime;
+        /*console.log($scope.ride.departureTime);
+        $scope.ride.cityInTheMiddle.arrivalTime = $scope.ride.departureTime + $scope.arrivalTime;*/
         rideServiceAPI.saveRide(ride).then(function (response) {
             if (response.status === 200) {
                 delete $scope.ride;
@@ -71,37 +71,34 @@ app.controller("caronaController", function ($scope, apiConfig, rideServiceAPI) 
     }
 
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-        var waypts = [];
         infoWindow.setContent("Minha Localização");
+        /*
+        var waypts = [];
         var passage = document.getElementById("passage").value;
         if (passage !== null && passage !== "") {
             waypts.push({
                 location: passage,
                 stopover: true
             });
-        }
+        }*/
         directionsService.route({
             origin: document.getElementById("start").value,
-            optimizeWaypoints: true,
+            /*optimizeWaypoints: true,
+            waypoints: waypts,*/
             destination: document.getElementById("end").value,
-            waypoints: waypts,
             travelMode: "DRIVING"
         }, function (response, status) {
             if (status === "OK") {
                 directionsDisplay.setDirections(response);
-
-                console.log($scope.ride);
-
-                console.log(response.routes[0].legs[0]);
-
-
-                $scope.ride.routeOrigin.latitudeOrigin = response.routes[0].legs[0].start_location.lat();
-                $scope.ride.routeOrigin.longitudeOrigin = response.routes[0].legs[0].start_location.lng();
-                $scope.ride.routeOrigin.latitudeDestination = response.routes[0].legs[0].end_location.lat();
+                console.log(response.routes[0].legs[0].start_location.lat());
+                $scope.ride.cityOrigin.latitude = response.routes[0].legs[0].start_location.lat();
+                $scope.ride.cityOrigin.longitude = response.routes[0].legs[0].start_location.lng();
+                $scope.ride.distance = response.routes[0].legs[0].distance.value;
+                
+                /*$scope.ride.routeOrigin.latitudeDestination = response.routes[0].legs[0].end_location.lat();
                 $scope.ride.routeOrigin.longitudeDestination = response.routes[0].legs[0].end_location.lng();
                 $scope.ride.routeOrigin.cityNameOrigin = document.getElementById("start").value;
                 $scope.ride.routeOrigin.cityNameDestination = document.getElementById("passage").value;
-                $scope.ride.routeOrigin.distance = response.routes[0].legs[0].distance.value;
                 $scope.arrivalTime = response.routes[0].legs[0].duration.value / 3600;
 
                 $scope.ride.cityInTheMiddle.cityNameOrigin = document.getElementById("start").value;
@@ -119,7 +116,7 @@ app.controller("caronaController", function ($scope, apiConfig, rideServiceAPI) 
                 $scope.ride.routeDestiny.cityNameDestination = document.getElementById("end").value;
                 $scope.ride.routeDestiny.cityNameOrigin = document.getElementById("passage").value;
 
-
+*/
                 /*
                  $scope.ride.cityInTheMiddle.latitudeOrigin = response.routes[1].legs[0].end_location.lat();
                  $scope.ride.routeOrigin.longitudeOrigin = response.routes[1].legs[0].end_location.lng();
@@ -141,14 +138,14 @@ app.controller("caronaController", function ($scope, apiConfig, rideServiceAPI) 
                 $scope.formOffer.destination.$invalid = true;
                 $scope.formOffer.origin.$invalid = true;
                 alert("A cidade informada não foi encontrada");
-                delete $scope.ride.routeOrigin.citynameOrigin;
-                delete $scope.ride.routeDestination.cityNameDestination;
+                /*delete $scope.ride.routeOrigin.citynameOrigin;
+                delete $scope.ride.routeDestination.cityNameDestination;*/
             }
         });
     }
 
     $scope.searchRoute = function () {
-        if ($scope.ride.routeOrigin.cityNameOrigin.toUpperCase() == $scope.ride.routeDestination.cityNameDestination.toUpperCase()) {
+        if ($scope.ride.cityOrigin.cityName.toUpperCase() == $scope.ride.cityDestiny.cityName.toUpperCase()) {
             alert("Você informou a mesma cidade!!");
         } else {
             calculateAndDisplayRoute(directionsService, directionsDisplay);

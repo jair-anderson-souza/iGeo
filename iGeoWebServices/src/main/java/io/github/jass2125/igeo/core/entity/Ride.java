@@ -6,6 +6,8 @@
 package io.github.jass2125.igeo.core.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
@@ -31,17 +34,19 @@ public class Ride implements Serializable {
     private String date;
     private String departureTime;
     private String oil;
+    private String distance;
+    private String arrivalTime;
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
-    private Route cityInTheMiddle;
+    private City cityOrigin;
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
-    private Route routeOrigin;
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
-    private Route routeDestiny;
+    private City cityDestiny;
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
+    private List<City> cities;
 
     public Ride() {
-        this.routeOrigin = new Route();
-        this.routeDestiny = new Route();
-        this.cityInTheMiddle = new Route();
+        this.cities = new ArrayList<>();
+        this.cityOrigin = new City();
+        this.cityDestiny = new City();
     }
 
     public Ride(Long id, String date, String departureTime) {
@@ -56,14 +61,6 @@ public class Ride implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Route getCityInTheMiddle() {
-        return cityInTheMiddle;
-    }
-
-    public void setCityInTheMiddle(Route cityInTheMiddle) {
-        this.cityInTheMiddle = cityInTheMiddle;
     }
 
     public String getDate() {
@@ -90,26 +87,50 @@ public class Ride implements Serializable {
         this.oil = oil;
     }
 
-    public Route getRouteOrigin() {
-        return routeOrigin;
+    public String getDistance() {
+        return distance;
     }
 
-    public void setRouteOrigin(Route routeOrigin) {
-        this.routeOrigin = routeOrigin;
+    public void setDistance(String distance) {
+        this.distance = distance;
     }
 
-    public Route getRouteDestiny() {
-        return routeDestiny;
+    public String getArrivalTime() {
+        return arrivalTime;
     }
 
-    public void setRouteDestiny(Route routeDestiny) {
-        this.routeDestiny = routeDestiny;
+    public void setArrivalTime(String arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public City getCityOrigin() {
+        return cityOrigin;
+    }
+
+    public void setCityOrigin(City cityOrigin) {
+        this.cityOrigin = cityOrigin;
+    }
+
+    public City getCityDestiny() {
+        return cityDestiny;
+    }
+
+    public void setCityDestiny(City cityDestiny) {
+        this.cityDestiny = cityDestiny;
+    }
+
+    public List<City> getCities() {
+        return cities;
+    }
+
+    public void setCities(List<City> cities) {
+        this.cities = cities;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -130,7 +151,7 @@ public class Ride implements Serializable {
 
     @Override
     public String toString() {
-        return "Ride{" + "id=" + id + ", date=" + date + ", departureTime=" + departureTime + ", oil=" + oil + ", cityInTheMiddle=" + cityInTheMiddle + ", routeOrigin=" + routeOrigin + ", routeDestiny=" + routeDestiny + '}';
+        return "Ride{" + "id=" + id + ", date=" + date + ", departureTime=" + departureTime + ", oil=" + oil + ", distance=" + distance + ", arrivalTime=" + arrivalTime + ", cityOrigin=" + cityOrigin + ", cityDestiny=" + cityDestiny + ", cities=" + cities + '}';
     }
 
 }

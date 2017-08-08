@@ -11,19 +11,29 @@
 
         <input type="button" name="" value="Buscar Carona" ng-click="search(origin, destination, date)">
     </form>
+    
 
-    <table>
-        <tr ng-repeat="ride in ridesBy">
-            <td>{{ride}}</td>
-            <td>{{ride.id}}</td>
-        </tr>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Hora de Saída</th>
+                <th>Ajuda no Combustível</th>
+                <th>Cidade de Passagem</th>
+            </tr>      
+        </thead>
+        <tbody>
+            <tr ng-repeat="ride in ridesBy">
+                <td>{{ride.date}}</td>
+                <td>{{ride.departureTime}}</td>
+                <td>{{ride.oil}}</td>
+                <td>{{ride.routeOrigin}}</td>
+                <td>{{ride.cityInTheMiddle}}</td>
+                <td>{{ride.routeDestiny}}</td>
+            </tr>
+        </tbody>
     </table>
-
-    <table>
-        <tr ng-repeat="ride in rides">
-            <td>{{ride}}</td>
-            <td>{{ride.cityDestiny}}</td>
-        </tr>
-    </table>
+    
+    
 
 </div>

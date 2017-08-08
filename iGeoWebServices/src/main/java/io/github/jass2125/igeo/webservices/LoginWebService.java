@@ -54,12 +54,10 @@ public class LoginWebService {
                     status(Response.Status.OK)
                     .build();
         } catch (ApplicationException e) {
-            e.printStackTrace();
             return Response.
                     status(Response.Status.NO_CONTENT).
                     build();
         } catch (Exception e) {
-            e.printStackTrace();
             return Response.
                     status(Response.Status.NO_CONTENT).
                     build();

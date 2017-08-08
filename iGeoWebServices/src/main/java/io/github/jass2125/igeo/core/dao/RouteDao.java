@@ -5,7 +5,6 @@
  */
 package io.github.jass2125.igeo.core.dao;
 
-import io.github.jass2125.igeo.core.entity.Route;
 import io.github.jass2125.igeo.core.exceptions.EntityException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,7 +21,7 @@ public class RouteDao {
     @PersistenceContext
     private EntityManager em;
 
-    public void save(Route route) throws EntityException {
+    public void save(Object route) throws EntityException {
         try {
             em.merge(route);
         } catch (Exception e) {
