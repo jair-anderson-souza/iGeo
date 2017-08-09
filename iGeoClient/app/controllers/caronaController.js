@@ -2,7 +2,7 @@
 
 var app = angular.module("app");
 
-app.controller("caronaController", function ($scope, apiConfig, rideServiceAPI) {
+app.controller("caronaController", function ($scope, apiConfig, rideServiceAPI, $rootScope) {
 
 
     $scope.message = {};
@@ -13,10 +13,21 @@ app.controller("caronaController", function ($scope, apiConfig, rideServiceAPI) 
         document.append(input);
         console.log("entour");
     };
+
     $scope.salvar = function (ride) {
         /*console.log($scope.ride.departureTime);
-        $scope.ride.cityInTheMiddle.arrivalTime = $scope.ride.departureTime + $scope.arrivalTime;*/
-        rideServiceAPI.saveRide(ride).then(function (response) {
+        $scope.ride.cityInTheMiddle.arrivalTime = $scope.ride.departureTime + $scope.arrivalTime;
+        */
+        var id;
+        var token = $rootScope.token;
+        var token
+        if(token == null || token == ""){
+            $state.go("/login");
+        }else{
+            id = $rootScope.token.id;
+        }
+
+        rideServiceAPI.saveRide(ride, id).then(function (response) {
             if (response.status === 200) {
                 delete $scope.ride;
                 delete $scope.formOffer;

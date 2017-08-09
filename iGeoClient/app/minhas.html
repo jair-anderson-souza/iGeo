@@ -1,0 +1,32 @@
+<h1>Minhas</h1>
+
+<div class="container">
+	<br/>
+	<div class="col-sm-12">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Data</th>
+					<th>Hora de Saída</th>
+					<th>Ajuda no Combustível</th>
+					<th>Cidade de Origem</th>
+					<th>Cidade de Passagem</th>
+					<th>Cidade de Destino</th>
+					<th>Editar</th>
+				</tr>      
+			</thead>
+			<tbody>
+			<tr ng-repeat="ride in myRides">
+					<td>{{ride.date}}</td>
+					<td>{{ride.arrivalTime}}</td>
+					<td>{{ride.oil}}</td>
+					<td>{{ride.cityOrigin.cityName}}</td>
+					<td>{{ride.cityPassage.cityName}}</td>
+					<td>{{ride.cityDestiny.cityName}}</td>
+					<td><a href=""><span class="glyphicon glyphicon-pencil"></span></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="col-sm-4"></div>
+</div>

@@ -8,14 +8,18 @@ app.controller("loginController", function ($scope, userServiceAPI, $rootScope, 
         userServiceAPI.login(loginVO).then(function (response) {
             if(response.status === 200){
                 $rootScope.token = response.data;
-        	   $state.go("/home");
-               delete $scope.message;
+                $state.go("/home");
+                delete $scope.message;
             }else if(response.status === 204){
                 $scope.message.messageLoginError = "Os dados estão inválidos, tente novamente";
             }
         }), function (response) {
 
         };
+    };
+
+    $scope.logout = function(){
+        console.log("Sair");
     };
 
 

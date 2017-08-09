@@ -87,4 +87,13 @@ public class RideServiceImp implements RideService {
             throw new ApplicationException(e, e.getMessage());
         }
     }
+
+    @Override
+    public List<Ride> getRides(Long id) throws ApplicationException {
+        try {
+            return rideDao.searchRidesByUser(id);
+        } catch (Exception e) {
+            throw new ApplicationException(e, e.getMessage());
+        }
+    }
 }

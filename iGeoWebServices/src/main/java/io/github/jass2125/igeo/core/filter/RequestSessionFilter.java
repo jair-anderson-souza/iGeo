@@ -28,6 +28,8 @@ public class RequestSessionFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
+        boolean contains = requestContext.getUriInfo().getPath().contains("login");
+        System.out.println(contains);
         if (!requestContext.getUriInfo().getPath().contains("login")) {
             String token = requestContext.getHeaderString("SigningKey");
             if (token != null) {

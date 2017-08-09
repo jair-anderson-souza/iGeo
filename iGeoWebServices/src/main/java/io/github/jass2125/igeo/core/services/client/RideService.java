@@ -27,4 +27,6 @@ public interface RideService {
 
     public List<Ride> getRides(String origin, String date) throws ApplicationException;
 
+    public List<Ride> getRides(Long id) throws ApplicationException;
+
 }

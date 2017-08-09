@@ -26,7 +26,7 @@ public class SessionRedis {
 
     public boolean createKey(String key, String value) {
         String set = jedis.set(key, value);
-        jedis.expire(key, 1800);
+        jedis.expire(key, 3);
         return set.equalsIgnoreCase("OK");
     }
 

@@ -33,11 +33,11 @@ public class Ride implements Serializable {
     private String oil;
     private String distance;
     private String arrivalTime;
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.MERGE)
     private City cityOrigin;
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.MERGE)
     private City cityDestiny;
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.MERGE)
     private City cityPassage;
 
     public Ride() {

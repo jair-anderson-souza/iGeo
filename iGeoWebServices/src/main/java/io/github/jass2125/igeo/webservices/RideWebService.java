@@ -86,6 +86,23 @@ public class RideWebService {
     }
 
     @GET
+    @Path("{id}")
+    public Response getRides(@PathParam("id") Long id) {
+        try {
+            List<Ride> rides = this.rideService.getRides(id);
+            return Response
+                    .ok(new GenericEntity<List<Ride>>(rides) {
+                    }, MediaType.APPLICATION_JSON)
+                    .build();
+        } catch (ApplicationException e) {
+            return Response.
+                    ok().
+                    status(Status.NO_CONTENT).
+                    build();
+        }
+    }
+
+    @GET
     @Path("/list")
     public Response getAllRides(@QueryParam("origin") String origin, @QueryParam("date") String date) {
         try {
