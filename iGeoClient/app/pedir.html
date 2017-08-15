@@ -3,7 +3,7 @@
     <form name="formSearch">
         <label>Saindo de:</label>
         <input type="text" name="ride" ng-model="origin">
-        
+
         <label>Indo para:</label>
         <input type="text" name="ride" ng-model="destination">
 
@@ -14,15 +14,8 @@
 
     <table>
         <tr ng-repeat="ride in ridesBy">
-            <td>{{ride}}</td>
             <td>{{ride.id}}</td>
-        </tr>
-    </table>
-
-    <table>
-        <tr ng-repeat="ride in rides">
-            <td>{{ride}}</td>
-            <td>{{ride.cityDestiny}}</td>
+            <td>{{ride.routeOrigin.cityNameDestination}}</td>
         </tr>
     </table>
 

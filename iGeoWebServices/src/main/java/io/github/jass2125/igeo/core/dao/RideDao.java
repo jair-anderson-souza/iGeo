@@ -111,14 +111,11 @@ public class RideDao {
 
     public Set<Ride> searchByParameters(String origin, String destination, String date) {
         try {
-            List<Ride> lista = em.createQuery("SELECT R FROM Ride R LEFT JOIN FETCH R.cityInTheMiddle LEFT JOIN FETCH R.routeDestiny LEFT JOIN FETCH R.routeOrigin").getResultList();
-//            List<Ride> lista = em.createQuery("SELECT R "
-//                    + "FROM Ride R LEFT JOIN FETCH R.cityInTheMiddle "
-//                    + "WHERE R.cityInTheMiddle.cityNameOrigin = :origin OR R.routeDestiny.cityNameDestination = :destination OR R.date = :date").
-//                    setParameter("origin", origin).
-//                    setParameter("destination", destination).
-//                    setParameter("date", date).
-//                    getResultList();
+            List<Ride> lista = em.createQuery("SELECT R FROM Ride R LEFT JOIN FETCH R.cityInTheMiddle LEFT JOIN FETCH R.routeDestiny LEFT JOIN FETCH R.routeOrigin WHERE R.cityInTheMiddle.cityNameOrigin = :origin OR R.routeDestiny.cityNameDestination = :destination OR R.date = :date").
+                    setParameter("origin", origin).
+                    setParameter("destination", destination).
+                    setParameter("date", date).
+                    getResultList();
             return new HashSet(lista);
         } catch (Exception e) {
             e.printStackTrace();
